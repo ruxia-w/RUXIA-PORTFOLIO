@@ -1,0 +1,356 @@
+.main {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 var(--outer-gutter);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.72fr) minmax(0, 1.38fr);
+  gap: clamp(3rem, 6vw, 7rem);
+  align-items: start;
+  padding: clamp(3.5rem, 6vw, 5.75rem) 0 clamp(5rem, 8vw, 7.5rem);
+}
+
+.portrait {
+  width: 100%;
+  height: auto;
+  align-self: start;
+  object-fit: contain;
+  object-position: center;
+  background: var(--color-surface-soft);
+}
+
+.heroCopy h1 {
+  margin: 0 0 clamp(3.75rem, 6vw, 5.5rem);
+  font-size: clamp(4.5rem, 7.2vw, 7.25rem);
+  font-weight: 650;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.085em;
+  text-transform: uppercase;
+}
+
+.heroCopy h2 {
+  max-width: 17ch;
+  margin: 0 0 2.25rem;
+  font-size: clamp(2.4rem, 3.65vw, 3.75rem);
+  line-height: 1.06;
+  letter-spacing: -0.032em;
+}
+
+.heroCopy > p:not(.eyebrow) {
+  max-width: 60ch;
+  margin: 0 0 1.15rem;
+  color: color-mix(in srgb, var(--color-fg) 78%, var(--color-bg));
+  font-size: clamp(0.975rem, 1.05vw, 1.075rem);
+  line-height: 1.62;
+}
+
+.inlineLinks {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.inlineLinks a {
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.background,
+.expertise,
+.contact {
+  border-top: 1px solid var(--color-border);
+  padding: clamp(4.5rem, 7vw, 6.5rem) 0;
+}
+
+.sectionIndex,
+.capabilityNumber {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  font-weight: 650;
+  line-height: 1.35;
+  letter-spacing: 0.085em;
+  text-transform: uppercase;
+}
+
+.background {
+  display: block;
+}
+
+.backgroundIntro {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.72fr) minmax(0, 1.38fr);
+  gap: clamp(3rem, 6vw, 7rem);
+  align-items: start;
+  margin-top: clamp(2rem, 3vw, 3.25rem);
+}
+
+.backgroundIntro h2,
+.expertiseHeader h2,
+.contact h2 {
+  margin: 0;
+  font-size: clamp(2.35rem, 3.7vw, 3.8rem);
+  line-height: 1.06;
+  letter-spacing: -0.036em;
+}
+
+.backgroundText {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(2rem, 4vw, 4rem);
+  color: color-mix(in srgb, var(--color-fg) 76%, var(--color-bg));
+}
+
+.backgroundText p {
+  max-width: 42ch;
+  margin: 0 0 1.25rem;
+  line-height: 1.62;
+}
+
+.studioImage {
+  width: 100%;
+  height: auto;
+  margin-top: clamp(3rem, 5vw, 5rem);
+  min-height: 0;
+  object-fit: contain;
+  object-position: center;
+  background: var(--color-surface-soft);
+}
+
+.expertiseHeader {
+  display: grid;
+  grid-template-columns: 0.32fr 1fr;
+  gap: clamp(2rem, 4vw, 5rem);
+  align-items: start;
+  margin-bottom: clamp(3rem, 5vw, 4.75rem);
+}
+
+.expertiseHeader h2 {
+  max-width: 15ch;
+  margin: 0;
+}
+
+.capabilityGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--color-border);
+}
+
+.capability {
+  min-height: 0;
+  padding: 1.25rem clamp(1.25rem, 2.2vw, 2.25rem) 2.75rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.capability:nth-child(3n + 2),
+.capability:nth-child(3n + 3) {
+  padding-left: clamp(1rem, 2vw, 2rem);
+  border-left: 1px solid var(--color-border);
+}
+
+.capabilityNumber {
+  margin-bottom: clamp(2.75rem, 4vw, 4.5rem);
+}
+
+.capability h3 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.15rem, 1.6vw, 1.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.capability > p:last-child {
+  max-width: 38ch;
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+
+.contact {
+  padding-bottom: 2rem;
+}
+
+.contactRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 0.32fr;
+  gap: clamp(3rem, 8vw, 9rem);
+  align-items: end;
+  margin-top: clamp(3rem, 5vw, 4.75rem);
+}
+
+.contact h2 {
+  max-width: 18ch;
+  margin: 0;
+}
+
+.contactAside > p {
+  max-width: 36ch;
+  margin: 0 0 2rem;
+  color: var(--color-muted);
+}
+
+.contactLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.contactLinks a {
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1rem;
+  margin-top: clamp(5rem, 12vw, 10rem);
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.footer a {
+  color: var(--color-fg);
+  text-decoration: none;
+}
+
+@media (max-width: 980px) {
+  .hero {
+    grid-template-columns: minmax(15rem, 0.72fr) minmax(0, 1.28fr);
+    gap: 3rem;
+  }
+
+  .heroCopy h1 {
+    margin-bottom: 3rem;
+  }
+
+  .backgroundIntro {
+    grid-template-columns: minmax(15rem, 0.72fr) minmax(0, 1.28fr);
+    gap: 3rem;
+  }
+
+  .backgroundText {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .capabilityGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .capability:nth-child(3n + 2),
+  .capability:nth-child(3n + 3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .capability:nth-child(even) {
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--color-border);
+  }
+}
+
+@media (max-width: 760px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding: 1.5rem 0 4.5rem;
+  }
+
+  .portrait {
+    aspect-ratio: auto;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .heroCopy h1 {
+    margin-bottom: 2.75rem;
+    font-size: clamp(3.6rem, 18vw, 4.75rem);
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+  }
+
+  .heroCopy h2 {
+    max-width: 100%;
+    margin-bottom: 1.75rem;
+    font-size: clamp(2rem, 10.2vw, 2.7rem);
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+  }
+
+  .heroCopy > p:not(.eyebrow) {
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .background {
+    display: block;
+  }
+
+  .backgroundIntro {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .backgroundText {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .studioImage {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin-top: 2.5rem;
+    order: 0;
+    object-fit: contain;
+  }
+
+  .expertiseHeader,
+  .contactRow {
+    grid-template-columns: 1fr;
+  }
+
+  .expertiseHeader h2 {
+    margin-top: 1.5rem;
+  }
+
+  .capabilityGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .capability,
+  .capability:nth-child(even) {
+    min-height: auto;
+    padding: 1.25rem 0 2.5rem;
+    border-left: 0;
+  }
+
+  .capabilityNumber {
+    margin-bottom: 2rem;
+  }
+
+  .footer {
+    grid-template-columns: 1fr auto;
+  }
+
+  .footer span:nth-child(2) {
+    display: none;
+  }
+}

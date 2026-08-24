@@ -1,0 +1,22 @@
+.body {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  column-gap: clamp(3rem, 4.5vw, 4.5rem);
+  align-items: flex-start;
+}
+
+.sidebar {
+  display: contents;
+}
+
+.article {
+  min-width: 0;
+  width: 100%;
+  max-width: var(--article-max-width);
+}
+
+@media (max-width: 899px) {
+  .body {
+    display: block;
+  }
+}

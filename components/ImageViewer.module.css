@@ -1,0 +1,55 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  overflow: auto;
+}
+
+.dialog {
+  position: relative;
+  background: var(--color-bg);
+  max-width: min(1100px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  padding: var(--space-8) var(--space-4) var(--space-4);
+  border-radius: 4px;
+}
+
+.closeButton {
+  position: sticky;
+  top: 0;
+  float: right;
+  margin: 0 0 var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+}
+
+.imageWrap {
+  clear: both;
+  overflow: auto;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+
+.imageDense {
+  width: auto;
+  height: auto;
+  max-width: none;
+}
+
+.caption {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  margin-top: var(--space-3);
+}

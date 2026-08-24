@@ -1,0 +1,115 @@
+.header {
+  padding-block: clamp(1.5rem, 2.4vw, 2.25rem) clamp(2.25rem, 3.5vw, 3.25rem);
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0 0 clamp(1.25rem, 2vw, 1.75rem);
+  padding: 0;
+  list-style: none;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.025em;
+}
+
+.intro {
+  max-width: 58rem;
+  margin-bottom: clamp(1.75rem, 2.8vw, 2.5rem);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(3.25rem, 4.8vw, 4rem);
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.subtitle {
+  max-width: 52ch;
+  margin: 0.75rem 0 0;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: -0.018em;
+}
+
+.hero {
+  isolation: isolate;
+  width: 100%;
+  margin-bottom: clamp(1.5rem, 2.5vw, 2.25rem);
+  padding: clamp(1rem, 2vw, 2rem);
+  overflow: hidden;
+  background: var(--hero-stage);
+  border-radius: 12px;
+}
+
+.hero :global(img) {
+  mix-blend-mode: normal;
+}
+
+.heroDark {
+  display: none;
+}
+
+:global(html[data-theme="dark"]) .heroLight {
+  display: var(--hide-light-hero, block);
+}
+
+:global(html[data-theme="dark"]) .heroDark {
+  display: block;
+}
+
+.hero:has(.heroDark) {
+  --hide-light-hero: none;
+}
+
+.metadata {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-6);
+  margin: 0;
+  padding-block: var(--space-4);
+  border-block: 1px solid var(--color-border);
+}
+
+.metadataItem dt {
+  margin-bottom: var(--space-2);
+  color: var(--color-muted);
+  font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+.metadataItem dd {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 450;
+  line-height: 1.45;
+}
+
+@media (max-width: 760px) {
+  .header {
+    padding-top: var(--space-12);
+  }
+
+  .metadata {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .metadata {
+    grid-template-columns: 1fr;
+  }
+}

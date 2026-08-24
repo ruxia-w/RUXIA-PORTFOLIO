@@ -1,0 +1,73 @@
+.wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.wrap::-webkit-scrollbar {
+  display: none;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.25rem, 3vw, 2rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  white-space: nowrap;
+}
+
+.filter {
+  position: relative;
+  padding: var(--space-2) 0;
+  color: var(--color-muted);
+  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.filter::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 160ms ease;
+}
+
+.filter:hover::after,
+.filter:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.filter[aria-current="true"] {
+  color: var(--color-fg);
+  font-weight: 650;
+}
+
+.filter[aria-current="true"]::after {
+  transform: scaleX(1);
+}
+
+@media (max-width: 640px) {
+  .filter {
+    /* Widen the tap target (WCAG 2.5.8) beyond the visible text without
+       changing its appearance; the underline below is pulled back in to
+       match so it still traces just the label, not the extra padding. */
+    padding: var(--space-3) var(--space-2);
+  }
+
+  .filter::after {
+    left: var(--space-2);
+    right: var(--space-2);
+  }
+}

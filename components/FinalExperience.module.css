@@ -1,0 +1,139 @@
+.wrap {
+  display: grid;
+  justify-items: start;
+  gap: clamp(1rem, 1.8vw, 1.5rem);
+  padding-block: var(--space-4);
+}
+
+.intro {
+  width: min(100%, 940px);
+  max-width: 940px;
+  margin: 0;
+  justify-self: start;
+}
+
+.stage {
+  display: grid;
+  width: min(100%, 940px);
+  min-height: clamp(500px, 48vw, 570px);
+  place-items: center;
+  padding: clamp(2rem, 4vw, 3.25rem);
+  background: var(--experience-stage);
+  border-radius: 28px;
+}
+
+.plainStage {
+  display: flex;
+  width: min(82%, 680px);
+  justify-content: flex-start;
+}
+
+.plainVideo {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: min(60vh, 420px);
+  background: transparent;
+}
+
+.device {
+  position: relative;
+  width: min(100%, 232px);
+  aspect-ratio: 390 / 844;
+  padding: 7px;
+  background: #171717;
+  border: 1px solid #3a3a3a;
+  border-radius: 37px;
+  box-shadow: 0 14px 32px rgb(0 0 0 / 18%);
+}
+
+.screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #070707;
+  border-radius: 30px;
+}
+
+.poster,
+.video {
+  object-fit: contain;
+  background: #070707;
+}
+
+.poster {
+  z-index: 0;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.videoControls {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 2;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.videoControls button {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  padding: 0;
+  color: #f5f5f0;
+  background: rgb(10 10 10 / 72%);
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.cta {
+  width: min(100%, 940px);
+  text-align: center;
+}
+
+.cta a {
+  font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.cta p {
+  margin: 0.35rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+  .stage {
+    min-height: 500px;
+    padding: 2rem 1rem;
+    border-radius: 20px;
+  }
+
+  .device {
+    width: min(62vw, 232px);
+    border-radius: 35px;
+  }
+
+  .screen { border-radius: 28px; }
+}
+
+@media print {
+  .video,
+  .videoControls { display: none; }
+}

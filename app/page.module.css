@@ -1,0 +1,543 @@
+.main {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 var(--outer-gutter);
+}
+
+.hero {
+  /* Content-driven height (no min-height floor). Padding is vw-based, not
+     vh-based: this is a horizontal-layout gap (nav -> eyebrow), not a
+     viewport-height positioning concern, so it shouldn't move when the
+     browser window gets taller/shorter. */
+  padding: clamp(3.5rem, 5.5vw, 5.5rem) 0 2.75rem;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.kicker,
+.sectionIndex,
+.projectType,
+.disciplines {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: 0.085em;
+  text-transform: uppercase;
+}
+
+.heroTitle {
+  /* Capped at 96% of .hero's own box (the same left/right boundary as every
+     other homepage section) rather than a fixed ch count: a deliberate but
+     small safety margin that lets the longest line nearly fill the available
+     width on large desktop instead of stopping well short of it. No
+     text-wrap: nowrap: the three <br /> breaks still author the intended
+     3-line shape, but a line is free to soft-wrap as a safety valve instead
+     of ever overflowing or getting clipped. */
+  max-width: 96%;
+  margin: clamp(1.5rem, 2vw, 2.25rem) 0 clamp(2rem, 2.8vw, 3rem);
+  font-size: clamp(2.7rem, 7.2vw, 6.5rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+}
+
+.heroBottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.34fr);
+  align-items: end;
+  gap: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.heroIntro {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(1.05rem, 1.6vw, 1.4rem);
+  line-height: 1.4;
+  letter-spacing: -0.025em;
+}
+
+.textLink,
+.caseLink {
+  width: fit-content;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.textLink {
+  justify-self: end;
+}
+
+.work,
+.gallery,
+.about,
+.contact {
+  /* Each section's own top+bottom padding; the visible gap at a boundary is
+     roughly 2x this value (this section's bottom + the next one's top).
+     Capped so that combined gap lands around 96-120px even at very wide
+     desktop, instead of growing toward ~190px there. */
+  scroll-margin-top: calc(var(--nav-height) + 1rem);
+  padding: clamp(2rem, 3.35vw, 3.4rem) 0;
+}
+
+.sectionHeader,
+.sectionHeaderCompact {
+  display: grid;
+  grid-template-columns: 0.32fr 1fr 0.65fr;
+  gap: clamp(1.5rem, 4vw, 5rem);
+  align-items: start;
+}
+
+.sectionHeader {
+  /* Intro -> its own content: deliberately smaller than the ~96-120px
+     section-to-section transition above (.work's top padding), so AURIC
+     reads as belonging to "Selected Work" rather than a new slide. */
+  margin-bottom: clamp(2.5rem, 3.7vw, 4rem);
+}
+
+.sectionHeaderCompact {
+  /* Gallery's images sit closer to its intro than Selected Work's project
+     does to its own heading — grid content wants less air than a full
+     project row does. */
+  margin-bottom: clamp(2rem, 2.6vw, 3rem);
+}
+
+.sectionHeader h2,
+.sectionHeader p {
+  /* margin: 0, not just margin-top: 0 — the browser's default h2 margin-
+     bottom (~0.83em, unset by any rule here) was inflating .sectionHeader's
+     own grid-track height, since CSS Grid auto-sizing counts an item's full
+     margin box. That invisible margin was silently doubling the real gap
+     to .projectList below. Scoped to .sectionHeader only (not
+     .sectionHeaderCompact / Gallery) so Gallery's spacing is untouched. */
+  margin: 0;
+}
+
+.sectionHeaderCompact h2,
+.sectionHeaderCompact p {
+  margin-top: 0;
+}
+
+.sectionHeader h2,
+.sectionHeaderCompact h2,
+.aboutLead h2,
+.contact h2 {
+  font-size: clamp(2.2rem, 4.8vw, 4.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.sectionHeader > p:last-child,
+.sectionHeaderCompact > p:last-child {
+  color: var(--color-muted);
+  max-width: 44ch;
+}
+
+.projectList {
+  border-top: 1px solid var(--color-border);
+}
+
+.project {
+  display: grid;
+  grid-template-columns: minmax(14rem, 0.29fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 4.5rem);
+  padding: clamp(2.25rem, 3vw, 3.25rem) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.projectInfo {
+  /* Height now follows .projectMedia's natural aspect ratio via grid's
+     default row-stretch, instead of a fixed min-height tuned for the old
+     cropped image box. */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.projectNumber {
+  margin: 0 0 auto;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.project h3 {
+  margin: 0.875rem 0 0;
+  font-size: clamp(1.65rem, 2.8vw, 2.8rem);
+  line-height: 1;
+  letter-spacing: -0.032em;
+}
+
+.projectTagline {
+  margin: 1rem 0 0;
+  font-size: 1rem;
+  font-weight: 550;
+}
+
+.projectDescription {
+  max-width: 34ch;
+  margin: 1.75rem 0 1.625rem;
+  color: var(--color-muted);
+  line-height: 1.45;
+}
+
+.disciplines {
+  max-width: 32ch;
+  margin-bottom: 1.5rem;
+}
+
+.caseLink {
+  /* Not margin-top: auto — that stretched this link down to match the (now
+     variable, image-driven) row height, opening a large gap above it. The
+     text column sits at its own natural height instead. */
+  margin-top: 1.25rem;
+}
+
+.projectMedia {
+  /* Natural aspect ratio, not a forced crop box: the image's own intrinsic
+     width/height (passed to next/image) sets the shape, this just displays
+     it responsively. */
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface-soft);
+}
+
+.projectMedia img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.projectMedia:hover img,
+.projectMedia:focus-visible img {
+  transform: scale(1.015);
+}
+
+/* Same light/dark swap technique as ProjectHeader.module.css's case-study
+   hero: both variants render, CSS toggles which is visible via data-theme.
+   When a project has no dark variant, :has() never matches and the light
+   image stays shown in both themes — no image is ever generated or recolored. */
+.projectMediaDark {
+  display: none;
+}
+
+:global(html[data-theme="dark"]) .projectMediaLight {
+  display: var(--hide-light-media, block);
+}
+
+:global(html[data-theme="dark"]) .projectMediaDark {
+  display: block;
+}
+
+.projectMedia:has(.projectMediaDark) {
+  --hide-light-media: none;
+}
+
+.gallery,
+.about,
+.contact {
+  border-top: 1px solid var(--color-border);
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: clamp(13rem, 24vw, 22rem);
+  gap: 0.75rem;
+}
+
+.galleryItem {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: var(--color-surface-soft);
+}
+
+.galleryItem img {
+  object-fit: cover;
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.galleryItem:hover img {
+  transform: scale(1.02);
+}
+
+.galleryWide {
+  grid-column: span 2;
+}
+
+.galleryCta {
+  /* A real grid tile (last item in .galleryGrid), not an overlay or a
+     separate link after the grid. Tonal surface from the same neutral
+     tokens used elsewhere (.galleryItem's placeholder background / a step
+     lighter on hover) so it reads as part of the grid, not a button. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  color: var(--color-fg);
+  text-decoration: none;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 550;
+  letter-spacing: -0.01em;
+  transition: background-color 160ms ease;
+}
+
+.galleryCta:hover,
+.galleryCta:focus-visible {
+  background: var(--color-surface);
+}
+
+.galleryCta span:last-child {
+  display: inline-block;
+  transition: transform 160ms ease;
+}
+
+.galleryCta:hover span:last-child,
+.galleryCta:focus-visible span:last-child {
+  transform: translate(2px, -2px);
+}
+
+.about {
+  /* row-gap (About label -> aboutLead, and aboutLead -> capabilities) is
+     the ONLY source of that vertical spacing: .capabilities used to ALSO
+     carry its own margin-top on top of this same row-gap, stacking two
+     mechanisms into one ~150-250px gap. Now there's one mechanism, kept
+     deliberately smaller than the section-transition gap above so the
+     capability row reads as belonging to this section's own intro. */
+  display: grid;
+  grid-template-columns: 0.32fr 1fr;
+  column-gap: clamp(2rem, 4vw, 5rem);
+  row-gap: clamp(2.5rem, 3.7vw, 4rem);
+}
+
+.aboutLead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 0.62fr;
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: start;
+}
+
+.aboutLead h2,
+.aboutLead p {
+  margin-top: 0;
+}
+
+.aboutLead p {
+  color: var(--color-muted);
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+}
+
+.capabilities {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.capabilities h3 {
+  margin: 0 0 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.capabilities p {
+  max-width: 30ch;
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.45;
+}
+
+.contact {
+  padding-bottom: 2rem;
+}
+
+.contactRow {
+  /* Contact's own "intro -> content": the label above is the section
+     intro, this heading+links row is its content, so this stays clearly
+     smaller than the section-transition gap above the "Contact" label. */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 0.32fr;
+  gap: clamp(3rem, 8vw, 9rem);
+  align-items: end;
+  margin-top: clamp(2rem, 2.8vw, 3.25rem);
+}
+
+.contact h2 {
+  max-width: 18ch;
+  margin: 0;
+}
+
+.contactLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.contactLinks a {
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1rem;
+  margin-top: clamp(3rem, 6vw, 5rem);
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.footer a {
+  color: var(--color-fg);
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .heroTitle {
+    font-size: clamp(2.4rem, 6.6vw, 4.2rem);
+  }
+
+  .sectionHeader,
+  .sectionHeaderCompact {
+    grid-template-columns: 0.3fr 1fr;
+  }
+
+  .sectionHeader > p:last-child,
+  .sectionHeaderCompact > p:last-child {
+    grid-column: 2;
+  }
+
+  .project {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .projectInfo {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 0.28fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .projectNumber {
+    grid-row: 1 / span 4;
+  }
+
+  .projectDescription,
+  .disciplines,
+  .caseLink {
+    grid-column: 2;
+  }
+
+  .projectDescription {
+    margin-top: 1rem;
+  }
+
+  .caseLink {
+    margin-top: 0.25rem;
+  }
+
+  .aboutLead {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .hero {
+    padding-top: 2.5rem;
+  }
+
+  .heroTitle {
+    font-size: clamp(2rem, 9.5vw, 3.1rem);
+    line-height: 0.94;
+  }
+
+  .heroBottom,
+  .sectionHeader,
+  .sectionHeaderCompact,
+  .about,
+  .contactRow {
+    grid-template-columns: 1fr;
+  }
+
+  .textLink {
+    justify-self: start;
+  }
+
+  .sectionHeader > p:last-child,
+  .sectionHeaderCompact > p:last-child,
+  .capabilities {
+    grid-column: 1;
+  }
+
+  .sectionHeader h2,
+  .sectionHeaderCompact h2,
+  .aboutLead h2,
+  .contact h2 {
+    font-size: clamp(2.15rem, 11vw, 3.4rem);
+  }
+
+  .projectInfo {
+    grid-template-columns: 4rem 1fr;
+    gap: 1rem;
+  }
+
+  .projectNumber {
+    font-size: 2.5rem;
+  }
+
+  .galleryGrid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 48vw;
+    gap: 0.5rem;
+  }
+
+  .galleryWide {
+    grid-column: span 2;
+  }
+
+  .galleryCta {
+    grid-column: span 2;
+    padding-block: 1.5rem;
+  }
+
+  .capabilities {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+  }
+
+  .footer {
+    grid-template-columns: 1fr auto;
+  }
+
+  .footer span:nth-child(2) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projectMedia img,
+  .galleryItem img,
+  .galleryCta,
+  .galleryCta span:last-child {
+    transition: none;
+  }
+}

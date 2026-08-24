@@ -1,0 +1,119 @@
+.figure {
+  width: 100%;
+  margin: 0;
+}
+
+.trigger {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: zoom-in;
+}
+
+.image,
+.denseImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.dimInDark {
+  transition: filter 180ms ease;
+}
+
+:global(html[data-theme="dark"]) .dimInDark {
+  filter: brightness(0.78) contrast(0.96);
+}
+
+.expandIcon {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  color: #f5f5f0;
+  background: rgb(10 10 10 / 64%);
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 999px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 140ms ease, transform 140ms ease;
+  backdrop-filter: blur(10px);
+}
+
+.trigger:hover .expandIcon,
+.trigger:focus-visible .expandIcon {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.caption {
+  margin-top: var(--space-3);
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.dialog {
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  max-height: none;
+  margin: 0;
+  padding: clamp(2rem, 5vw, 5rem);
+  color: #f5f5f0;
+  background: rgb(8 8 8 / 94%);
+  border: 0;
+}
+
+.dialog::backdrop { background: rgb(0 0 0 / 76%); }
+
+.dialogImageWrap {
+  display: grid;
+  width: 100%;
+  min-height: 100%;
+  place-items: center;
+}
+
+.dialogImage {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100vh - 4rem);
+  object-fit: contain;
+}
+
+.close {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  padding: 0;
+  color: #f5f5f0;
+  background: rgb(20 20 20 / 76%);
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 999px;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media (hover: none) {
+  .expandIcon { display: none; }
+}
+
+@media print {
+  .expandIcon,
+  .dialog { display: none; }
+}

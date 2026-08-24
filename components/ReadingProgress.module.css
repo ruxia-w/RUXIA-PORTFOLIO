@@ -1,0 +1,15 @@
+.track {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 90;
+  height: 2px;
+  background: var(--color-border);
+}
+
+.bar {
+  height: 100%;
+  width: 100%;
+  background: var(--color-fg);
+  transform-origin: left;
+  transform: scaleX(0);
+}

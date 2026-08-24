@@ -1,0 +1,31 @@
+.tile {
+  position: relative;
+  display: block;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.tile:hover .image,
+.tile:focus-visible .image {
+  opacity: 0.86;
+  transform: scale(1.015);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image {
+    transition: opacity 160ms ease;
+  }
+
+  .tile:hover .image,
+  .tile:focus-visible .image {
+    transform: none;
+  }
+}

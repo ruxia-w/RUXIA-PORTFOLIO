@@ -1,0 +1,45 @@
+.wrap {
+  width: 100%;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+}
+
+/* Mobile fallback: natural-width, same-height, uncropped flex-wrap. */
+.mobileGrid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mobileItem {
+  flex: 0 0 auto;
+}
+
+.mobileTile {
+  display: block;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.mobileImage {
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  display: block;
+}
