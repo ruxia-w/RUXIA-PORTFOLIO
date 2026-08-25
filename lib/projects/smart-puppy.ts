@@ -17,119 +17,139 @@ export const smartPuppySections: CaseStudySection[] = [
   {
     id: "overview",
     label: "Overview",
-    heading: "A connected companion, designed as one experience",
+    heading: "A connected robotic companion, designed as one experience",
     blocks: [
       {
         type: "richText",
-        body: "SMART PUPPY is an independent concept project exploring emotional companionship through expressive behavior, adaptive interaction, and thoughtful industrial design.\n\nThe project connects a robotic companion, a mobile interface, and everyday home routines into one coherent physical–digital experience—not a robotic product with an app added afterward.",
+        body: "Smart Puppy explores how a robotic companion can feel expressive, understandable, and approachable through the relationship between physical form, motion, behavior, and a connected mobile experience. The project brings industrial design and digital interaction together as one coordinated product experience — not a robotic product with an app added afterward.",
       },
       {
-        type: "richText",
-        heading: "Role",
-        body: "**End-to-End Product & Experience Design**\n\nResearch · Concept Development · Industrial Design · Behavior & Interaction · UX/UI · Connected Experience",
+        type: "stateFlow",
+        ariaLabel: "Four dimensions of the experience: Form, Behavior, Interaction, Digital",
+        steps: [
+          { title: "Form", connectorAfter: "→" },
+          { title: "Behavior", connectorAfter: "→" },
+          { title: "Interaction", connectorAfter: "→" },
+          { title: "Digital" },
+        ],
       },
       {
         type: "callout",
-        title: "Design intent",
-        body: "Create an approachable robotic companion that communicates clearly, moves safely, and fits naturally into everyday life.",
+        title: "Recognition",
+        body: "Smart Puppy received three international design awards, including an IDA Silver in the Robotic Toy category.",
       },
     ],
   },
   {
     id: "opportunity",
     label: "Opportunity",
-    heading: "Emotional presence without the barriers of pet ownership",
+    heading: "A companion needs to communicate, not just function",
     blocks: [
       {
         type: "richText",
-        body: "People seek comfort, presence, and connection in daily life, but apartment restrictions, busy schedules, care responsibilities, and long-term unpredictability can make pet ownership difficult. Existing smart devices offer convenience, while many toy robots offer novelty; neither consistently creates a lasting sense of companionship.",
+        body: "Robotic companions are often designed around functions — move, respond, follow a command — without a clear language for communicating what the product is doing or why. Treated as a product-design and interaction opportunity rather than a market gap, the question became how a physical companion could stay legible, expressive, and connected without depending on a screen to explain itself.",
       },
       {
         type: "cardSet",
         columns: 3,
         items: [
-          { title: "Emotional Need", body: "People value companionship, comfort, and small moments of responsive presence." },
-          { title: "Living Constraints", body: "Shared spaces, schedules, travel, and housing rules create practical barriers." },
-          { title: "Care Burden", body: "Training, feeding, health, maintenance, and cost require ongoing commitment." },
+          {
+            title: "01 — Legible Behavior",
+            body: "How might a robotic companion communicate intention and state through movement and feedback?",
+          },
+          {
+            title: "02 — Expressive Interaction",
+            body: "How might expression create personality while also making interaction easier to understand?",
+          },
+          {
+            title: "03 — Connected Continuity",
+            body: "How might digital control extend the experience without weakening the physical relationship?",
+          },
         ],
       },
       {
-        type: "comparison",
-        items: [
-          { title: "Live Pets", body: "Warm and emotionally present, but demanding and unpredictable." },
-          { title: "Smart Devices", body: "Reliable and low-maintenance, but emotionally limited." },
-          { title: "Toy Robots", body: "Interactive and accessible, but often shallow or short-lived." },
-          { title: "SMART PUPPY", body: "A home-friendly companion balancing emotional expression, reliability, and low-friction care." },
-        ],
+        type: "callout",
+        title: "From robotic function to understandable behavior",
+        body: "Emotional expression should help users understand the product, not simply decorate it.",
       },
     ],
   },
   {
-    id: "research-insights",
-    label: "Research & Insights",
-    heading: "Designing for comfort, routine, and lasting engagement",
+    id: "research-journey",
+    label: "Research & Journey",
+    heading: "Understanding the human–robot relationship",
     blocks: [
       {
         type: "richText",
-        body: "The concept was informed by observations of companionship behaviors, everyday routines, apartment-living constraints, and a review of pet, toy, and smart-device experiences. The research focused on what makes a companion feel emotionally legible while remaining easy to live with.",
+        body: "The concept was informed by observations of companionship behaviors, everyday routines, and a review of pet, toy, and smart-device experiences — focused less on formal user research and more on the interaction questions a companion product raises.",
       },
       {
         type: "cardSet",
+        heading: "Research focus",
         columns: 3,
         items: [
-          { title: "Comfort over feature count", body: "Presence, responsiveness, and empathy build stronger attachment than isolated functions." },
-          { title: "Routine fit matters", body: "Low effort, low mess, quiet behavior, and predictable care support long-term use." },
-          { title: "Warmth and utility must coexist", body: "The strongest opportunity combines pet-like warmth with smart-device clarity and convenience." },
+          {
+            title: "Interaction Expectations",
+            body: "How a user understands whether the companion is listening, responding, waiting, or available.",
+          },
+          {
+            title: "Behavior & Feedback",
+            body: "How movement, expression, posture, and feedback communicate state.",
+          },
+          {
+            title: "Connected Control",
+            body: "When direct physical interaction is enough, and when digital control can extend the experience.",
+          },
         ],
+      },
+      {
+        type: "richText",
+        heading: "Relationship journey",
+        body: "Rather than a single task-completion flow, the experience was mapped as an ongoing relationship that deepens over repeated use.",
       },
       {
         type: "relationship",
-        ariaLabel: "SMART PUPPY user journey",
+        ariaLabel: "Relationship journey: Discover, Approach, Connect, Engage, Personalize, Return",
         items: [
-          { eyebrow: "01", title: "Quiet Moments", body: "A person feels disconnected at home." },
-          { eyebrow: "02", title: "Seeking Connection", body: "They want companionship without a major lifestyle burden." },
-          { eyebrow: "03", title: "Considering Options", body: "They compare pets, robots, and smart devices." },
-          { eyebrow: "04", title: "Daily Use", body: "The companion integrates into routines." },
-          { eyebrow: "05", title: "Ongoing Relationship", body: "Responsive behavior supports a lasting bond." },
-        ],
-      },
-    ],
-  },
-  {
-    id: "design-strategy",
-    label: "Design Strategy",
-    heading: "Four principles connect emotion, motion, and livability",
-    blocks: [
-      {
-        type: "cardSet",
-        items: [
-          { title: "Readable Emotion", body: "Eye states, ear position, head angle, and posture communicate feeling quickly." },
-          { title: "Approachable Interaction", body: "Touch, gestures, and controls remain natural, calm, and low-friction." },
-          { title: "Safe Motion", body: "Stable proportions and constrained joints support predictable home-friendly movement." },
-          { title: "Livable Presence", body: "Compact scale, quiet behavior, and low-maintenance routines help the companion fit daily life." },
+          { eyebrow: "01", title: "Discover", body: "The companion is noticed and understood at a glance." },
+          { eyebrow: "02", title: "Approach", body: "Form and stance invite a first physical interaction." },
+          { eyebrow: "03", title: "Connect", body: "The companion pairs with the app, establishing the relationship." },
+          { eyebrow: "04", title: "Engage", body: "Daily behavior and response build familiarity." },
+          { eyebrow: "05", title: "Personalize", body: "The app shapes routines and preferences over time." },
+          { eyebrow: "06", title: "Return", body: "Repeated interaction reinforces an ongoing bond." },
         ],
       },
       {
-        type: "stateFlow",
-        ariaLabel: "Design strategy from expression to connected experience",
-        steps: [
-          { title: "Expression", body: "Face and posture", connectorAfter: "→" },
-          { title: "Behavior", body: "Movement and response", connectorAfter: "→" },
-          { title: "Interaction", body: "Touch and commands", connectorAfter: "→" },
-          { title: "Awareness", body: "App status and care", connectorAfter: "→" },
-          { title: "Continuity", body: "One connected relationship" },
-        ],
+        type: "richText",
+        heading: "Design criteria",
+        body: "Legible · Responsive · Expressive · Approachable · Connected",
       },
     ],
   },
   {
     id: "industrial-design",
     label: "Industrial Design",
-    heading: "From expressive sketches to a balanced robotic form",
+    heading: "Designing character through form and proportion",
     blocks: [
       {
         type: "richText",
         body: "Development moved from early head and body sketches through proportion, stance, leg-length, center-of-gravity, and joint studies. Three form directions tested different balances of playfulness, mechanical character, and refinement before selecting the final direction.",
+      },
+      {
+        type: "cardSet",
+        heading: "Physical design criteria",
+        columns: 2,
+        items: [
+          { title: "Approachable", body: "Friendly without becoming visually arbitrary." },
+          { title: "Expressive", body: "The physical form supports recognizable behavior and personality." },
+          { title: "Balanced", body: "Proportions support both stability and mobility." },
+          { title: "Interactive", body: "Important interaction and expression areas remain visually understandable." },
+        ],
+      },
+      {
+        type: "richText",
+        heading: "Exploring Character Through Form",
+        body: "Early ideation explored silhouette, head-to-body proportion, and leg geometry before narrowing toward three directions for further development.",
       },
       {
         type: "media",
@@ -141,27 +161,63 @@ export const smartPuppySections: CaseStudySection[] = [
       },
       {
         type: "cardSet",
-        columns: 2,
+        heading: "From concept to form",
+        columns: 3,
         items: [
-          { title: "Expressive Face", body: "Large digital eyes and familiar facial features create immediate emotional readability." },
-          { title: "Balanced Proportions", body: "A compact body, wide stance, and low center of gravity support stability and approachability." },
-          { title: "Stable Movement", body: "Articulated joints are placed for smooth motion with clear limits." },
-          { title: "Compact Footprint", body: "The companion is sized for apartment living and everyday proximity." },
+          {
+            title: "Proportion Development",
+            body: "Early directions tested different balances of playfulness and mechanical character. The selected form reduced visual complexity and clarified leg geometry, arriving at a compact body, wide stance, and low center of gravity.",
+          },
+          {
+            title: "The Face as Interface",
+            body: "Large digital eyes and familiar facial features were treated as both a character-defining element and a communication surface, giving the companion immediate emotional readability.",
+          },
+          {
+            title: "Designing Around Movement",
+            body: "Articulated joints are placed to support smooth, constrained motion — balancing mechanical function with a silhouette that still reads as approachable.",
+          },
         ],
+      },
+      {
+        type: "stateFlow",
+        ariaLabel: "Form refinement: Sketch, 3D Volume, Proportion Refinement, Surface Development, Final Form",
+        steps: [
+          { title: "Sketch", connectorAfter: "→" },
+          { title: "3D Volume", connectorAfter: "→" },
+          { title: "Proportion Refinement", connectorAfter: "→" },
+          { title: "Surface Development", connectorAfter: "→" },
+          { title: "Final Form" },
+        ],
+      },
+      {
+        type: "richText",
+        heading: "Final Industrial Design",
+        body: "The final form balances a compact robotic structure with a softer visual language, using proportion, stance, and facial expression to make the product feel more approachable and behaviorally legible.",
       },
     ],
   },
   {
-    id: "behavior-interaction",
-    label: "Behavior & Interaction",
-    heading: "A small language of readable signals",
+    id: "behavior-expression",
+    label: "Behavior & Expression",
+    heading: "Behavior is part of the interface",
     blocks: [
       {
         type: "richText",
-        body: "SMART PUPPY expresses emotion through coordinated eye graphics, ear posture, head tilt, tail response, and whole-body motion. These cues are intentionally simple so the user can understand the companion without reading an interface.",
+        body: "Smart Puppy uses movement, posture, facial expression, and feedback to communicate state and intention without requiring the user to constantly reference a screen.",
+      },
+      {
+        type: "stateFlow",
+        ariaLabel: "Behavior language: State, Behavior, Expression, User Interpretation",
+        steps: [
+          { title: "State", connectorAfter: "→" },
+          { title: "Behavior", connectorAfter: "→" },
+          { title: "Expression", connectorAfter: "→" },
+          { title: "User Interpretation" },
+        ],
       },
       {
         type: "cardSet",
+        heading: "Expression as communication",
         columns: 3,
         items: [
           { title: "Curious", body: "Open eyes, forward ears, and attentive posture invite engagement." },
@@ -173,25 +229,111 @@ export const smartPuppySections: CaseStudySection[] = [
         ],
       },
       {
-        type: "relationship",
-        ariaLabel: "Behavior interaction logic",
-        items: [
-          { eyebrow: "01", title: "Sense", body: "Detect touch, voice, proximity, and environment." },
-          { eyebrow: "02", title: "Interpret", body: "Combine context with the current personality and energy state." },
-          { eyebrow: "03", title: "Respond", body: "Express the result through face, sound, posture, and motion." },
-          { eyebrow: "04", title: "Confirm", body: "Reflect important state changes in the app." },
+        type: "callout",
+        title: "Multimodal behavior cue",
+        body: "Expression, motion, and posture combine into one behavior cue — the companion does not rely on the eyes alone to communicate.",
+      },
+      {
+        type: "richText",
+        heading: "Motion as feedback",
+        body: "Movement is not only locomotion. Orientation, posture, response timing, and movement communicate attention, acknowledgement, response, and engagement.",
+      },
+      {
+        type: "stateFlow",
+        ariaLabel: "Interaction loop: User Action, Recognition, Acknowledgement, Response, User Interpretation, Next Interaction",
+        steps: [
+          { title: "User Action", connectorAfter: "→" },
+          { title: "Recognition", connectorAfter: "→" },
+          { title: "Acknowledgement", connectorAfter: "→" },
+          { title: "Response", connectorAfter: "→" },
+          { title: "User Interpretation", connectorAfter: "→" },
+          { title: "Next Interaction" },
         ],
+      },
+      {
+        type: "richText",
+        heading: "Personality through behavior",
+        body: "Personality emerges through repeated patterns of movement, expression, and response rather than through appearance alone.",
       },
     ],
   },
   {
-    id: "app-experience",
-    label: "App Experience",
-    heading: "Awareness and control without replacing the relationship",
+    id: "ergonomics-motion",
+    label: "Ergonomics & Motion",
+    heading: "Designing movement around interaction",
     blocks: [
       {
         type: "richText",
-        body: "The app extends the physical relationship by making connection, health, activity, accessories, household access, and remote interaction understandable. The interface supports the companion; it does not become the companion.",
+        body: "Beyond its silhouette, the physical architecture — scale, joint placement, and stance — was considered as part of how the companion supports interaction and behavior.",
+      },
+      {
+        type: "richText",
+        heading: "Human–robot scale",
+        body: "The companion is sized for apartment living and everyday proximity — compact enough for close, frequent interaction without dominating the space it shares with its owner.",
+      },
+      {
+        type: "richText",
+        heading: "Motion architecture",
+        body: "Head, body, and leg relationships were considered together: articulated joints are placed for smooth motion with clear limits, supporting a wide stance and low center of gravity.",
+      },
+      {
+        type: "richText",
+        heading: "Posture as interaction",
+        body: "The companion's physical posture functions as an interaction state — head angle, ear position, and stance communicate readiness, attention, or rest without relying on the face alone.",
+      },
+      {
+        type: "richText",
+        heading: "Stability & balance",
+        body: "The compact body, wide stance, and low center of gravity were intended to support both physical stability and a visually approachable silhouette — proportions considered for balance at a concept level, not validated through engineering testing.",
+      },
+    ],
+  },
+  {
+    id: "product-development",
+    label: "Product Development",
+    heading: "Connecting physical behavior with digital control",
+    blocks: [
+      {
+        type: "richText",
+        body: "Smart Puppy is structured as an experience architecture rather than a technical one — the companion stays at the center, with the app extending it.",
+      },
+      {
+        type: "relationship",
+        ariaLabel: "Connected product architecture: Human, Smart Puppy, Connected App",
+        items: [
+          { eyebrow: "Human", title: "Presence and interaction" },
+          { eyebrow: "Smart Puppy", title: "Form · Behavior · Expression · Movement" },
+          { eyebrow: "Connected App", title: "Control · Customization · Status" },
+        ],
+      },
+      {
+        type: "callout",
+        title: "Design principle",
+        body: "The digital layer extends the relationship rather than replacing it.",
+      },
+      {
+        type: "richText",
+        heading: "Physical product architecture & production considerations",
+        body: "Component relationships, joint placement, and body volume were considered as part of the overall form, balancing internal packaging awareness with the compact proportions established during industrial design development. Material and finish direction supported a soft, approachable character alongside more structural areas of the body — considerations at a concept level rather than a production-validated specification.",
+      },
+    ],
+  },
+  {
+    id: "connected-experience",
+    label: "Connected Experience",
+    heading: "Extending the relationship beyond the physical product",
+    blocks: [
+      {
+        type: "richText",
+        body: "The connected app provides additional control, customization, and visibility while keeping direct interaction with Smart Puppy at the center of the experience. Physical behavior creates presence at home; the app closes the loop with status, control, and personalization when more context is needed — not a one-directional command sequence.",
+      },
+      {
+        type: "media",
+        layout: "wide",
+        media: {
+          ...media("smart-puppy-lifestyle-showcase.png", 1672, 941, "Four SMART PUPPY lifestyle moments showing greeting at home, play, remote app control, and quiet rest.", true),
+          caption: "Greeting & check-in · Play & companionship · Remote awareness and control · Quiet & rest.",
+        },
       },
       {
         type: "media",
@@ -202,17 +344,9 @@ export const smartPuppySections: CaseStudySection[] = [
         },
       },
       {
-        type: "media",
-        layout: "wide",
-        media: {
-          ...media("smart-puppy-ui-design-system.png", 1536, 1024, "SMART PUPPY dark interface design system showing color, typography, icons, buttons, navigation, cards, controls, charts, settings patterns, accessories, and status indicators.", true),
-          caption: "A dark, high-contrast system connects device status, care, control, and activity with a consistent cyan accent language.",
-        },
-      },
-      {
         type: "richText",
         heading: "Primary Screens",
-        body: "Home, Control, and Live Interaction form the primary experience. Home summarizes Luna’s current state; Control translates digital input into physical behavior; Live Interaction supports remote awareness and communication.",
+        body: "Home, Control, and Live Interaction form the primary experience. Home summarizes Luna's current state; Control translates digital input into physical behavior; Live Interaction supports remote awareness and communication.",
       },
       {
         type: "appScreenSet",
@@ -220,7 +354,7 @@ export const smartPuppySections: CaseStudySection[] = [
         items: [
           {
             title: "Home",
-            body: "The primary overview keeps Luna’s presence central while making connection, health, energy, and activity understandable at a glance.",
+            body: "The primary overview keeps Luna's presence central while making connection, health, energy, and activity understandable at a glance.",
             media: phone("smart-puppy-app-home.png", "SMART PUPPY Home screen showing Luna, connection status, control access, and daily health summary."),
           },
           {
@@ -238,7 +372,7 @@ export const smartPuppySections: CaseStudySection[] = [
       {
         type: "richText",
         heading: "Second-level Screens",
-        body: "Care, Activity, Assets, and Profile support the longer ownership relationship. They explain condition and maintenance, reveal daily patterns, manage the connected product ecosystem, and coordinate household preferences without competing with the core interaction surfaces.",
+        body: "Care, Activity, Assets, and Profile support the longer ownership relationship without competing with the core interaction surfaces above.",
       },
       {
         type: "appScreenSet",
@@ -251,7 +385,7 @@ export const smartPuppySections: CaseStudySection[] = [
           },
           {
             title: "Activity",
-            body: "Activity history reveals Luna’s daily rhythm across movement, play, exploration, interaction, and rest.",
+            body: "Activity history reveals Luna's daily rhythm across movement, play, exploration, interaction, and rest.",
             media: phone("smart-puppy-app-activity.png", "SMART PUPPY Activity screen with daily metrics, activity chart, and behavior breakdown."),
           },
           {
@@ -266,65 +400,73 @@ export const smartPuppySections: CaseStudySection[] = [
           },
         ],
       },
+      {
+        type: "cardSet",
+        heading: "Cross-touchpoint moments",
+        columns: 3,
+        items: [
+          { title: "Recognition", body: "Robot behavior signals awareness while the app reflects the same state." },
+          { title: "Response", body: "Physical behavior pairs with digital feedback or control when more context is needed." },
+          { title: "Personalization", body: "A digital choice, like a routine or preference, carries through to physical behavior over time." },
+        ],
+      },
+      {
+        type: "richText",
+        heading: "Visual & Component System",
+        body: "A shared visual system brings product status, controls, navigation, and feedback into a consistent digital language across the connected experience.",
+      },
+      {
+        type: "media",
+        layout: "wide",
+        media: {
+          ...media("smart-puppy-ui-design-system.png", 1536, 1024, "SMART PUPPY dark interface design system showing color, typography, icons, buttons, navigation, cards, controls, charts, settings patterns, accessories, and status indicators.", true),
+          caption: "A dark, high-contrast system connects device status, care, control, and activity with a consistent cyan accent language.",
+        },
+      },
     ],
   },
   {
-    id: "connected-experience",
-    label: "Connected Experience",
-    heading: "One relationship across home, companion, and app",
+    id: "final-experience",
+    label: "Final Experience",
+    heading: "A companion defined by how it looks, moves, and responds",
     blocks: [
       {
         type: "richText",
-        body: "The connected experience is organized around everyday moments rather than isolated features. Physical behavior creates presence at home, while the app provides awareness and control when additional context is needed.",
+        body: "Smart Puppy brings physical form, expressive behavior, motion, and connected control together as one companion experience. Rather than treating personality as a visual layer, the final design uses movement, expression, and response to make interaction more understandable and engaging.",
       },
       {
         type: "media",
         layout: "wide",
         media: {
           ...media("smart-puppy-lifestyle-showcase.png", 1672, 941, "Four SMART PUPPY lifestyle moments showing greeting at home, play, remote app control, and quiet rest.", true),
-          caption: "Greeting & check-in · Play & companionship · Remote awareness and control · Quiet & rest.",
+          caption: "One continuous relationship, not five separate deliverables.",
         },
       },
       {
         type: "stateFlow",
-        ariaLabel: "Connected companion state synchronization",
+        ariaLabel: "Final experience sequence: Approach, Recognize, Respond, Connect, Return",
         steps: [
-          { title: "Companion State", body: "Activity, battery, environment, mood", connectorAfter: "→" },
-          { title: "App Awareness", body: "Status, controls, alerts, and history", connectorAfter: "→" },
-          { title: "User Action", body: "Respond, customize, or check in", connectorAfter: "→" },
-          { title: "Reassurance", body: "Continuity, safety, and peace of mind" },
+          { title: "01 — Approach", body: "Form and stance invite interaction.", connectorAfter: "→" },
+          { title: "02 — Recognize", body: "Expression and posture acknowledge the user.", connectorAfter: "→" },
+          { title: "03 — Respond", body: "Movement turns input into exchange.", connectorAfter: "→" },
+          { title: "04 — Connect", body: "The app extends interaction, not replace it.", connectorAfter: "→" },
+          { title: "05 — Return", body: "Repetition builds familiarity." },
         ],
-      },
-    ],
-  },
-  {
-    id: "outcome",
-    label: "Outcome",
-    heading: "A companion system with a coherent physical–digital language",
-    blocks: [
-      {
-        type: "richText",
-        body: "SMART PUPPY brings industrial design, expressive behavior, motion logic, app interaction, and connected-system thinking into one concept. The outcome demonstrates how an emotionally engaging product can remain understandable, controllable, and practical for everyday home life.",
       },
       {
         type: "finalExperience",
-        body: "The prototype walkthrough demonstrates the core mobile experience and how the interface supports connection, care, activity, assets, household settings, and remote interaction.",
+        body: "The prototype walkthrough shows the connected app experience in the Connect stage above — how the interface supports connection, care, activity, assets, household settings, and remote interaction alongside the physical companion.",
         videoSrc: `${BASE}/smart-puppy-prototype.mp4`,
-        posterSrc: `${BASE}/smart-puppy-hero.png`,
         prototypeUrl: "https://id-preview--771ba87b-15ef-4ab0-b6b6-dea1e811bc65.lovable.app/prototype",
         videoAriaLabel: "SMART PUPPY mobile app prototype walkthrough",
-        linkLabel: "Explore the Lovable Prototype ↗",
+        linkLabel: "Explore the Interactive Prototype ↗",
         note: "Interactive prototype built in Lovable.",
         presentation: "plain",
       },
       {
-        type: "cardSet",
-        columns: 3,
-        items: [
-          { title: "Physical Product", body: "A distinctive robotic form with readable expression and stable proportions." },
-          { title: "Digital Experience", body: "A coherent app system for control, awareness, care, activity, and household management." },
-          { title: "Connected System", body: "A shared experience linking companion state, app feedback, user action, and home context." },
-        ],
+        type: "richText",
+        heading: "Outcome",
+        body: "**Designing personality through interaction.**\n\nSmart Puppy developed into a connected robotic companion where industrial design, movement, expression, and digital interaction work together as one product experience. The project demonstrates how character can emerge not only through appearance, but through the way a physical product acknowledges, responds to, and builds familiarity with the user.",
       },
       {
         type: "awardSet",
@@ -357,11 +499,11 @@ export const smartPuppyProject: CaseStudyProject = {
   slug: "smart-puppy",
   title: "SMART PUPPY",
   subtitle: "A connected robotic companion experience combining industrial design, expressive behavior, motion, UX/UI, and physical–digital interaction.",
-  category: "Connected Robotic Companion",
-  role: ["Industrial Design", "Product Design", "UX/UI"],
+  category: "Independent Product Concept",
+  role: ["Industrial & Experience Design"],
   year: "2021",
   duration: "10 weeks",
-  focus: ["Emotional Presence", "Connected Experience"],
+  focus: ["Physical Product", "Behavior", "Mobile Experience"],
   status: "Independent Personal Project",
   breadcrumb: ["Work", "SMART PUPPY"],
   hero: {

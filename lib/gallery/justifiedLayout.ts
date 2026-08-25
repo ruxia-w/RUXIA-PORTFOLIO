@@ -92,3 +92,35 @@ export function computeJustifiedRows<T extends Ratioed>(
 
   return rows;
 }
+
+/**
+ * Forces every item into exactly one row, sized so the row's combined width
+ * (plus gaps) fills containerWidth exactly — proportional per-item widths
+ * from each item's own aspect ratio, with the last item absorbing the small
+ * rounding remainder. Used where row membership is curated/locked (e.g. a
+ * fixed editorial layout) rather than solved by computeJustifiedRows' own
+ * row-breaking heuristic.
+ */
+export function computeFixedRow<T extends Ratioed>(items: T[], containerWidth: number, gap: number = GALLERY_GAP): JustifiedRow<T> {
+  if (items.length === 0 || containerWidth <= 0) return { height: 0, items: [] };
+
+  const sumRatios = items.reduce((sum, item) => sum + ratioOf(item), 0);
+  const height = Math.round(heightFor(sumRatios, items.length, containerWidth, gap));
+  const widths = items.map((item) => Math.round(ratioOf(item) * height));
+
+  const totalGap = gap * (items.length - 1);
+  const usedWidth = widths.reduce((sum, w) => sum + w, 0) + totalGap;
+  widths[widths.length - 1] += containerWidth - usedWidth;
+
+  return { height, items: items.map((item, i) => ({ item, width: widths[i] })) };
+}
+
+/**
+ * Sizes each item's width from its own ratio at a fixed row height, with no
+ * fill-to-container adjustment — for a row where a trailing non-image tile
+ * (a CTA) is meant to flex-grow and absorb whatever width these items don't
+ * use, rather than the images themselves being stretched to fill.
+ */
+export function computeRowAtHeight<T extends Ratioed>(items: T[], height: number): Array<{ item: T; width: number }> {
+  return items.map((item) => ({ item, width: Math.round(ratioOf(item) * height) }));
+}

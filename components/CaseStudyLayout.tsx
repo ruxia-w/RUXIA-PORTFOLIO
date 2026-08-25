@@ -5,6 +5,7 @@ import { MobileContentsMenu } from "./MobileContentsMenu";
 import { CaseStudySection } from "./CaseStudySection";
 import { ReadingProgress } from "./ReadingProgress";
 import { InitialHashScroll } from "./InitialHashScroll";
+import { Footer } from "./Footer";
 import type { CaseStudyProject } from "@/lib/types";
 import styles from "./CaseStudyLayout.module.css";
 
@@ -29,6 +30,7 @@ export function CaseStudyLayout({ project }: { project: CaseStudyProject }) {
         </article>
       </div>
       <ProjectPagination currentSlug={project.slug} />
+      <Footer />
     </>
   );
 }

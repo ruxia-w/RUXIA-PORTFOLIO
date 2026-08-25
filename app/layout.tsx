@@ -28,7 +28,7 @@ const themeScript = `
 })();`;
 
 export const metadata: Metadata = {
-  title: "Ruxia Wang — Product & Experience Designer",
+  title: "Ruxia Wang — Product Designer & Experience Designer",
   description:
     "Portfolio of Ruxia Wang, a New York–based designer working across physical products, connected experiences, and intelligent systems.",
 };

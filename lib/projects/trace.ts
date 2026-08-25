@@ -18,95 +18,117 @@ export const traceSections: CaseStudySection[] = [
     blocks: [
       {
         type: "richText",
-        body: "TRACE is a physical–digital permission system designed to make personal data access visible, understandable, and reversible across everyday service interactions.\n\nRather than treating identity verification as the end of the experience, TRACE separates recognition from authorization and creates a shared permission state across the Credential, Dock, mobile app, and organization dashboard.\n\nThe project explores how a physical object, user interface, organization interface, and service workflow can work together to give people clearer context and more meaningful control over access.",
+        body: "TRACE is a connected physical–digital access concept designed to make permission, identity, and service interactions clearer across personal and organizational touchpoints. The experience connects a tactile physical object with individual and staff-facing digital interfaces, creating a coordinated system for access, handoff, recovery, and support.\n\nRather than treating identity verification as the end of the experience, TRACE separates recognition from authorization and creates a shared permission state across every touchpoint.",
       },
       {
         type: "richText",
-        heading: "Role",
-        body: "**End-to-End Product & Experience Design**\n\nExperience Strategy · Interaction Design · Industrial Design · UX/UI · Service Design · System Thinking · Prototyping",
+        heading: "One system, multiple touchpoints",
+        body: "TRACE connects a tactile physical object with individual and organizational digital interfaces into one coordinated access system, spanning physical, digital, and service context.",
+      },
+      {
+        type: "stateFlow",
+        ariaLabel: "One system, multiple touchpoints: Physical Object, Personal App, Organization Dashboard, Service Touchpoints",
+        steps: [
+          { title: "Physical Object", connectorAfter: "↔" },
+          { title: "Personal App", connectorAfter: "↔" },
+          { title: "Organization Dashboard", connectorAfter: "↔" },
+          { title: "Service Touchpoints" },
+        ],
+      },
+      {
+        type: "media",
+        layout: "wide",
+        media: {
+          ...media(
+            "trace-key-product-experiences.png",
+            1672,
+            941,
+            "TRACE Credential, Dock, and mobile interface illustrating identity, access choice, user control, and physical–digital continuity.",
+            true,
+          ),
+          caption: "Conceptual product framing. Security-related wording embedded in the exploratory artwork is illustrative and is not a validated project claim.",
+        },
       },
     ],
   },
   {
     id: "problem",
     label: "Problem",
-    heading: "Permission should not disappear after approval",
+    heading: "Access breaks down when physical, digital, and service touchpoints are designed separately.",
     blocks: [
       {
         type: "richText",
-        body: "Permission is often treated as a one-time action.\n\nA user confirms access, the interface disappears, and the service continues in the background. What happens afterward is often difficult to see, understand, or change.\n\nTRACE reframes permission as an ongoing experience state rather than a single confirmation moment.",
+        body: "The problem is not simply that existing products are inconvenient or inaccessible. Access depends on identity, authorization, permission, state, timing, and context — conditions that are not always equally visible or understandable to everyone involved, and accessibility has to be part of that system logic rather than a separate feature.",
       },
       {
         type: "cardSet",
         columns: 3,
         items: [
-          { title: "Visibility", body: "Is access active right now?" },
-          { title: "Context", body: "Who is requesting access, what are they requesting, and why?" },
-          { title: "Control", body: "Can access be changed after approval?" },
-          { title: "Continuity", body: "Do the physical and digital touchpoints reflect the same state?" },
-          { title: "Recovery", body: "What happens when the normal interaction fails?" },
+          {
+            title: "01 — Fragmented Touchpoints",
+            body: "Physical, personal digital, organizational, and service interactions may operate as disconnected moments. Users should not have to coordinate the system themselves.",
+          },
+          {
+            title: "02 — Invisible Permissions",
+            body: "Access depends on identity, authorization, permission, state, timing, and context — conditions that are not always equally visible or understandable to everyone involved.",
+          },
+          {
+            title: "03 — Fragile Handoffs & Recovery",
+            body: "The experience becomes most vulnerable when something changes, a permission becomes unavailable, a handoff is incomplete, or an interaction cannot continue normally without assistance.",
+          },
         ],
       },
       {
         type: "callout",
-        title: "How might we",
-        body: "How might we make permission visible and controllable across both physical and digital service environments?",
+        title: "Supporting principle",
+        body: "Access should not depend on one mode of interaction.",
       },
     ],
   },
   {
-    id: "research-insights",
-    label: "Research & Insights",
-    heading: "Research & Insights",
+    id: "research-strategy",
+    label: "Research & Strategy",
+    heading: "Design the system around continuity, not individual touchpoints.",
     blocks: [
       {
         type: "richText",
-        heading: "Research Exploration / Analysis",
-        body: "I mapped the permission journey to understand where clarity and control tend to disappear.\n\nThe analysis focused on the moments before, during, and after access—not only on the initial verification step.",
+        heading: "Ecosystem",
+        body: "TRACE is defined around roles rather than individual personas — the people and systems that participate in an access interaction, and what each of them needs from it.",
+      },
+      {
+        type: "cardSet",
+        heading: "Ecosystem roles",
+        columns: 3,
+        items: [
+          {
+            title: "Individual",
+            body: "Needs visibility, control, confirmation, and understandable feedback, along with a way to recover when something goes wrong.",
+          },
+          {
+            title: "Organization / Staff",
+            body: "Needs authorization visibility, oversight, and shared context, along with the ability to assist or handle exceptions.",
+          },
+          {
+            title: "Shared Access System",
+            body: "Connects both roles through identity, permission, status, handoff, and recovery.",
+          },
+        ],
+      },
+      {
+        type: "richText",
+        heading: "End-to-end journey",
+        body: "The experience is described as a lifecycle rather than an app flow — the stages an access interaction moves through regardless of which touchpoint is in front of someone.",
       },
       {
         type: "stateFlow",
-        ariaLabel: "Permission journey from request to access record",
+        ariaLabel: "End-to-end journey: Prepare, Approach, Identify, Access, Confirm, Recover",
         steps: [
-          { title: "Request", connectorAfter: "→" },
-          { title: "Review", connectorAfter: "→" },
-          { title: "Approve", connectorAfter: "→" },
-          { title: "Active", connectorAfter: "→" },
-          { title: "Pause / Resume", connectorAfter: "→" },
-          { title: "End", connectorAfter: "→" },
-          { title: "Record" },
-        ],
-      },
-      {
-        type: "cardSet",
-        heading: "Key insights and design responses",
-        items: [
-          { title: "Permission becomes invisible after approval", body: "Maintain a persistent Active state." },
-          { title: "Recognition can be mistaken for consent", body: "Separate Recognition and Authorization." },
-          { title: "Permission needs context", body: "Show requester, purpose, requested information, and duration." },
-          { title: "Approval should not eliminate control", body: "Support Pause, Resume, and Revoke." },
-          { title: "Multiple devices can conflict", body: "Use one shared state architecture." },
-          { title: "Failure is part of the experience", body: "Design recovery and alternate paths from the beginning." },
-        ],
-      },
-      {
-        type: "relationship",
-        ariaLabel: "How research translates into product decisions",
-        items: [
-          { eyebrow: "01", title: "Insight", body: "Identify where context or control disappears." },
-          { eyebrow: "02", title: "Experience Principle", body: "Define the behavior the system must preserve." },
-          { eyebrow: "03", title: "Product Decision", body: "Express that behavior across every touchpoint." },
-        ],
-      },
-      {
-        type: "cardSet",
-        heading: "Design principles",
-        items: [
-          { title: "Visible by Design", body: "Permission remains visible while access is active." },
-          { title: "Control by Default", body: "Users retain control after approval." },
-          { title: "Recognition Is Not Permission", body: "Identity recognition does not create access." },
-          { title: "Multiple Paths, One State", body: "Different interactions reflect the same state." },
-          { title: "Recovery Is Part of the Experience", body: "Failure states are designed as part of the product." },
+          { title: "Prepare", body: "Arrival and context before a request is made.", connectorAfter: "→" },
+          { title: "Approach", body: "Recognition, without granting access.", connectorAfter: "→" },
+          { title: "Identify", body: "A request is created and reviewed.", connectorAfter: "→" },
+          { title: "Access", body: "Scoped permission becomes active and controllable.", connectorAfter: "→" },
+          { title: "Confirm", body: "The session closes and a record is available.", connectorAfter: "→" },
+          { title: "Recover", body: "Pause, resume, revoke, or get assistance when needed." },
         ],
       },
       {
@@ -120,61 +142,69 @@ export const traceSections: CaseStudySection[] = [
             "Early monochrome exploration of the TRACE permission flow from request through active, paused, ended, and recorded states.",
             true,
           ),
-          caption: "Early permission-flow exploration. Interface details shown are conceptual.",
+          caption: "Early permission-flow exploration used to map the journey. Interface details shown are conceptual.",
         },
+      },
+      {
+        type: "cardSet",
+        heading: "Key insights",
+        columns: 3,
+        items: [
+          {
+            title: "01 — Shared Visibility",
+            body: "Access works better when permission and state are legible to everyone involved — the response is one shared permission model across personal and organizational touchpoints.",
+          },
+          {
+            title: "02 — Multimodal Feedback",
+            body: "Critical states should not depend on a single sensory or interaction channel, so feedback is supported across physical, visual, digital, and assisted interactions.",
+          },
+          {
+            title: "03 — Recovery Is Part of Access",
+            body: "The quality of the experience depends on what happens when access does not proceed normally, so recovery and human support are designed as part of the primary experience.",
+          },
+        ],
+      },
+      {
+        type: "cardSet",
+        heading: "Design principles",
+        columns: 2,
+        items: [
+          { title: "01 — Make Permission Visible", body: "Permission remains visible while access is active, instead of disappearing after approval." },
+          { title: "02 — Support More Than One Mode", body: "Critical states are communicated in more than one way, so understanding does not depend on a single channel." },
+          { title: "03 — Design the Handoff", body: "Physical and digital touchpoints are designed to reflect the same state, so moving between them feels continuous." },
+          { title: "04 — Plan for Recovery", body: "Failure and alternate paths are designed as part of the product from the start, not added afterward." },
+        ],
       },
     ],
   },
   {
-    id: "experience-architecture",
-    label: "Experience Architecture",
-    heading: "Multiple interfaces. One shared state.",
+    id: "ecosystem-architecture",
+    label: "Ecosystem Architecture",
+    heading: "One permission model, multiple touchpoints.",
     blocks: [
       {
         type: "richText",
-        body: "TRACE is designed as one permission system expressed through multiple interfaces.\n\nThe user and the organization interact with different tools, but both sides reference the same underlying session state.",
+        body: "TRACE is designed as one permission system expressed through multiple interfaces. The individual and the organization interact with different tools, but every touchpoint references the same underlying shared access state.",
       },
       {
-        type: "cardSet",
-        heading: "Experience actors",
-        columns: 3,
+        type: "relationship",
+        ariaLabel: "Architecture layers: Individual Layer, Shared Access State, Organization Layer, Service / Human Layer",
         items: [
-          { title: "Primary User", body: "Understands the request, chooses scope, and remains in control while access is active." },
-          { title: "Service Staff", body: "Creates an appropriate request, sees the shared state, and assists without overriding authorization." },
-          { title: "Organization / Admin", body: "Coordinates requests, workflows, policy, history, assistance, and recovery." },
-        ],
-      },
-      {
-        type: "stateFlow",
-        ariaLabel: "Shared permission state",
-        steps: [
-          { title: "Recognized", body: "Identity is known.", connectorAfter: "→" },
-          { title: "Pending", body: "A request awaits a decision.", connectorAfter: "→" },
-          { title: "Active", body: "Scoped access is visible.", connectorAfter: "↔" },
-          { title: "Paused", body: "Sharing is temporarily suspended.", connectorAfter: "→" },
-          { title: "Closed", body: "The session no longer grants access." },
-        ],
-      },
-      {
-        type: "richText",
-        body: "Additional paths can include **Pending → Declined → Closed**, **Active → Revoked → Closed**, and **Paused → Active**.",
-      },
-      {
-        type: "cardSet",
-        heading: "User-side touchpoints",
-        columns: 3,
-        items: [
-          { title: "TRACE Credential", body: "Physical recognition and deliberate confirmation." },
-          { title: "TRACE Dock", body: "Ambient visibility of permission state." },
-          { title: "Mobile App", body: "Context, detailed control, permission management, and access history." },
+          { eyebrow: "Individual Layer", title: "Physical Access Interface · Personal App" },
+          { eyebrow: "Shared Access State", title: "Identity · Permission · Session · Status · Handoff · Recovery" },
+          { eyebrow: "Organization Layer", title: "Organization Access Dashboard" },
+          { eyebrow: "Service / Human Layer", title: "Staff / Assisted Support" },
         ],
       },
       {
         type: "cardSet",
-        heading: "Organization-side touchpoints",
+        heading: "The role of each touchpoint",
+        columns: 2,
         items: [
-          { title: "Organization Dashboard", body: "Creates and reviews requests, monitors sessions, and supports exceptions within user permission." },
-          { title: "Staff Experience", body: "Coordinates and assists with the service interaction without silently overriding authorization." },
+          { title: "Physical Access Interface", body: "Tangible interaction, orientation, confirmation, and multimodal feedback." },
+          { title: "Personal App", body: "Permission visibility, status, context, control, and recovery." },
+          { title: "Organization Access Dashboard", body: "Authorization visibility, requests, active states, assistance, and organizational context." },
+          { title: "Assisted Service", body: "Human support, exception handling, handoff, and recovery." },
         ],
       },
       {
@@ -190,6 +220,26 @@ export const traceSections: CaseStudySection[] = [
           ),
           caption: "The Credential, Dock, and mobile app express different parts of one shared permission experience.",
         },
+      },
+      {
+        type: "richText",
+        heading: "Shared state model",
+        body: "The same permission/session state is referenced by every touchpoint, so a change made in one place is reflected everywhere else.",
+      },
+      {
+        type: "stateFlow",
+        ariaLabel: "Shared permission state",
+        steps: [
+          { title: "Recognized", body: "Identity is known.", connectorAfter: "→" },
+          { title: "Pending", body: "A request awaits a decision.", connectorAfter: "→" },
+          { title: "Active", body: "Scoped access is visible.", connectorAfter: "↔" },
+          { title: "Paused", body: "Sharing is temporarily suspended.", connectorAfter: "→" },
+          { title: "Closed", body: "The session no longer grants access." },
+        ],
+      },
+      {
+        type: "richText",
+        body: "Alternate paths can include **Pending → Declined → Closed**, **Active → Revoked → Closed**, and **Paused → Active**.",
       },
       {
         type: "comparison",
@@ -208,16 +258,27 @@ export const traceSections: CaseStudySection[] = [
   {
     id: "physical-interaction-design",
     label: "Physical Interaction Design",
-    heading: "Making permission deliberate and legible",
+    heading: "Translating system principles into physical interaction.",
     blocks: [
       {
         type: "richText",
-        body: "The physical product was not designed only as an identity object.\n\nIts form and interaction were developed to make permission feel deliberate, legible, and controllable. I explored several interaction directions before selecting rotation as the clearest physical metaphor for changing state.",
+        body: "The physical product was not designed only as an identity object. Its form and interaction were developed to make permission feel deliberate, legible, and controllable.",
+      },
+      {
+        type: "cardSet",
+        heading: "Interaction requirements",
+        columns: 2,
+        items: [
+          { title: "Recognizable", body: "The physical interaction communicates orientation and use without relying entirely on a screen." },
+          { title: "Tactile", body: "Important interactions provide physical cues rather than depending exclusively on visual information." },
+          { title: "Confirmable", body: "State changes provide understandable feedback." },
+          { title: "Recoverable", body: "The physical interaction remains understandable when something changes or assistance is required." },
+        ],
       },
       {
         type: "richText",
-        heading: "Interaction Exploration",
-        body: "Loop, slide, and fold concepts explored different ways to express continuity, direction, and protection. Rotation provided the strongest balance of compact form, tactile feedback, and multi-state control.",
+        heading: "Exploring Form Through Interaction",
+        body: "Loop, slide, and fold concepts explored different ways to express continuity, direction, and protection. Rotation provided the strongest balance of compact form, tactile feedback, and multi-state control, and became the clearest physical metaphor for changing state.",
       },
       {
         type: "media",
@@ -226,23 +287,13 @@ export const traceSections: CaseStudySection[] = [
       },
       {
         type: "richText",
-        heading: "Ergonomics",
-        body: "The Credential was sized and shaped for comfortable one-handed handling, visible orientation, and easy placement into the Dock.\n\nFront grip · Side thickness · In-palm scale · Dock placement",
+        heading: "Physical interaction logic",
+        body: "The Credential was sized and shaped for comfortable one-handed handling, visible orientation, and easy placement into the Dock — front grip, side thickness, in-palm scale, and Dock placement.\n\nRotation itself creates a deliberate physical action that can communicate transition without requiring a screen.",
       },
       {
         type: "media",
         layout: "wide",
         media: media("trace-ergonomics-hand-interaction.png", 2110, 745, "Four views showing front grip, side thickness, in-palm scale, and placement of the TRACE Credential into its Dock."),
-      },
-      {
-        type: "richText",
-        heading: "Rotation Interaction",
-        body: "Rotation creates a deliberate physical action that can communicate transition without requiring a screen.",
-      },
-      {
-        type: "media",
-        layout: "wide",
-        media: media("trace-rotation-interaction-detail.png", 1536, 1024, "Three-stage rotation interaction showing physical action, transition, and confirmation across the Credential, Dock, and app.", true),
       },
       {
         type: "relationship",
@@ -253,21 +304,55 @@ export const traceSections: CaseStudySection[] = [
           { eyebrow: "03", title: "System Confirmation", body: "Physical and digital touchpoints reflect the update." },
         ],
       },
-    ],
-  },
-  {
-    id: "core-experience",
-    label: "Core Experience",
-    heading: "One lifecycle, seen from both sides",
-    blocks: [
       {
         type: "richText",
-        body: "The core TRACE experience is a permission lifecycle shared between the user and the organization.\n\nThe user decides what can be accessed. The organization requests and manages the service interaction. Neither side operates independently of the shared permission state.",
+        heading: "Prototype & feasibility",
+        body: "The physical concept was explored through form, component, and interaction studies to understand how the device might move from visual concept toward a buildable system.",
+      },
+      {
+        type: "media",
+        layout: "wide",
+        media: {
+          ...media("trace-prototyping-workbench.png", 1672, 941, "Proposed TRACE hardware workbench with form studies, the Credential and Dock, internal components, sketches, and measurement tools."),
+          caption: "The workbench explores a proposed path from form study toward interaction and hardware prototyping.",
+        },
+      },
+      {
+        type: "stateFlow",
+        ariaLabel: "Proposed prototyping progression",
+        steps: [
+          { title: "Form Study", connectorAfter: "→" },
+          { title: "Interaction Study", connectorAfter: "→" },
+          { title: "Component Architecture", connectorAfter: "→" },
+          { title: "CMF Refinement", connectorAfter: "→" },
+          { title: "Prototype Direction" },
+        ],
       },
       {
         type: "richText",
-        heading: "User Permission Flow",
-        body: "The screens below show the conceptual state progression. Their interface times and durations are illustrative rather than one exact recorded session.",
+        heading: "Material & production considerations",
+        body: "Material direction and component packaging were considered alongside the rotational mechanism and LED feedback, together with Dock relationship and physical scale. This remains a proposed development direction rather than a manufacturing-validated design.",
+      },
+      {
+        type: "callout",
+        title: "Feasibility boundary",
+        body: "This work proposes a development direction; it does not represent completed engineering validation or a functioning hardware prototype.",
+      },
+    ],
+  },
+  {
+    id: "digital-experience",
+    label: "Digital Experience",
+    heading: "Personal control, organizational visibility.",
+    blocks: [
+      {
+        type: "richText",
+        body: "TRACE extends the physical interaction into a role-based digital system. The personal app and organization dashboard provide different levels of visibility and control while sharing the same underlying permission and session states.",
+      },
+      {
+        type: "richText",
+        heading: "Personal app",
+        body: "The interface prioritizes making state visible — what is active, what is changing, what requires attention, and what can happen next. The screens below show the conceptual state progression; interface times and durations are illustrative rather than one exact recorded session.",
       },
       {
         type: "screenJourney",
@@ -318,8 +403,43 @@ export const traceSections: CaseStudySection[] = [
       },
       {
         type: "richText",
-        heading: "Organization Access Dashboard",
-        body: "The other side of TRACE is the organization interface.\n\nWhile the user controls what may be shared, staff need a clear operational view of requests, active sessions, exceptions, and access history. The dashboard is designed to support the service—not bypass the user.",
+        heading: "Beyond the core flow",
+        body: "The root navigation connects Home, Access, Activity, People, and Profile. Within Access, Assets brings together connected services, systems, devices, credentials, and related permissions.",
+      },
+      {
+        type: "mediaGroup",
+        variant: "screens",
+        labels: ["Home", "Assets", "Activity", "People", "Profile"],
+        media: [
+          media("trace-app-home.png", 853, 1844, "TRACE Home screen showing a conceptual active permission session, pending request, credential status, and recent activity."),
+          media("trace-app-assets.png", 849, 1851, "TRACE Assets screen showing conceptual connected services, categories, and permissions. Security values are illustrative."),
+          media("trace-app-activity.png", 852, 1846, "TRACE Activity screen showing conceptual access events and session summary."),
+          media("trace-app-people.png", 847, 1846, "TRACE People screen showing conceptual trusted people and connected organizations."),
+          media("trace-app-profile.png", 851, 1847, "TRACE Profile screen showing authentication, permissions, devices, preferences, and support."),
+        ],
+      },
+      {
+        type: "richText",
+        heading: "Experience in context",
+        body: "The same permission state is carried from the core interface into everyday use, helping active access and connected areas remain visible in context.",
+      },
+      {
+        type: "mediaGroup",
+        media: [
+          {
+            ...media("trace-app-home-lifestyle.png", 1199, 1312, "TRACE Home interface shown on a phone in a domestic setting."),
+            caption: "Home keeps the active session, pending request, Credential status, and recent activity visible in one place.",
+          },
+          {
+            ...media("trace-app-assets-in-hand.png", 1448, 1086, "User holding a phone displaying the conceptual TRACE Assets interface."),
+            caption: "Assets, within the Access area, brings connected services, systems, devices, and permissions together. Interface values are illustrative.",
+          },
+        ],
+      },
+      {
+        type: "richText",
+        heading: "Organization access dashboard",
+        body: "The dashboard is the organizational side of the same access system, not a separate admin backend. While the individual controls what may be shared, staff need a clear operational view of requests, active sessions, exceptions, and access history.",
       },
       {
         type: "cardSet",
@@ -347,86 +467,80 @@ export const traceSections: CaseStudySection[] = [
         body: "Staff can manage the service relationship, but they cannot silently override user permission.",
       },
       {
-        type: "richText",
-        heading: "Beyond the Core Flow",
-        body: "The root navigation connects Home, Access, Activity, People, and Profile. Within Access, Assets brings together connected services, systems, devices, credentials, and related permissions.",
-      },
-      {
-        type: "mediaGroup",
-        variant: "screens",
-        labels: ["Home", "Assets", "Activity", "People", "Profile"],
-        media: [
-          media("trace-app-home.png", 853, 1844, "TRACE Home screen showing a conceptual active permission session, pending request, credential status, and recent activity."),
-          media("trace-app-assets.png", 849, 1851, "TRACE Assets screen showing conceptual connected services, categories, and permissions. Security values are illustrative."),
-          media("trace-app-activity.png", 852, 1846, "TRACE Activity screen showing conceptual access events and session summary."),
-          media("trace-app-people.png", 847, 1846, "TRACE People screen showing conceptual trusted people and connected organizations."),
-          media("trace-app-profile.png", 851, 1847, "TRACE Profile screen showing authentication, permissions, devices, preferences, and support."),
+        type: "comparison",
+        items: [
+          { title: "Individual", body: "Visibility, control, confirmation, and recovery." },
+          { title: "Organization / Staff", body: "Authorization, oversight, assistance, and history." },
         ],
       },
       {
         type: "richText",
-        heading: "Experience in Context",
-        body: "The same permission state is carried from the core interface into everyday use, helping active access and connected areas remain visible in context.",
-      },
-      {
-        type: "mediaGroup",
-        media: [
-          {
-            ...media("trace-app-home-lifestyle.png", 1199, 1312, "TRACE Home interface shown on a phone in a domestic setting."),
-            caption: "Home keeps the active session, pending request, Credential status, and recent activity visible in one place.",
-          },
-          {
-            ...media("trace-app-assets-in-hand.png", 1448, 1086, "User holding a phone displaying the conceptual TRACE Assets interface."),
-            caption: "Assets, within the Access area, brings connected services, systems, devices, and permissions together. Interface values are illustrative.",
-          },
-        ],
+        heading: "Same system, different responsibilities",
+        body: "Three interactions carry most of the role-based experience: making permission visible at a glance, handing off session state between physical and digital touchpoints without losing context, and supporting assisted recovery when self-service is not enough.",
       },
       {
         type: "richText",
-        heading: "Visual and Component System",
-        body: "I used a shared set of interface patterns to keep permission state, controls, navigation, and supporting information consistent across the app experience.",
+        heading: "Visual & Interaction System",
+        body: "The digital system uses a shared visual and interaction language to keep permission, session state, and feedback consistent across personal and organizational interfaces.",
       },
       {
         type: "media",
         layout: "wide",
         media: {
-          ...media("trace-visual-component-system.png", 1672, 941, "TRACE visual and component system showing typography, color, buttons, icons, status patterns, inputs, and navigation.", true),
+          ...media(
+            "trace-visual-component-system.png",
+            1672,
+            941,
+            "TRACE visual and component system showing typography, color, buttons, status badges, a permission session card, and navigation patterns.",
+            true,
+          ),
           caption: "Conceptual interface system used to align hierarchy, controls, status language, and navigation across the TRACE app.",
         },
       },
       {
         type: "cardSet",
-        heading: "Key Product Experiences",
+        columns: 3,
         items: [
-          { title: "Context Before Permission", body: "Show who is requesting access, what they need, why, and for how long." },
-          { title: "Persistent Active State", body: "Permission remains visible while access is active." },
-          { title: "Control After Approval", body: "Pause, Resume, and Revoke remain available after approval." },
-          { title: "Physical–Digital Continuity", body: "Credential, Dock, mobile app, and dashboard reflect the same session." },
+          {
+            title: "Shared Status Language",
+            body: "States such as pending, active, paused, or closed use consistent badges and color so they remain understandable wherever they appear.",
+          },
+          {
+            title: "Component Consistency",
+            body: "Recurring patterns — status cards, permission modules, session information, and actions like Pause or End Session — repeat across the experience rather than being redesigned per screen.",
+          },
+          {
+            title: "Role-Based Adaptation",
+            body: "The Personal App and Organization Dashboard draw on the same underlying state logic while presenting the information and controls appropriate to each role.",
+          },
         ],
-      },
-      {
-        type: "media",
-        layout: "wide",
-        media: {
-          ...media("trace-key-product-experiences.png", 1672, 941, "TRACE Credential, Dock, and mobile interface illustrating identity, access choice, user control, and physical–digital continuity."),
-          caption: "Conceptual product framing. Security-related wording embedded in the exploratory artwork is illustrative and is not a validated project claim.",
-        },
       },
     ],
   },
   {
-    id: "inclusive-interaction-edge-cases",
-    label: "Inclusive Interaction & Edge Cases",
-    heading: "Inclusive Interaction & Edge Cases",
+    id: "inclusive-design",
+    label: "Inclusive Design",
+    heading: "Access should not depend on a single mode of interaction.",
     blocks: [
       {
         type: "richText",
-        body: "A permission system cannot depend on one interaction path or one ideal condition.\n\nTRACE explores alternate presentation modes, recovery states, and failure scenarios so control remains understandable across different users and contexts.",
+        body: "A permission system cannot depend on one interaction path or one ideal condition. TRACE explores alternate presentation modes, recovery states, and failure scenarios so control remains understandable across different users and contexts — accessibility is treated as part of the system logic, not as an added feature.",
+      },
+      {
+        type: "cardSet",
+        heading: "One state, multiple forms of feedback",
+        columns: 2,
+        items: [
+          { title: "Physical", body: "Rotation and tactile cues communicate a state change without requiring a screen." },
+          { title: "Visual", body: "High-contrast and reduced-visual-load presentations keep state legible when standard visuals are not enough." },
+          { title: "Digital", body: "The app and dashboard reflect the same state through consistent status language." },
+          { title: "Human Support", body: "Staff can assist when self-service interaction is not sufficient." },
+        ],
       },
       {
         type: "richText",
-        heading: "Accessibility States",
-        body: "Standard · High Contrast / Reduced Visual Load · Guided State",
+        heading: "Accessibility states",
+        body: "Standard · High Contrast / Reduced Visual Load · Guided State\n\nThese presentations support conditions such as reduced visual dependence and assisted interaction, without depending on a single ideal interaction path.",
       },
       {
         type: "media",
@@ -438,8 +552,18 @@ export const traceSections: CaseStudySection[] = [
       },
       {
         type: "richText",
-        heading: "Failure States",
-        body: "Connection Lost · Access Denied · Credential Expired · New Device Detected",
+        heading: "Key edge cases",
+        body: "Each edge case is presented as a trigger, the resulting state change, the system's response, and the path back to a normal or closed state.",
+      },
+      {
+        type: "cardSet",
+        columns: 2,
+        items: [
+          { title: "Connection Lost", body: "When connectivity drops, the interface marks the affected state as disconnected and offers reconnection or an alternate path rather than failing silently." },
+          { title: "Access Denied", body: "When a request falls outside current permission, the system explains the denial and directs the user toward requesting or reviewing access rather than a generic error." },
+          { title: "Credential Expired", body: "When the physical Credential's session lapses, the system marks it as expired and guides the user toward re-recognition rather than treating it as still active." },
+          { title: "New Device Detected", body: "When an unfamiliar device appears, the system flags it for review instead of silently extending existing trust." },
+        ],
       },
       {
         type: "media",
@@ -454,71 +578,18 @@ export const traceSections: CaseStudySection[] = [
     ],
   },
   {
-    id: "prototyping-feasibility",
-    label: "Prototyping & Feasibility",
-    heading: "A proposed path toward prototyping",
+    id: "onboarding-service",
+    label: "Onboarding & Service",
+    heading: "TRACE across service touchpoints.",
     blocks: [
       {
         type: "richText",
-        body: "The physical concept was explored through form, component, and interaction studies to understand how the device might move from visual concept toward a buildable system.",
-      },
-      {
-        type: "media",
-        layout: "wide",
-        media: {
-          ...media("trace-prototyping-workbench.png", 1672, 941, "Proposed TRACE hardware workbench with form studies, the Credential and Dock, internal components, sketches, and measurement tools."),
-          caption: "The workbench explores a proposed path from form study toward interaction and hardware prototyping.",
-        },
-      },
-      {
-        type: "stateFlow",
-        ariaLabel: "Proposed prototyping progression",
-        steps: [
-          { title: "Form Study", connectorAfter: "→" },
-          { title: "Interaction Study", connectorAfter: "→" },
-          { title: "Component Architecture", connectorAfter: "→" },
-          { title: "CMF Refinement", connectorAfter: "→" },
-          { title: "Prototype Direction" },
-        ],
+        body: "TRACE is designed to operate within a service ecosystem rather than as an isolated device. The same permission model connects the individual, service staff, organization interface, physical environment, and service workflow.",
       },
       {
         type: "richText",
-        heading: "Focus areas",
-        body: "Physical scale · Rotational interaction · Dock relationship · LED feedback · Component packaging · Material direction",
-      },
-      {
-        type: "callout",
-        title: "Feasibility boundary",
-        body: "This work proposes a development direction; it does not represent completed engineering validation or a functioning hardware prototype.",
-      },
-    ],
-  },
-  {
-    id: "service-ecosystem",
-    label: "Service Ecosystem",
-    heading: "Designed for a service ecosystem",
-    blocks: [
-      {
-        type: "richText",
-        body: "TRACE is designed to operate within a service ecosystem rather than as an isolated device.\n\nThe same permission model connects the user, service staff, organization interface, physical environment, and service workflow.",
-      },
-      {
-        type: "richText",
-        heading: "Private Financial Consultation",
+        heading: "Private financial consultation",
         body: "A client arrives for a private consultation. TRACE recognizes the client, but recognition does not grant access.\n\nThe advisor creates an access request. The client reviews the requester, purpose, requested information, and duration, then chooses what to share. Once approved, the session becomes Active across the Credential, Dock, mobile app, and organization dashboard. The client can Pause, Resume, or Revoke access while the advisor sees the same updated state.\n\nWhen the session ends, access closes and the client receives an Access Record.",
-      },
-      {
-        type: "stateFlow",
-        ariaLabel: "Private financial consultation permission journey",
-        steps: [
-          { title: "Arrival", connectorAfter: "→" },
-          { title: "Recognition", connectorAfter: "→" },
-          { title: "Request", connectorAfter: "→" },
-          { title: "Scoped Authorization", connectorAfter: "→" },
-          { title: "Active Control", connectorAfter: "→" },
-          { title: "Session End", connectorAfter: "→" },
-          { title: "Access Record" },
-        ],
       },
       {
         type: "cardSet",
@@ -546,24 +617,30 @@ export const traceSections: CaseStudySection[] = [
     ],
   },
   {
-    id: "recovery-experience",
-    label: "Recovery Experience",
-    heading: "Recovery without silently restoring access",
+    id: "recovery-flow",
+    label: "Recovery Flow",
+    heading: "Designing the way back is part of designing access.",
     blocks: [
       {
         type: "richText",
-        body: "Recovery is part of the permission experience—not a separate support layer.\n\nWhen something goes wrong, the system needs to restore service continuity without silently restoring access.",
+        body: "Recovery is part of the permission experience, not a separate support layer. When something changes, the ecosystem needs to coordinate a way back without silently restoring access.",
       },
       {
         type: "stateFlow",
-        ariaLabel: "Recovery flow",
+        ariaLabel: "Recovery flow: Normal State, Change or Breakdown, Action Required, Shared Context, Recovery, Continue or Close",
         steps: [
-          { title: "Issue Detected", connectorAfter: "→" },
-          { title: "Assistance", connectorAfter: "→" },
-          { title: "Verify Identity", connectorAfter: "→" },
-          { title: "Resolve", connectorAfter: "→" },
-          { title: "Confirm" },
+          { title: "Normal State", body: "Access is proceeding as expected.", connectorAfter: "→" },
+          { title: "Change / Breakdown", body: "A permission becomes unavailable or a handoff doesn't complete.", connectorAfter: "→" },
+          { title: "Action Required", body: "The system clearly marks that something needs attention.", connectorAfter: "→" },
+          { title: "Shared Context", body: "The individual and staff see the same state and history.", connectorAfter: "→" },
+          { title: "Recovery", body: "Self-service or assisted recovery restores continuity without silently restoring access.", connectorAfter: "→" },
+          { title: "Continue or Close", body: "The session resumes, or closes clearly and safely." },
         ],
+      },
+      {
+        type: "richText",
+        heading: "Who's involved",
+        body: "A recovery scenario spans the individual, the physical product, the shared digital state, and organization or staff support — each seeing the same breakdown and recovery path rather than resolving it in isolation.",
       },
       {
         type: "callout",
@@ -572,56 +649,40 @@ export const traceSections: CaseStudySection[] = [
       },
       {
         type: "cardSet",
+        heading: "Recovery principles",
         columns: 3,
         items: [
-          { title: "Guided", body: "Explain the next step and reduce ambiguity." },
-          { title: "Secure by intention", body: "Restore continuity without bypassing the permission boundary." },
-          { title: "Continuous", body: "Keep the user and staff aligned around the same state." },
-          { title: "Human when needed", body: "Provide assistance when self-service is insufficient." },
-          { title: "Accountable", body: "Make the proposed recovery sequence reviewable without claiming a validated audit system." },
+          { title: "Preserve Context", body: "Recovery keeps the individual and staff aligned around the same state and history, instead of restarting from zero." },
+          { title: "Make State Explicit", body: "The system clearly explains what changed and what happens next, reducing ambiguity." },
+          { title: "Provide a Clear Exit", body: "A safe, clear closure is a valid outcome — recovery does not have to end in restored access to be successful." },
         ],
       },
     ],
   },
   {
-    id: "final-experience-reflection",
-    label: "Final Experience & Reflection",
-    heading: "From identity object to permission system",
+    id: "final-experience",
+    label: "Final Experience",
+    heading: "One connected experience across physical, digital, and human touchpoints.",
     blocks: [
       {
         type: "richText",
-        body: "TRACE began as a physical identity Credential and evolved into a shared permission system.\n\nThe project became less about proving who someone is and more about helping people understand and control what happens after recognition.",
+        body: "TRACE brings physical interaction, personal control, organizational visibility, and human support into one continuous access experience.",
       },
       {
-        type: "cardSet",
-        heading: "What the Design Demonstrates",
-        columns: 3,
-        items: [
-          { title: "Physical–Digital Integration", body: "One experience across object, environment, mobile, and dashboard." },
-          { title: "Persistent Control", body: "Permission remains visible after approval." },
-          { title: "Shared State Architecture", body: "User and organization reference the same session state." },
-          { title: "Inclusive Interaction", body: "The system supports alternate paths and presentation modes." },
-          { title: "Recovery Thinking", body: "Failure states are treated as part of the product experience." },
-          { title: "Service-System Design", body: "TRACE connects both sides of the interaction rather than designing only one interface." },
-        ],
+        type: "media",
+        layout: "medium",
+        media: media("trace-rotation-interaction-detail.png", 1536, 1024, "Three-stage rotation interaction showing physical action, transition, and confirmation across the Credential, Dock, and app.", true),
       },
+    ],
+  },
+  {
+    id: "outcome",
+    label: "Outcome",
+    heading: "Designing access as a system, not a single touchpoint.",
+    blocks: [
       {
         type: "richText",
-        heading: "Reflection",
-        body: "Designing TRACE shifted my focus from identity verification to permission visibility. The strongest design opportunity was not simply making access more secure, but making the system easier to understand while access is happening.\n\nThe project also reinforced the importance of designing both sides of a service interaction. User control only works when the organization interface respects the same state, scope, and duration.",
-      },
-      {
-        type: "cardSet",
-        heading: "What I Would Validate Next",
-        items: [
-          { title: "State Comprehension", body: "Can users distinguish Recognized, Pending, Active, Paused, and Closed?" },
-          { title: "Permission Scope", body: "Do users understand exactly what they are sharing?" },
-          { title: "Physical Interaction", body: "Does rotation feel intentional and understandable?" },
-          { title: "Cross-Device Continuity", body: "Do Credential, Dock, mobile app, and dashboard feel like one system?" },
-          { title: "Staff Workflow", body: "Can staff manage requests without creating pressure or confusion?" },
-          { title: "Accessibility", body: "Can important state changes be understood without relying only on color or light?" },
-          { title: "Recovery", body: "Can users and staff recover without accidentally restoring permission?" },
-        ],
+        body: "TRACE developed into a connected access concept spanning physical interaction, personal control, organizational visibility, and human support. By treating permission, state, handoff, accessibility, and recovery as shared system concerns, the project explores how physical and digital touchpoints can work together as one continuous experience.\n\nThe final system coordinates physical interaction, personal digital control, organizational visibility, assisted service, and edge cases and recovery.\n\nFurther development would focus on validating multimodal interaction, assisted recovery, and permission-state clarity across a broader range of real-world access scenarios.",
       },
     ],
   },
@@ -630,13 +691,13 @@ export const traceSections: CaseStudySection[] = [
 export const traceProject: CaseStudyProject = {
   slug: "trace",
   title: "TRACE",
-  subtitle: "Visible permission across physical and digital service interactions",
-  category: "Experience Design / Product Design",
-  role: ["End-to-End Product & Experience Design"],
+  subtitle: "A connected access and service experience across physical, digital, and organizational touchpoints",
+  category: "Independent Experience Concept",
+  role: ["Product & Experience Design"],
   year: "2026",
   duration: "3 weeks",
-  focus: ["Experience Strategy", "Interaction Design", "UX/UI", "Service Design", "Prototyping"],
-  status: "Personal concept project",
+  focus: ["Accessibility", "Systems", "Connected Experience"],
+  status: "Independent experience concept",
   breadcrumb: ["Work", "Experience Design", "TRACE"],
   hero: {
     ...media("trace-hero.png", 1774, 887, "TRACE Credential standing in its Dock beside the mobile permission app in a service setting."),

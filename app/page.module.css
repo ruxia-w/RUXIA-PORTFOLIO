@@ -8,11 +8,13 @@
   /* Content-driven height (no min-height floor). Padding is vw-based, not
      vh-based: this is a horizontal-layout gap (nav -> eyebrow), not a
      viewport-height positioning concern, so it shouldn't move when the
-     browser window gets taller/shorter. */
-  padding: clamp(3.5rem, 5.5vw, 5.5rem) 0 2.75rem;
+     browser window gets taller/shorter. Bottom padding is larger than the
+     shared Level A section padding below: this transition (and Selected
+     Work -> Capabilities, see .work) deliberately has no divider line, so
+     the whitespace alone needs to read as a clear, intentional pause. */
+  padding: clamp(3.5rem, 5.5vw, 5.5rem) 0 clamp(5rem, 8vw, 9.5rem);
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid var(--color-border);
 }
 
 .kicker,
@@ -72,16 +74,56 @@
   justify-self: end;
 }
 
+/* Integrated into Hero (no divider, no border) rather than a new section —
+   spacing alone separates it from .heroBottom above, deliberately smaller
+   than the Hero -> Selected Work transition below (.hero's own bottom
+   padding + .work's top padding), so this still reads as part of the Hero
+   rather than a fourth Hero sub-block competing with Selected Work. */
+.heroCapabilities {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: clamp(1.75rem, 2.5vw, 2.5rem);
+}
+
+.heroCapabilityTitle {
+  margin: 0 0 0.5rem;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.heroCapabilityBody {
+  margin: 0;
+  max-width: 30ch;
+  color: var(--color-muted);
+  line-height: 1.45;
+  font-size: 0.875rem;
+}
+
 .work,
+.capabilitiesSection,
 .gallery,
-.about,
 .contact {
-  /* Each section's own top+bottom padding; the visible gap at a boundary is
-     roughly 2x this value (this section's bottom + the next one's top).
-     Capped so that combined gap lands around 96-120px even at very wide
-     desktop, instead of growing toward ~190px there. */
+  /* Level A: each section's own top+bottom padding; the visible gap at a
+     boundary is this section's bottom + the next one's top, landing around
+     128-240px depending on viewport — a deliberately large "major section
+     break" so Hero -> Selected Work, Selected Work -> Capabilities,
+     Capabilities -> Selected Explorations, and Selected Explorations ->
+     Contact all read as clear pauses, not a continuously scrolling page. */
   scroll-margin-top: calc(var(--nav-height) + 1rem);
-  padding: clamp(2rem, 3.35vw, 3.4rem) 0;
+  padding: clamp(4rem, 6.5vw, 7.5rem) 0;
+}
+
+/* Overrides the shared Level A padding above on both sides: Hero -> Selected
+   Work and Selected Work -> Capabilities both dropped their divider line
+   (see .hero above and .project:last-child below), so these two transitions
+   carry more whitespace than the shared Capabilities -> Selected Explorations
+   and Selected Explorations -> Contact gaps, which still have theirs. */
+.work {
+  padding: clamp(5rem, 8vw, 9.5rem) 0;
 }
 
 .sectionHeader,
@@ -100,10 +142,16 @@
 }
 
 .sectionHeaderCompact {
-  /* Gallery's images sit closer to its intro than Selected Work's project
-     does to its own heading — grid content wants less air than a full
-     project row does. */
-  margin-bottom: clamp(2rem, 2.6vw, 3rem);
+  /* Level C: a small gap down to a single hairline, then a small gap down to
+     the gallery grid — this boundary belongs to the header/content pair
+     inside Selected Explorations, not the (much larger, divider-free) Level A
+     break above it (see .gallery's padding-top). Trimmed from the original
+     1.25-1.75rem by roughly the same amount .gallery's padding-top grew, so
+     the text sits lower without changing the section's overall height, while
+     margin-bottom (divider -> gallery) is untouched. */
+  padding-bottom: clamp(0.75rem, 1.1vw, 1.25rem);
+  margin-bottom: clamp(1.5rem, 2vw, 2rem);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .sectionHeader h2,
@@ -124,7 +172,7 @@
 
 .sectionHeader h2,
 .sectionHeaderCompact h2,
-.aboutLead h2,
+.capabilitiesHeader h2,
 .contact h2 {
   font-size: clamp(2.2rem, 4.8vw, 4.75rem);
   line-height: 0.98;
@@ -149,6 +197,13 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+/* The last project's border-bottom would otherwise sit as a line inside the
+   Selected Work -> Capabilities whitespace (see .work above) — removed here
+   only, so project-to-project dividers above it are unaffected. */
+.project:last-child {
+  border-bottom: none;
+}
+
 .projectInfo {
   /* Height now follows .projectMedia's natural aspect ratio via grid's
      default row-stretch, instead of a fixed min-height tuned for the old
@@ -159,7 +214,10 @@
 }
 
 .projectNumber {
-  margin: 0 0 auto;
+  /* Close to the identity block below it (not pushed apart) — the large gap
+     in this column now lives after .projectMeta, via .caseLink's own
+     margin-top: auto below. */
+  margin: 0 0 clamp(1.5rem, 2.2vw, 2rem);
   font-family: var(--font-display), sans-serif;
   font-size: clamp(2.4rem, 4vw, 4rem);
   font-weight: 600;
@@ -167,36 +225,59 @@
   letter-spacing: -0.02em;
 }
 
+.projectIdentity {
+  /* Slightly larger gap than the tight title -> subtitle spacing inside it,
+     so "what the project is" (name + subtitle) reads as visually distinct
+     from "context + capabilities" (.projectMeta) below. */
+  margin-bottom: clamp(1.5rem, 2.2vw, 2rem);
+}
+
 .project h3 {
-  margin: 0.875rem 0 0;
+  margin: 0;
   font-size: clamp(1.65rem, 2.8vw, 2.8rem);
   line-height: 1;
   letter-spacing: -0.032em;
 }
 
 .projectTagline {
-  margin: 1rem 0 0;
+  margin: 0.5rem 0 0;
   font-size: 1rem;
   font-weight: 550;
 }
 
-.projectDescription {
+.projectMeta {
+  /* Context/year and capabilities read as one secondary information group —
+     a relatively small, even gap between them (and before awards, when
+     present), clearly tighter than .projectIdentity's margin-bottom above. */
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
   max-width: 34ch;
-  margin: 1.75rem 0 1.625rem;
-  color: var(--color-muted);
-  line-height: 1.45;
 }
 
 .disciplines {
   max-width: 32ch;
-  margin-bottom: 1.5rem;
+}
+
+.projectAwards {
+  /* Smallest / subtlest metadata line — deliberately smaller than
+     .projectType/.disciplines above it, so it never competes with the
+     project title. */
+  margin-top: 0.15rem;
+  color: var(--color-muted);
+  font-size: 0.65rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
 }
 
 .caseLink {
-  /* Not margin-top: auto — that stretched this link down to match the (now
-     variable, image-driven) row height, opening a large gap above it. The
-     text column sits at its own natural height instead. */
-  margin-top: 1.25rem;
+  /* margin-top: auto: .projectInfo is a flex column stretched to the full
+     row height (matching .projectMedia's image height via CSS Grid's
+     default stretch alignment on .project below), so this pushes the CTA
+     down to sit near the image's own bottom edge, leaving the large
+     intentional negative space between .projectMeta and the CTA. */
+  margin-top: auto;
+  padding-top: 2rem;
 }
 
 .projectMedia {
@@ -240,123 +321,139 @@
   --hide-light-media: none;
 }
 
-.gallery,
-.about,
 .contact {
   border-top: 1px solid var(--color-border);
 }
 
-.galleryGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: clamp(13rem, 24vw, 22rem);
-  gap: 0.75rem;
+/* Selected Explorations has no top divider (removed — the Capabilities ->
+   Selected Explorations transition now reads through whitespace alone, like
+   .work above). Its own top padding is boosted beyond the shared Level A
+   value below and .sectionHeaderCompact's padding-bottom is trimmed by a
+   matching amount (see below), redistributing — not adding — space so the
+   header's three-column text group sits noticeably lower while the section's
+   overall height stays roughly the same. */
+.gallery {
+  padding-top: clamp(4.5rem, 7vw, 8rem);
 }
 
-.galleryItem {
-  position: relative;
-  margin: 0;
-  overflow: hidden;
-  background: var(--color-surface-soft);
+/* Capabilities is intentionally NOT in the shared border-top rule above: the
+   last Selected Work project already ends in its own .project border-bottom
+   immediately before this section (same reason .work has no border-top after
+   .hero's border-bottom). Its one top-of-content divider lives on
+   .capabilitiesHeader below, directly under the label + title — the same
+   "single line marks where this section's content starts" role
+   .projectList's border-top plays for Selected Work. */
+.capabilitiesSection {
+  /* Top padding only (bottom keeps the shared Level A value): matches
+     .work's boosted bottom padding on the other side of this divider-free
+     transition; Capabilities -> Selected Explorations below still uses the
+     shared spacing and its own divider, untouched. */
+  padding-top: clamp(5rem, 8vw, 9.5rem);
 }
 
-.galleryItem img {
-  object-fit: cover;
-  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.galleryItem:hover img {
-  transform: scale(1.02);
-}
-
-.galleryWide {
-  grid-column: span 2;
-}
-
-.galleryCta {
-  /* A real grid tile (last item in .galleryGrid), not an overlay or a
-     separate link after the grid. Tonal surface from the same neutral
-     tokens used elsewhere (.galleryItem's placeholder background / a step
-     lighter on hover) so it reads as part of the grid, not a button. */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background: var(--color-surface-soft);
-  border: 1px solid var(--color-border);
-  color: var(--color-fg);
-  text-decoration: none;
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
-  font-weight: 550;
-  letter-spacing: -0.01em;
-  transition: background-color 160ms ease;
-}
-
-.galleryCta:hover,
-.galleryCta:focus-visible {
-  background: var(--color-surface);
-}
-
-.galleryCta span:last-child {
-  display: inline-block;
-  transition: transform 160ms ease;
-}
-
-.galleryCta:hover span:last-child,
-.galleryCta:focus-visible span:last-child {
-  transform: translate(2px, -2px);
-}
-
-.about {
-  /* row-gap (About label -> aboutLead, and aboutLead -> capabilities) is
-     the ONLY source of that vertical spacing: .capabilities used to ALSO
-     carry its own margin-top on top of this same row-gap, stacking two
-     mechanisms into one ~150-250px gap. Now there's one mechanism, kept
-     deliberately smaller than the section-transition gap above so the
-     capability row reads as belonging to this section's own intro. */
+/* Zone A (label + title) and Zone B (the divider marking where it ends) —
+   title width is capped so open negative space remains to its right instead
+   of stretching the sentence across the full column, and the label/title
+   split reuses the same 0.32fr:1fr proportions as Selected Work's header. */
+.capabilitiesHeader {
   display: grid;
   grid-template-columns: 0.32fr 1fr;
-  column-gap: clamp(2rem, 4vw, 5rem);
-  row-gap: clamp(2.5rem, 3.7vw, 4rem);
-}
-
-.aboutLead {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 0.62fr;
-  gap: clamp(2rem, 5vw, 6rem);
+  gap: clamp(1.5rem, 4vw, 5rem);
   align-items: start;
+  padding-bottom: clamp(3rem, 5vw, 4.5rem);
+  border-bottom: 1px solid var(--color-border);
 }
 
-.aboutLead h2,
-.aboutLead p {
-  margin-top: 0;
+.capabilitiesHeader h2 {
+  max-width: 22ch;
+  margin: 0;
 }
 
-.aboutLead p {
-  color: var(--color-muted);
-  font-size: clamp(1rem, 1.35vw, 1.2rem);
-}
-
-.capabilities {
-  grid-column: 2;
+/* Zone C: the four-column capability grid. No CSS `gap` — each column's own
+   padding simulates it (padding-right on every column, padding-left +
+   border-left on every column but the first), so the vertical dividers sit
+   exactly between columns without doubling the gap. Every column's
+   padding-bottom (not .capabilityColumns' own) is what creates the generous
+   whitespace below the shortest list before the bottom divider — that way
+   the divider lines (each column's own border-left, full box height) reach
+   all the way down to it, not just to where the text ends. */
+.capabilityColumns {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--color-border);
+  grid-template-columns: repeat(4, 1fr);
+  /* Outer left/right edges — same weight/color as the internal dividers
+     (.capabilityGroup's own border-left) and the same top/bottom span,
+     since this element's box starts and ends exactly where those do. */
+  border: 1px solid var(--color-border);
+  border-top: none;
 }
 
-.capabilities h3 {
-  margin: 0 0 1rem;
+/* Top gap (Zone C: header divider -> numbers) lives on each column's own
+   padding-top, not .capabilityColumns' — so it sits inside the border box
+   the vertical dividers are drawn on, and the border-left lines run from
+   the true top of the grid all the way down, instead of starting only where
+   the number/text begins. Numbers themselves don't move: this is the same
+   gap value as before, just relocated. */
+/* Left/right padding is the same value on every column (including the
+   first and last), so column 01's text no longer touches the outer left
+   border and column 04's no longer crowds the outer right border — the
+   internal dividers themselves don't move (they sit at the grid's column
+   boundaries, set by grid-template-columns, not by this padding). */
+.capabilityGroup {
+  padding: clamp(2.5rem, 4vw, 3.5rem) clamp(2rem, 3.5vw, 3rem) clamp(4rem, 7vw, 7rem);
+}
+
+.capabilityGroup:not(:first-child) {
+  border-left: 1px solid var(--color-border);
+}
+
+.capabilityNumber {
+  /* Small and secondary — restrained metadata weight, clearly smaller than
+     the column title below it, with a generous gap before that title. */
+  margin: 0 0 clamp(1.5rem, 2.5vw, 2rem);
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+.capabilityGroup h3 {
+  /* Larger gap down to the skill list than before, so the title clearly
+     anchors the column rather than sitting flush against its first item. */
+  margin: 0 0 clamp(1.25rem, 2vw, 1.75rem);
   font-size: 0.75rem;
   letter-spacing: 0.075em;
   text-transform: uppercase;
 }
 
-.capabilities p {
-  max-width: 30ch;
+.capabilityGroup ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.capabilityGroup li {
+  /* No ch cap: at four-even-column width these are short 2-5 word phrases,
+     and capping them left one column (the one with the shortest items)
+     looking like it had extra unused space next to it. Matches
+     .heroCapabilityBody's typography exactly (color, size, line-height) so
+     capability copy reads consistently between the Hero row and this
+     section. */
   color: var(--color-muted);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.capabilityTools {
+  /* Same typography AND spacing as .capabilityGroup li above — matches the
+     0.75rem gap .capabilityGroup ul uses between its own items, so this
+     line reads as one more row in the same list rather than a separate,
+     more-spaced-out group. */
+  margin: 0.75rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.875rem;
   line-height: 1.45;
 }
 
@@ -392,24 +489,6 @@
   border-bottom: 1px solid currentColor;
 }
 
-.footer {
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
-  gap: 1rem;
-  margin-top: clamp(3rem, 6vw, 5rem);
-  padding-top: 1rem;
-  border-top: 1px solid var(--color-border);
-  color: var(--color-muted);
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.footer a {
-  color: var(--color-fg);
-  text-decoration: none;
-}
-
 @media (max-width: 900px) {
   .heroTitle {
     font-size: clamp(2.4rem, 6.6vw, 4.2rem);
@@ -425,38 +504,59 @@
     grid-column: 2;
   }
 
+  .capabilitiesHeader {
+    grid-template-columns: 1fr;
+  }
+
+  /* Four columns of real capability phrases (vs the three-item Hero row)
+     get noticeably tighter at tablet widths than three did — fall back to a
+     2x2 grid here rather than letting them get uncomfortably narrow, with
+     the divider logic adjusted to match: vertical dividers only between the
+     two columns actually side by side in each row (2nd/4th column), plus a
+     horizontal divider between the two rows (3rd/4th column). */
+  .capabilityColumns {
+    grid-template-columns: repeat(2, 1fr);
+    /* The new outer left/right edges are scoped to the desktop four-column
+       row — a 2x2 grid isn't the "| 01 | 02 | 03 | 04 |" strip they were
+       added to frame, so this reverts to the bottom-only divider used
+       before that change. */
+    border-left: none;
+    border-right: none;
+  }
+
+  .capabilityGroup:not(:first-child) {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .capabilityGroup:nth-child(2n) {
+    border-left: 1px solid var(--color-border);
+    padding-left: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .capabilityGroup:nth-child(n + 3) {
+    padding-top: clamp(2rem, 3vw, 2.5rem);
+    border-top: 1px solid var(--color-border);
+  }
+
   .project {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
+  /* .project stacks to a single column above, so .projectInfo no longer
+     shares a row with .projectMedia — it falls back to its own natural
+     (unstretched) content height, and the flex column below collapses
+     the desktop's large negative space naturally instead of preserving it. */
   .projectInfo {
     min-height: 0;
-    display: grid;
-    grid-template-columns: 0.28fr 1fr;
-    gap: 1.5rem;
-  }
-
-  .projectNumber {
-    grid-row: 1 / span 4;
-  }
-
-  .projectDescription,
-  .disciplines,
-  .caseLink {
-    grid-column: 2;
-  }
-
-  .projectDescription {
-    margin-top: 1rem;
   }
 
   .caseLink {
-    margin-top: 0.25rem;
-  }
-
-  .aboutLead {
-    grid-template-columns: 1fr;
+    /* Overrides the desktop margin-top: auto (no extra row height to push
+       into here) with a normal, comfortable gap instead. */
+    margin-top: 1.75rem;
+    padding-top: 0;
   }
 }
 
@@ -473,7 +573,7 @@
   .heroBottom,
   .sectionHeader,
   .sectionHeaderCompact,
-  .about,
+  .capabilitiesHeader,
   .contactRow {
     grid-template-columns: 1fr;
   }
@@ -482,62 +582,54 @@
     justify-self: start;
   }
 
+  .heroCapabilities {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
   .sectionHeader > p:last-child,
-  .sectionHeaderCompact > p:last-child,
-  .capabilities {
+  .sectionHeaderCompact > p:last-child {
     grid-column: 1;
   }
 
   .sectionHeader h2,
   .sectionHeaderCompact h2,
-  .aboutLead h2,
+  .capabilitiesHeader h2,
   .contact h2 {
     font-size: clamp(2.15rem, 11vw, 3.4rem);
   }
 
-  .projectInfo {
-    grid-template-columns: 4rem 1fr;
-    gap: 1rem;
-  }
-
   .projectNumber {
     font-size: 2.5rem;
+    margin-bottom: 1.25rem;
   }
 
-  .galleryGrid {
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: 48vw;
-    gap: 0.5rem;
-  }
-
-  .galleryWide {
-    grid-column: span 2;
-  }
-
-  .galleryCta {
-    grid-column: span 2;
-    padding-block: 1.5rem;
-  }
-
-  .capabilities {
+  /* Stacked layout: no vertical dividers between groups (there's no "side by
+     side" relationship to mark anymore) — a subtle top border on each group
+     but the first stands in as a horizontal separator instead, and the
+     desktop's generous per-column padding-right/bottom (needed to make the
+     vertical dividers reach past the text) is reset so mobile doesn't carry
+     over that same large empty space. */
+  .capabilityColumns {
     grid-template-columns: 1fr;
     gap: 2.25rem;
   }
 
-  .footer {
-    grid-template-columns: 1fr auto;
+  .capabilityGroup {
+    padding: 0;
   }
 
-  .footer span:nth-child(2) {
-    display: none;
+  .capabilityGroup:not(:first-child) {
+    padding-top: 1.75rem;
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--color-border);
   }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .projectMedia img,
-  .galleryItem img,
-  .galleryCta,
-  .galleryCta span:last-child {
+  .projectMedia img {
     transition: none;
   }
 }

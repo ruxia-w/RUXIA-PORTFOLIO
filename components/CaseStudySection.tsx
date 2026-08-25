@@ -35,7 +35,14 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
           {block.media.map((media, i) => (
             <figure key={media.src} className={styles.groupItem}>
               <ResponsiveMedia media={media} />
-              {block.labels?.[i] ? <figcaption>{block.labels[i]}</figcaption> : null}
+              {block.labels?.[i] ? (
+                <figcaption>
+                  <span className={styles.groupLabel}>{block.labels[i]}</span>
+                  {block.captions?.[i] ? (
+                    <span className={styles.groupCaption}>{block.captions[i]}</span>
+                  ) : null}
+                </figcaption>
+              ) : null}
             </figure>
           ))}
         </div>
@@ -51,11 +58,11 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
 
     case "comparison":
       return (
-        <div className={styles.comparison}>
+        <div className={`${styles.comparison} ${block.emphasis === "wideFirst" ? styles.comparisonWideFirst : ""}`}>
           {block.items.map((item) => (
             <div key={item.title} className={styles.comparisonItem}>
               <p className={styles.comparisonTitle}>{item.title}</p>
-              <p>{item.body}</p>
+              <RichText body={item.body} />
             </div>
           ))}
         </div>
@@ -149,7 +156,9 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
     case "appScreenSet":
       return (
         <div
-          className={`${styles.appScreenSet} ${block.columns === 4 ? styles.appScreenSetFour : styles.appScreenSetThree}`}
+          className={`${styles.appScreenSet} ${
+            block.columns === 4 ? styles.appScreenSetFour : block.columns === 2 ? styles.appScreenSetTwo : styles.appScreenSetThree
+          }`}
           aria-label="SMART PUPPY app screens"
         >
           {block.items.map((item) => (

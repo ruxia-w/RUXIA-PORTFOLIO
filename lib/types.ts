@@ -25,10 +25,17 @@ export type ContentBlock =
       type: "mediaGroup";
       media: MediaAsset[];
       labels?: string[];
+      /** Optional one-sentence purpose per item, shown under each label. */
+      captions?: string[];
       variant?: "screens";
     }
   | { type: "callout"; title: string; body: string }
-  | { type: "comparison"; items: Array<{ title: string; body: string }> }
+  | {
+      type: "comparison";
+      /** "wideFirst" gives the first item more width (~60/40) for an asymmetric two-up, e.g. a closing statement beside a compact list. Omit for the default equal-width columns. */
+      emphasis?: "wideFirst";
+      items: Array<{ title: string; body: string }>;
+    }
   | {
       type: "cardSet";
       heading?: string;
@@ -66,7 +73,7 @@ export type ContentBlock =
     }
   | {
       type: "appScreenSet";
-      columns: 3 | 4;
+      columns: 2 | 3 | 4;
       items: Array<{
         title: string;
         body: string;

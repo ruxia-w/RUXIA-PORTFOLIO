@@ -2,37 +2,49 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import styles from "./page.module.css";
 
-const capabilities = [
+const howIWork = [
   {
-    title: "Team Leadership",
-    body: "Lead a five-person China-based 3D design team through project assignments, design reviews, technical guidance, quality standards, mentoring, and performance feedback.",
+    title: "Think in Systems",
+    body: "I look beyond individual screens to understand the relationships between people, information, touchpoints, and technology. Mapping flows, states, dependencies, and edge cases helps me shape experiences that work coherently across the larger product system.",
   },
   {
-    title: "Program Coordination",
-    body: "Coordinate concurrent programs across New York and China, aligning priorities, schedules, design milestones, factory feedback, dependencies, and delivery risks.",
+    title: "Design Through Constraints",
+    body: "I treat constraints as part of the design problem, not something to resolve after the design is finished. I weigh user needs, business goals, technical feasibility, and implementation realities to make deliberate trade-offs and move ideas toward viable solutions.",
   },
   {
-    title: "Quality & Workflow",
-    body: "Establish and reinforce modeling, rendering, file-management, review, and AI-assisted workflow standards to improve consistency, communication, and delivery quality.",
+    title: "Prototype Toward Reality",
+    body: "I use prototyping to move ideas beyond static screens and test how an experience actually works. By combining design tools with AI-assisted design-to-code workflows, I build interactive prototypes, explore implementation possibilities, and iterate with a clearer understanding of how design decisions translate into working experiences.",
+  },
+] as const;
+
+const education = [
+  {
+    name: "Savannah College of Art and Design (SCAD)",
+    line1: "MFA, Industrial Design",
+    line2: "United States",
   },
   {
-    title: "Physical Product Design",
-    body: "I develop physical products through research, form exploration, ergonomics, CMF, visualization, DFM, and production thinking. My goal is to balance user needs, visual clarity, feasibility, and manufacturing reality.",
+    name: "Yancheng Institute of Technology",
+    line1: "BFA, Industrial Design",
+    line2: "China",
   },
   {
-    title: "Connected Experiences",
-    body: "I think beyond the object itself, connecting physical products with interfaces, services, environments, and user journeys to create coherent end-to-end experiences.",
+    name: "International Study — Florence, Italy",
+    line1: "Università degli Studi di Firenze & Polimoda",
+    line2: "Industrial Design · Graphic Design · Fashion Design",
   },
-  {
-    title: "AI-Augmented Design",
-    body: "I integrate AI into the design process to expand exploration, accelerate iteration, improve visualization, and communicate ideas more effectively. Creative direction, evaluation, system logic, and final design decisions remain designer-led.",
-  },
+] as const;
+
+const recognition = [
+  { name: "IDA Silver", line1: "Robotic Toy · 2021" },
+  { name: "European Product Design Award", line1: "Honorable Mention · 2021" },
+  { name: "Rookie Awards", line1: "Highly Commended · 2021" },
 ] as const;
 
 export const metadata: Metadata = {
   title: "About — Ruxia Wang",
   description:
-    "Ruxia Wang is a New York–based industrial designer and global 3D leader working across products, experiences, and systems.",
+    "Ruxia Wang is a New York–based Product and Experience Designer working across digital products, connected experiences, and emerging technologies.",
 };
 
 export default function AboutPage() {
@@ -49,22 +61,35 @@ export default function AboutPage() {
         />
         <div className={styles.heroCopy}>
           <h1 id="about-title">ABOUT</h1>
-          <p className={styles.eyebrow}>Hello</p>
-          <h2>Designing across products, experiences, and systems.</h2>
-          <p>
-            I&apos;m Ruxia Wang, a New York–based industrial designer and global 3D
-            leader working across commercial product development, connected
-            experiences, team leadership, and AI-assisted design workflows.
+          <p className={styles.heroHello}>hello</p>
+          <p className={styles.heroStatement}>
+            Designing across products, experiences, and systems.
           </p>
-          <p>
-            I combine hands-on design experience with systems thinking,
-            cross-functional collaboration, and production knowledge to create
-            thoughtful, buildable, and clearly communicated solutions.
+          <p className={styles.heroBody}>
+            I&apos;m a Product and Experience Designer based in New York, working
+            across digital products, connected experiences, and emerging
+            technologies.
           </p>
-          <div className={styles.inlineLinks}>
-            <a href="mailto:ruxiadesign@gmail.com">Email</a>
-            <a href="https://www.linkedin.com/in/ruxiawang/" target="_blank" rel="noreferrer">
-              LinkedIn ↗
+          <p className={styles.heroBody}>
+            My background in industrial design shapes how I approach product
+            problems — with an understanding of systems, physical interaction,
+            real-world constraints, and how ideas move from concept toward
+            implementation. Today, I bring that perspective into digital
+            product design, combining product thinking, interaction design,
+            visual craft, and prototyping to make complex experiences feel
+            clear and considered.
+          </p>
+          <div className={styles.heroContactLinks}>
+            <a href="mailto:ruxiadesign@gmail.com" className={styles.heroLink}>
+              Email <span aria-hidden="true">↗</span>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/ruxiawang/"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.heroLink}
+            >
+              LinkedIn <span aria-hidden="true">↗</span>
             </a>
           </div>
         </div>
@@ -74,69 +99,117 @@ export default function AboutPage() {
         <p className={styles.sectionIndex}>01 / Background</p>
         <div className={styles.backgroundIntro}>
           <h2 id="background-title">Professional background.</h2>
-          <div className={styles.backgroundText}>
-            <div>
+          <div>
+            <div className={styles.backgroundText}>
+              <div>
+                <p>
+                  Before expanding my practice into digital product and
+                  experience design, I built a strong foundation in commercial
+                  product development, working across the full process from
+                  early concepts and prototyping through implementation and
+                  production.
+                </p>
+                <p>
+                  Over the past five years, I&apos;ve also taken on increasing
+                  design leadership — guiding design work, supporting teams
+                  through critique and iteration, and collaborating across
+                  product, engineering, marketing, production, and other
+                  disciplines. These experiences taught me to balance user
+                  needs, business goals, technical feasibility, and execution
+                  while building alignment around design decisions.
+                </p>
+              </div>
               <p>
-                My background is rooted in end-to-end product development across
-                consumer electronics, fitness, wellness, and connected products.
-                Over five years at Tzumi Electronics, I progressed from Industrial
-                Designer to Senior Industrial Designer and Global 3D Leader.
-              </p>
-              <p>
-                I have worked across research, concept development, 3D design, CMF,
-                visualization, packaging, factory coordination, sample review,
-                production support, and launch communication.
+                Today, I bring that perspective into digital product and
+                experience design — combining systems thinking, cross-functional
+                collaboration, and hands-on craft to move complex ideas toward
+                clear, viable experiences.
               </p>
             </div>
-            <p>
-              Alongside hands-on design work, I lead a five-person China-based 3D
-              design team and collaborate with New York designers and creative
-              leadership to coordinate priorities, review quality, resolve delivery
-              challenges, and support concurrent commercial programs.
-            </p>
+            <a href="/resume.pdf" className={styles.resumeLink} target="_blank" rel="noreferrer">
+              View Résumé <span aria-hidden="true">↗</span>
+            </a>
           </div>
         </div>
         <Image
           className={styles.studioImage}
           src="/about/design-studio-wall.png"
-          alt="Industrial design studio wall filled with product sketches and prototypes"
+          alt="Design studio wall filled with product sketches, dimensioned drawings, and prototypes"
           width={1492}
           height={525}
         />
       </section>
 
-      <section className={styles.expertise} aria-labelledby="expertise-title">
+      <section className={styles.expertise} aria-labelledby="how-i-work-title">
         <header className={styles.expertiseHeader}>
-          <p className={styles.sectionIndex}>02 / Practice</p>
-          <h2 id="expertise-title">Across products, teams, and systems.</h2>
+          <p className={styles.sectionIndex}>02 / How I Work</p>
+          <h2 id="how-i-work-title">Systems, trade-offs, and craft.</h2>
         </header>
         <div className={styles.capabilityGrid}>
-          {capabilities.map((capability, index) => (
-            <article className={styles.capability} key={capability.title}>
+          {howIWork.map((item, index) => (
+            <article className={styles.capability} key={item.title}>
               <p className={styles.capabilityNumber}>{String(index + 1).padStart(2, "0")}</p>
-              <h3>{capability.title}</h3>
-              <p>{capability.body}</p>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
             </article>
           ))}
         </div>
       </section>
 
+      <section className={styles.education} aria-labelledby="education-title">
+        <p className={styles.sectionIndex}>03 / Education &amp; Recognition</p>
+        <h2 id="education-title">Education and recognition.</h2>
+        <div className={styles.educationGrid}>
+          <div>
+            <p className={styles.sectionIndex}>Education</p>
+            <div className={styles.entryList}>
+              {education.map((entry) => (
+                <div className={styles.entry} key={entry.name}>
+                  <h3>{entry.name}</h3>
+                  <p>{entry.line1}</p>
+                  <p>{entry.line2}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className={styles.sectionIndex}>Recognition</p>
+            <div className={styles.entryList}>
+              {recognition.map((entry) => (
+                <div className={styles.entry} key={entry.name}>
+                  <h3>{entry.name}</h3>
+                  <p>{entry.line1}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.contact} aria-labelledby="contact-title">
-        <p className={styles.sectionIndex}>03 / Contact</p>
+        <p className={styles.sectionIndex}>04 / Get in Touch</p>
         <div className={styles.contactRow}>
-          <h2 id="contact-title">
-            Let&apos;s create products people can understand, trust, and use.
-          </h2>
+          <div className={styles.contactHeading}>
+            <p className={styles.contactSubtitle}>
+              I&apos;m always interested in thoughtful collaborations, complex
+              product challenges, and opportunities to shape meaningful
+              experiences across digital and physical systems.
+            </p>
+            <h2 id="contact-title">Get in Touch</h2>
+          </div>
           <div className={styles.contactAside}>
             <p>
-              Open to industrial design, product design, and connected experience
-              opportunities.
+              Interested in thoughtful products, complex systems, and new ways
+              of designing with technology.
             </p>
             <div className={styles.contactLinks}>
-              <a href="mailto:ruxiadesign@gmail.com">Email me ↗</a>
-              <a href="https://www.linkedin.com/in/ruxiawang/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-              <a href="https://www.behance.net/ruxiawangdesign" target="_blank" rel="noreferrer">Behance ↗</a>
-              <a href="https://www.instagram.com/ruxia.art/" target="_blank" rel="noreferrer">Instagram ↗</a>
+              <a href="mailto:ruxiadesign@gmail.com">Email ↗</a>
+              <a href="https://www.linkedin.com/in/ruxiawang/" target="_blank" rel="noreferrer">
+                LinkedIn ↗
+              </a>
+              <a href="/resume.pdf" target="_blank" rel="noreferrer">
+                Résumé ↗
+              </a>
             </div>
           </div>
         </div>

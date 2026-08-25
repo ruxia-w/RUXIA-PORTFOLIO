@@ -94,14 +94,34 @@
   scroll-snap-align: start;
 }
 
+/* Scoped to the "screens" variant (a row of App screenshots) only — not the
+   plain mediaGroup used for lifestyle photography, which doesn't need a
+   boundary against the page background. */
+.screenGroup .groupItem :global(figure) {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
 .groupItem figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
   margin-top: var(--space-3);
   text-align: center;
+}
+
+.groupLabel {
   color: var(--color-muted);
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1.35;
   letter-spacing: 0.02em;
+}
+
+.groupCaption {
+  color: var(--color-muted);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  opacity: 0.8;
 }
 
 .callout {
@@ -131,9 +151,24 @@
   gap: var(--space-6);
 }
 
+/* ~60/40 asymmetric two-up — e.g. a closing statement beside a compact
+   list — rather than the default equal-width columns above. */
+.comparisonWideFirst {
+  grid-template-columns: 3fr 2fr;
+}
+
 .comparisonItem {
   padding-block: var(--space-4);
   border-top: 1px solid var(--color-border);
+}
+
+.comparisonItem :global(ul) {
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.comparisonItem :global(li + li) {
+  margin-top: 0.4em;
 }
 
 .blockHeading {
@@ -274,6 +309,8 @@
 }
 
 .screenJourneyStep {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   padding-top: var(--space-4);
   border-top: 1px solid var(--color-border);
@@ -301,7 +338,16 @@
 
 .screenJourneyMedia {
   width: 100%;
-  margin-top: var(--space-6);
+  /* Pushes the screenshot to the bottom of the flex column regardless of how
+     many lines the title/body/keyMessage above it wrap to, so screenshots
+     in the same grid row (e.g. Request/Review/Active) share a bottom
+     baseline instead of starting at whatever height the text above happens
+     to end at. */
+  margin-top: auto;
+}
+
+.screenJourneyMedia :global(figure) {
+  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .awardSet {
@@ -363,10 +409,18 @@
   gap: clamp(0.5rem, 1.5vw, 1.25rem);
 }
 
+.appScreenSetTwo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .appScreenSetThree { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .appScreenSetFour { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
 .appScreenItem {
+  /* Flex column + .appScreenMedia's margin-top: auto below lets title/body
+     keep their natural (differing) line count while the phone screenshot
+     still bottom-aligns across a row — the gap above it absorbs whatever
+     height difference the copy creates, instead of the screenshot starting
+     wherever the text happens to end. */
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   padding-top: var(--space-4);
   border-top: 1px solid var(--color-border);
@@ -394,7 +448,7 @@
 
 .appScreenMedia {
   width: 100%;
-  margin-top: var(--space-4);
+  margin-top: auto;
 }
 
 @media (max-width: 900px) {
@@ -492,6 +546,10 @@
 @media (max-width: 640px) {
   .section {
     padding-block: 3.75rem;
+  }
+
+  .comparisonWideFirst {
+    grid-template-columns: 1fr;
   }
 
   .screenGroup {
