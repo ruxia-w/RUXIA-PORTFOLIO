@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { Footer } from "@/components/Footer";
 import styles from "./page.module.css";
 
 const howIWork = [
@@ -126,9 +127,6 @@ export default function AboutPage() {
                 clear, viable experiences.
               </p>
             </div>
-            <a href="/resume.pdf" className={styles.resumeLink} target="_blank" rel="noreferrer">
-              View Résumé <span aria-hidden="true">↗</span>
-            </a>
           </div>
         </div>
         <Image
@@ -207,17 +205,10 @@ export default function AboutPage() {
               <a href="https://www.linkedin.com/in/ruxiawang/" target="_blank" rel="noreferrer">
                 LinkedIn ↗
               </a>
-              <a href="/resume.pdf" target="_blank" rel="noreferrer">
-                Résumé ↗
-              </a>
             </div>
           </div>
         </div>
-        <footer className={styles.footer}>
-          <span>© 2026 Ruxia Wang</span>
-          <span>New York, NY</span>
-          <a href="#main-content">Back to top ↑</a>
-        </footer>
+        <Footer />
       </section>
     </main>
   );

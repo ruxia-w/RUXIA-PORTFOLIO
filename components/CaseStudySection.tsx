@@ -72,9 +72,18 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
       return (
         <div className={styles.cardSetWrap}>
           {block.heading ? <h3 className={styles.blockHeading}>{block.heading}</h3> : null}
-          <div className={`${styles.cardSet} ${block.columns === 3 ? styles.cardSetThree : ""}`}>
+          <div
+            className={
+              block.variant === "content"
+                ? styles.cardSetContent
+                : `${styles.cardSet} ${block.columns === 3 ? styles.cardSetThree : ""}`
+            }
+          >
             {block.items.map((item) => (
-              <article key={item.title} className={styles.cardItem}>
+              <article
+                key={item.title}
+                className={block.variant === "content" ? styles.cardItemContent : styles.cardItem}
+              >
                 <h4>{item.title}</h4>
                 <p>{item.body}</p>
               </article>
@@ -88,7 +97,13 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
         <ol className={styles.stateFlow} aria-label={block.ariaLabel}>
           {block.steps.map((step) => (
             <li key={step.title} className={styles.stateFlowStep}>
-              <div className={styles.stateFlowContent}>
+              <div
+                className={
+                  step.body
+                    ? styles.stateFlowContent
+                    : `${styles.stateFlowContent} ${styles.stateFlowContentShortLabel}`
+                }
+              >
                 <span className={styles.stateFlowTitle}>{step.title}</span>
                 {step.body ? <span className={styles.stateFlowBody}>{step.body}</span> : null}
               </div>

@@ -41,13 +41,22 @@
 }
 
 .mobileItem {
-  flex: 0 0 auto;
+  /* flex-shrink 1 (not 0) + min-width 0 (overriding the flex default
+     min-width:auto content floor): lets the wrap algorithm shrink a tile
+     whose natural width at the fixed target height would otherwise exceed
+     the viewport, instead of overflowing the page horizontally.
+     object-fit: contain on .mobileImage means a shrunk tile letterboxes
+     rather than cropping/stretching. Matches components/Gallery/
+     GalleryGrid.module.css's identical mobile grid pattern. */
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
   line-height: 0;
 }
 
 .mobileImage {
   width: auto;
-  max-width: none;
+  max-width: 100%;
   object-fit: contain;
   display: block;
 }

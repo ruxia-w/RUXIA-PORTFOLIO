@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { Footer } from "@/components/Footer";
 import { GalleryFilters } from "./GalleryFilters";
 import type { GalleryFilterValue } from "./GalleryFilters";
 import { GalleryGrid } from "./GalleryGrid";
@@ -51,6 +52,8 @@ export function GalleryPageClient({ items }: GalleryPageClientProps) {
       <GalleryGrid items={visibleItems} onOpen={setActiveIndex} />
 
       <GalleryViewer item={activeItem} onClose={() => setActiveIndex(null)} />
+
+      <Footer />
     </main>
   );
 }

@@ -13,6 +13,7 @@
 }
 
 .stage {
+  position: relative;
   display: grid;
   width: min(100%, 940px);
   min-height: clamp(500px, 48vw, 570px);
@@ -80,9 +81,14 @@
 }
 
 .videoControls {
+  /* Anchored to .stage's own background (the media container), not .screen
+     (the phone's app content) — sits in the stage's padding margin around
+     the device, so it never overlaps the product/app being demonstrated at
+     any breakpoint (the device is centered and capped at 232px wide, while
+     .stage keeps its own padding on every side). */
   position: absolute;
-  right: 0.75rem;
-  bottom: 0.75rem;
+  right: var(--space-6);
+  bottom: var(--space-6);
   z-index: 2;
   display: flex;
   gap: 0.4rem;
@@ -124,7 +130,13 @@
 @media (max-width: 480px) {
   .stage {
     min-height: 500px;
-    padding: 2rem 1rem;
+    /* Extra bottom padding reserves a dedicated strip below the device for
+       the controls: at this width the device is centered with very little
+       side margin (a two-button group doesn't fit in that sliver), but
+       there's a clear background band below it the full width of the
+       stage, where the grouped buttons fit comfortably without touching
+       the device. */
+    padding: 2rem 1rem 3.75rem;
     border-radius: 20px;
   }
 
@@ -134,6 +146,11 @@
   }
 
   .screen { border-radius: 28px; }
+
+  .videoControls {
+    right: 1rem;
+    bottom: 0.85rem;
+  }
 }
 
 @media print {

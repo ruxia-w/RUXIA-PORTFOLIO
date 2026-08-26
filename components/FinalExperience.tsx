@@ -98,15 +98,18 @@ export function FinalExperience({
                 onPlay={() => setPlaying(true)}
                 onPause={() => setPlaying(false)}
               />
-              <div className={styles.videoControls}>
-                <button type="button" onClick={togglePlayback} aria-label={playing ? "Pause prototype video" : "Play prototype video"}>
-                  <span aria-hidden="true">{playing ? "Ⅱ" : "▶"}</span>
-                </button>
-                <button type="button" onClick={replay} aria-label="Replay prototype video">
-                  <span aria-hidden="true">↺</span>
-                </button>
-              </div>
             </div>
+          </div>
+          {/* Positioned against the stage's own background, not the phone
+              screen — see .videoControls — so it never sits on top of the
+              product/app content being demonstrated. */}
+          <div className={styles.videoControls}>
+            <button type="button" onClick={togglePlayback} aria-label={playing ? "Pause prototype video" : "Play prototype video"}>
+              <span aria-hidden="true">{playing ? "Ⅱ" : "▶"}</span>
+            </button>
+            <button type="button" onClick={replay} aria-label="Replay prototype video">
+              <span aria-hidden="true">↺</span>
+            </button>
           </div>
         </div>
       )}

@@ -19,6 +19,26 @@
   --nav-height: 68px;
   --outer-gutter: clamp(1.25rem, 4vw, 4.5rem);
 
+  /* Shared homepage section rhythm — every major section (Selected Work,
+     Capabilities, Selected Explorations, Contact) uses these same three
+     tokens instead of its own one-off padding/margin values, so the page
+     reads as one consistent system: --section-space is the section-to-section
+     breathing room (each section's own top+bottom padding), --section-header-
+     gap is the smaller gap from a section's label/heading block down to its
+     own content, and --section-content-gap is smaller still, for a heading
+     and its immediate subtitle. See app/page.module.css for usage. */
+  --section-space: clamp(4.5rem, 7.5vw, 7.5rem);
+  --section-header-gap: clamp(2rem, 3vw, 2.75rem);
+  --section-content-gap: clamp(0.6rem, 1vw, 0.9rem);
+  --card-padding: clamp(1.5rem, 2.2vw, 2rem);
+
+  /* Space below the shared Footer's own content, down to the very bottom of
+     the page — set on Footer itself (see components/Footer.module.css) so
+     every route gets the same trailing space regardless of what section or
+     layout wraps the footer there. Do not add a competing padding-bottom to
+     a page/section that ends in <Footer />. */
+  --footer-bottom-space: clamp(2rem, 3vw, 2.75rem);
+
   --color-bg: #fbfbfa;
   --color-fg: #141413;
   --color-muted: #6f6f6a;

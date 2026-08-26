@@ -40,6 +40,11 @@ export type ContentBlock =
       type: "cardSet";
       heading?: string;
       columns?: 2 | 3;
+      /** "content": intrinsic/flexible widths for cards whose text length
+       * varies substantially (avoids forcing equal columns that leave one
+       * card mostly empty). Omit for the default equal-width grid — most
+       * cardSet items are comparable in length and read better even. */
+      variant?: "content";
       items: Array<{ title: string; body: string }>;
     }
   | {

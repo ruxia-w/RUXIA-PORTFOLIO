@@ -1,7 +1,10 @@
 .main {
+  /* No bottom padding: Footer is the terminal element — same box as the
+     homepage's own .main, which has no trailing padding below its Footer
+     either. See components/Footer.module.css for the shared spacing. */
   max-width: var(--content-max-width);
   margin: 0 auto;
-  padding: 0 var(--outer-gutter) var(--space-24);
+  padding: 0 var(--outer-gutter);
 }
 
 .header {

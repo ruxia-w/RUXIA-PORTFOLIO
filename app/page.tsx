@@ -1,9 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
+import { HeroHeadline } from "@/components/HeroHeadline";
 import { HomeGalleryWall, type HomeGalleryImage } from "@/components/HomeGalleryWall";
+import { auricSignalProject } from "@/lib/projects/auric-signal";
+import { traceProject } from "@/lib/projects/trace";
+import { smartPuppyProject } from "@/lib/projects/smart-puppy";
+import { professionalExperienceProject } from "@/lib/projects/professional-experience";
 import styles from "./page.module.css";
 
+// Image src/width/height come from each project's own centralized hero/
+// heroDark definition (lib/projects/*.ts) — the same one the case-study
+// page's <ProjectHeader> renders — so Home and the project detail page can
+// never drift onto different hero assets. Only the alt text is Home-specific
+// (a shorter, homepage-appropriate description).
 const projects = [
   {
     number: "01",
@@ -12,12 +22,10 @@ const projects = [
     disciplines: "Product Strategy · UX/UI · AI Experience",
     projectType: "Independent Project · 2026",
     href: "/work/auric-signal",
-    // AURIC has approved light and dark hero compositions (same assets used
-    // on its case-study page, see lib/projects/auric-signal.ts hero/heroDark).
-    image: "/work/auric-signal/auric-hero-composition.png",
-    imageDark: "/work/auric-signal/auric-hero-composition-dark.png",
-    imageWidth: 1774,
-    imageHeight: 887,
+    image: auricSignalProject.hero.src,
+    imageDark: auricSignalProject.heroDark?.src,
+    imageWidth: auricSignalProject.hero.width,
+    imageHeight: auricSignalProject.hero.height,
     imageAlt:
       "AURIC SIGNAL mobile interface surrounded by portfolio insights and decision-support modules.",
   },
@@ -28,44 +36,141 @@ const projects = [
     disciplines: "Experience Design · Systems Thinking · Physical–Digital",
     projectType: "Independent Project · 2026",
     href: "/work/trace",
-    // TRACE has only one approved hero asset (no heroDark in
-    // lib/projects/trace.ts) — it stays the same image in both themes.
-    image: "/work/trace/trace-hero.png",
-    imageDark: undefined,
-    imageWidth: 1774,
-    imageHeight: 887,
+    image: traceProject.hero.src,
+    imageDark: traceProject.heroDark?.src,
+    imageWidth: traceProject.hero.width,
+    imageHeight: traceProject.hero.height,
     imageAlt:
       "TRACE credential and dock beside a mobile permission-control interface.",
   },
   {
     number: "03",
-    title: "PROFESSIONAL EXPERIENCE",
-    tagline: "Commercial Product Development",
-    disciplines: "Product Design · Engineering Collaboration · Shipped Products",
-    projectType: "Professional Work · 2021–2026",
-    ctaLabel: "View work",
-    href: "/work/professional-experience",
-    image: "/work/professional-experience/professional-experience-hero.png",
-    imageDark: undefined,
-    imageWidth: 1915,
-    imageHeight: 821,
-    imageAlt:
-      "A selection of commercial consumer products including a blender, adjustable dumbbells, robot vacuum, styling brush, and massage gun.",
-  },
-  {
-    number: "04",
     title: "SMART PUPPY",
     tagline: "Award-Winning Robotic Companion",
     disciplines: "Industrial Design · UX/UI · Connected Experience",
     projectType: "Independent Project · 2021",
     awards: "IDA Silver · EPDA Honorable Mention · Rookie Awards Highly Commended",
     href: "/work/smart-puppy",
-    image: "/work/smart-puppy/smart-puppy-hero.png",
-    imageDark: undefined,
-    imageWidth: 1672,
-    imageHeight: 941,
+    image: smartPuppyProject.hero.src,
+    imageDark: smartPuppyProject.heroDark?.src,
+    imageWidth: smartPuppyProject.hero.width,
+    imageHeight: smartPuppyProject.hero.height,
     imageAlt:
       "SMART PUPPY robotic companion beside its mobile app home interface.",
+  },
+  {
+    number: "04",
+    title: "PROFESSIONAL EXPERIENCE",
+    tagline: "Commercial Product Development",
+    disciplines: "Product Design · Engineering Collaboration · Shipped Products",
+    projectType: "Professional Work · 2021–2026",
+    ctaLabel: "View work",
+    href: "/work/professional-experience",
+    image: professionalExperienceProject.hero.src,
+    imageDark: professionalExperienceProject.heroDark?.src,
+    imageWidth: professionalExperienceProject.hero.width,
+    imageHeight: professionalExperienceProject.hero.height,
+    imageAlt:
+      "A selection of commercial consumer products including a blender, adjustable dumbbells, robot vacuum, styling brush, and massage gun.",
+  },
+] as const;
+
+// Compact, hand-authored (no icon-library dependency for four glyphs): small
+// monochrome stroke icons, one per capability card. See .capabilityIcon.
+function IconLayout({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <line x1="9" y1="3" x2="9" y2="21" />
+    </svg>
+  );
+}
+
+function IconNetwork({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="6" cy="6" r="2.4" />
+      <circle cx="18" cy="6" r="2.4" />
+      <circle cx="12" cy="18" r="2.4" />
+      <line x1="8.1" y1="7.3" x2="10.3" y2="16" />
+      <line x1="15.9" y1="7.3" x2="13.7" y2="16" />
+      <line x1="8.4" y1="6" x2="15.6" y2="6" />
+    </svg>
+  );
+}
+
+function IconUsers({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="9" cy="8" r="3" />
+      <path d="M3.5 19c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5" />
+      <circle cx="17.5" cy="7.5" r="2.3" />
+      <path d="M14.9 13.3c2.7.3 4.6 2.3 4.6 5.2" />
+    </svg>
+  );
+}
+
+function IconCode({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points="8 6 3 12 8 18" />
+      <polyline points="16 6 21 12 16 18" />
+    </svg>
+  );
+}
+
+const capabilities = [
+  {
+    number: "01",
+    title: "Product & UX",
+    Icon: IconLayout,
+    skills: [
+      "Product Strategy",
+      "UX/UI Design",
+      "Interaction Design",
+      "Information Architecture",
+      "User Flows & Journey Mapping",
+      "Accessibility-Minded Design",
+    ],
+  },
+  {
+    number: "02",
+    title: "Systems & Experience",
+    Icon: IconNetwork,
+    skills: [
+      "Systems Thinking",
+      "Service Design",
+      "Physical–Digital Interaction",
+      "Connected Experiences",
+      "Multi-Touchpoint Experience",
+      "Cross-Platform / Responsive Thinking",
+    ],
+  },
+  {
+    number: "03",
+    title: "Leadership & Delivery",
+    Icon: IconUsers,
+    skills: [
+      "Cross-Functional Collaboration",
+      "Stakeholder Alignment",
+      "Project Coordination",
+      "Design Critique",
+      "Implementation Collaboration",
+      "Production & Delivery Continuity",
+    ],
+  },
+  {
+    number: "04",
+    title: "Prototyping & Build",
+    Icon: IconCode,
+    skills: [
+      "Interactive Prototyping",
+      "AI-Assisted Prototyping",
+      "Design-to-Code Iteration",
+      "Responsive Web & Mobile",
+      "HTML/CSS",
+      "Figma / Lovable / Claude Code",
+    ],
   },
 ] as const;
 
@@ -84,22 +189,22 @@ const explorationRows: HomeGalleryImage[][] = [
       height: 1402,
     },
     {
-      src: "/gallery/ChatGPT Image Aug 22, 2026 at 10_30_07 PM (3).png",
+      src: "/gallery/ChatGPT Image Aug 22 2026 at 10_30_07 PM (3).png",
       alt: "Autonomous drive history mobile interface staged on dark rock.",
       width: 1448,
       height: 1086,
     },
     {
-      src: "/gallery/ChatGPT Image Aug 22, 2026 at 10_50_45 PM (2).png",
+      src: "/gallery/ChatGPT Image Aug 22 2026 at 10_50_45 PM (2).png",
       alt: "AI vision drone render with camera gimbal and folded rotor arms.",
       width: 1448,
       height: 1086,
     },
     {
-      src: "/gallery/Precision Dial in Shadow.png",
-      alt: "Macro detail of a black speaker's knurled volume dial in dramatic shadow.",
-      width: 1254,
-      height: 1254,
+      src: "/gallery/fitness_pushing machine.png",
+      alt: "Macro detail of a black pilates reformer's rail, carriage, and adjustment knobs.",
+      width: 1086,
+      height: 1448,
     },
   ],
   [
@@ -116,10 +221,10 @@ const explorationRows: HomeGalleryImage[][] = [
       height: 1024,
     },
     {
-      src: "/gallery/ChatGPT Image Aug 22, 2026 at 10_50_48 PM (10).png",
-      alt: "Handheld control device with a textured grip and blue-gray dial.",
-      width: 1448,
-      height: 1086,
+      src: "/gallery/bottle.png",
+      alt: "Portable hydration bottle in slate blue with an orange loop strap, held in hand.",
+      width: 1024,
+      height: 1536,
     },
   ],
   [
@@ -130,13 +235,13 @@ const explorationRows: HomeGalleryImage[][] = [
       height: 1448,
     },
     {
-      src: "/gallery/ChatGPT Image Aug 22, 2026 at 10_30_07 PM (6).png",
+      src: "/gallery/ChatGPT Image Aug 22 2026 at 10_30_07 PM (6).png",
       alt: "LeaseFlow mobile app showing home search, rent overview, and a matched listing.",
       width: 1448,
       height: 1086,
     },
     {
-      src: "/gallery/ChatGPT Image Aug 22, 2026 at 10_30_06 PM (1).png",
+      src: "/gallery/ChatGPT Image Aug 22 2026 at 10_30_06 PM (1).png",
       alt: "Nova Vault file-management dashboard on a laptop staged on dark rock.",
       width: 1448,
       height: 1086,
@@ -148,47 +253,29 @@ export default function HomePage() {
   return (
     <main id="main-content" className={styles.main}>
       <section className={styles.hero} aria-labelledby="home-title">
-        <p className={styles.kicker}>Product Designer · Experience Designer</p>
         <h1 id="home-title" className={styles.heroTitle}>
-          Designing Products,
-          <br />
-          Connected Experiences,
-          <br />
-          and Systems.
+          <HeroHeadline />
         </h1>
         <div className={styles.heroBottom}>
-          <p className={styles.heroIntro}>
-            New York–based product designer working across digital products,
-            AI-assisted experiences, and connected physical–digital systems.
-          </p>
           <a href="#selected-work" className={styles.textLink}>
             Explore selected work <span aria-hidden="true">↓</span>
           </a>
-        </div>
-        <div className={styles.heroCapabilities}>
-          <div className={styles.heroCapability}>
-            <p className={styles.heroCapabilityTitle}>01 — Connected Experiences</p>
-            <p className={styles.heroCapabilityBody}>
-              UX/UI, interaction design, user journeys, service systems, and physical–digital product ecosystems.
+          <div className={styles.heroBottomContent}>
+            <p className={styles.heroIntro}>
+              New York–based product designer working across digital products,
+              AI-assisted experiences, and connected physical–digital systems.
             </p>
-          </div>
-          <div className={styles.heroCapability}>
-            <p className={styles.heroCapabilityTitle}>02 — Physical Product Design</p>
-            <p className={styles.heroCapabilityBody}>
-              Industrial design, form development, CMF, DFM, visualization, and production support.
-            </p>
-          </div>
-          <div className={styles.heroCapability}>
-            <p className={styles.heroCapabilityTitle}>03 — Design Leadership</p>
-            <p className={styles.heroCapabilityBody}>
-              Cross-functional collaboration, stakeholder alignment, design critique, and AI-assisted workflows.
-            </p>
+            <div className={styles.heroCapabilities}>
+              <p className={styles.heroCapability}>Connected Experiences</p>
+              <p className={styles.heroCapability}>Physical Product Design</p>
+              <p className={styles.heroCapability}>Design Leadership</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="selected-work" className={styles.work} aria-labelledby="work-title">
-        <header className={styles.sectionHeader}>
+      <section className={styles.work} aria-labelledby="work-title">
+        <header id="selected-work" className={styles.sectionHeader}>
           <p className={styles.sectionIndex}>Selected Work</p>
           <h2 id="work-title">Across scales. One design practice.</h2>
           <p>
@@ -229,17 +316,24 @@ export default function HomePage() {
                     alt={project.imageAlt}
                     width={project.imageWidth}
                     height={project.imageHeight}
-                    sizes="(max-width: 760px) 100vw, 72vw"
                   />
                 </div>
                 {project.imageDark ? (
+                  // No `sizes`: with it, Chromium never resolves the
+                  // srcset for whichever variant becomes visible via the
+                  // data-theme/:has() CSS toggle above (confirmed by
+                  // isolated testing — img.currentSrc stays permanently
+                  // empty after a live theme-toggle click, on both a fresh
+                  // load and a runtime toggle). Dropping `sizes` here is
+                  // what actually makes the theme switch work; Next still
+                  // serves a responsive srcset, the browser just assumes
+                  // 100vw when picking a candidate.
                   <div className={styles.projectMediaDark}>
                     <Image
                       src={project.imageDark}
                       alt={project.imageAlt}
                       width={project.imageWidth}
                       height={project.imageHeight}
-                      sizes="(max-width: 760px) 100vw, 72vw"
                     />
                   </div>
                 ) : null}
@@ -252,57 +346,24 @@ export default function HomePage() {
       <section id="capabilities" className={styles.capabilitiesSection} aria-labelledby="capabilities-title">
         <div className={styles.capabilitiesHeader}>
           <p className={styles.sectionIndex}>Capabilities</p>
-          <h2 id="capabilities-title">Strategy, systems, and craft.</h2>
+          <div className={styles.capabilitiesHeading}>
+            <h2 id="capabilities-title">Strategy, systems, and craft.</h2>
+            <p className={styles.capabilitiesSubtitle}>
+              Designing across products, experiences, and systems — from strategy and interaction to delivery.
+            </p>
+          </div>
         </div>
-        <div className={styles.capabilityColumns}>
-          <div className={styles.capabilityGroup}>
-            <p className={styles.capabilityNumber}>01</p>
-            <h3>Product &amp; UX</h3>
-            <ul>
-              <li>Product Strategy</li>
-              <li>UX/UI Design</li>
-              <li>Interaction Design</li>
-              <li>Information Architecture</li>
-              <li>User Flows &amp; Journey Mapping</li>
-              <li>Accessibility-Minded Design</li>
-            </ul>
-          </div>
-          <div className={styles.capabilityGroup}>
-            <p className={styles.capabilityNumber}>02</p>
-            <h3>Systems &amp; Experience</h3>
-            <ul>
-              <li>Systems Thinking</li>
-              <li>Service Design</li>
-              <li>Physical–Digital Interaction</li>
-              <li>Connected Experiences</li>
-              <li>Multi-Touchpoint Experience</li>
-              <li>Cross-Platform / Responsive Thinking</li>
-            </ul>
-          </div>
-          <div className={styles.capabilityGroup}>
-            <p className={styles.capabilityNumber}>03</p>
-            <h3>Leadership &amp; Delivery</h3>
-            <ul>
-              <li>Cross-Functional Collaboration</li>
-              <li>Stakeholder Alignment</li>
-              <li>Project Coordination</li>
-              <li>Design Critique</li>
-              <li>Implementation Collaboration</li>
-              <li>Production &amp; Delivery Continuity</li>
-            </ul>
-          </div>
-          <div className={styles.capabilityGroup}>
-            <p className={styles.capabilityNumber}>04</p>
-            <h3>Prototyping &amp; Build</h3>
-            <ul>
-              <li>Interactive Prototyping</li>
-              <li>AI-Assisted Prototyping</li>
-              <li>Design-to-Code Iteration</li>
-              <li>Responsive Web &amp; Mobile</li>
-              <li>HTML/CSS</li>
-            </ul>
-            <p className={styles.capabilityTools}>Figma · Lovable · Claude Code</p>
-          </div>
+        <div className={styles.capabilityCards}>
+          {capabilities.map(({ number, title, Icon, skills }) => (
+            <div className={styles.capabilityCard} key={number}>
+              <div className={styles.capabilityCardHead}>
+                <Icon className={styles.capabilityIcon} />
+                <span className={styles.capabilityNumber}>{number}</span>
+              </div>
+              <h3>{title}</h3>
+              <p className={styles.capabilitySkills}>{skills.join(" / ")}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -316,22 +377,24 @@ export default function HomePage() {
       </section>
 
       <section className={styles.contact} aria-labelledby="contact-title">
-        <p className={styles.sectionIndex}>Contact</p>
         <div className={styles.contactRow}>
-          <h2 id="contact-title">
-            Let&apos;s create products people can understand, trust, and use.
-          </h2>
-          <div className={styles.contactLinks}>
-            <a href="mailto:ruxiadesign@gmail.com">Email me ↗</a>
-            <a href="https://www.linkedin.com/in/ruxiawang/" target="_blank" rel="noreferrer">
-              LinkedIn ↗
-            </a>
-            <a href="https://www.behance.net/ruxiawangdesign" target="_blank" rel="noreferrer">
-              Behance ↗
-            </a>
-            <a href="https://www.instagram.com/ruxia.art/" target="_blank" rel="noreferrer">
-              Instagram ↗
-            </a>
+          <h2 id="contact-title">Let&apos;s create products people can understand, trust, and use.</h2>
+          <div className={styles.contactInfo}>
+            <p className={styles.contactAvailability}>
+              Open to product design, experience design, and design leadership / project coordination opportunities.
+            </p>
+            <div className={styles.contactLinks}>
+              <a href="mailto:ruxiadesign@gmail.com">Email me ↗</a>
+              <a href="https://www.linkedin.com/in/ruxiawang/" target="_blank" rel="noreferrer">
+                LinkedIn ↗
+              </a>
+              <a href="https://www.behance.net/ruxiawangdesign" target="_blank" rel="noreferrer">
+                Behance ↗
+              </a>
+              <a href="https://www.instagram.com/ruxia.art/" target="_blank" rel="noreferrer">
+                Instagram ↗
+              </a>
+            </div>
           </div>
         </div>
         <Footer />

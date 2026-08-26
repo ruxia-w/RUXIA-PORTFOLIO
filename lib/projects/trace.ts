@@ -699,9 +699,14 @@ export const traceProject: CaseStudyProject = {
   focus: ["Accessibility", "Systems", "Connected Experience"],
   status: "Independent experience concept",
   breadcrumb: ["Work", "Experience Design", "TRACE"],
+  // Same light/dark hero pair as the Home page's project card for TRACE
+  // (see app/page.tsx's `projects` array) — one shared asset definition.
   hero: {
-    ...media("trace-hero.png", 1774, 887, "TRACE Credential standing in its Dock beside the mobile permission app in a service setting."),
+    ...media("trace-hero-light.png", 1774, 887, "TRACE Credential standing in its Dock beside the mobile permission app in a service setting."),
     priority: true,
+  },
+  heroDark: {
+    ...media("trace-hero-dark.png", 1774, 887, "TRACE Credential standing in its Dock beside the mobile permission app in a service setting."),
   },
   sections: traceSections,
 };

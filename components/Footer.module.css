@@ -1,9 +1,13 @@
 .footer {
+  /* padding-bottom is the single source of the space below the footer on
+     every route (--footer-bottom-space) — the page/layout that renders
+     <Footer /> should not add its own trailing padding below it. */
   display: grid;
   grid-template-columns: 1fr 1fr auto;
   gap: 1rem;
   margin-top: clamp(3rem, 6vw, 5rem);
   padding-top: 1rem;
+  padding-bottom: var(--footer-bottom-space);
   border-top: 1px solid var(--color-border);
   color: var(--color-muted);
   font-size: 0.7rem;

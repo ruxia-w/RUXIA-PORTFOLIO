@@ -17,7 +17,12 @@
      height from its intrinsic aspect ratio; .heroCopy has no such override,
      so it stretches to fill that exact same row height. */
   align-items: stretch;
-  padding: clamp(3.5rem, 6vw, 5.75rem) 0 clamp(5rem, 8vw, 7.5rem);
+  /* Top value matches Gallery's own page-header top padding exactly (see
+     components/Gallery/GalleryPageClient.module.css .header), so the About
+     title starts at the same depth below the nav as the Gallery title and
+     the Works -> #selected-work anchor landing. Bottom (this section's own
+     internal rhythm) is untouched. */
+  padding: clamp(2rem, 4vw, 3.25rem) 0 clamp(5rem, 8vw, 7.5rem);
 }
 
 .portrait {
@@ -289,7 +294,11 @@
 }
 
 .contact {
-  padding-bottom: 2rem;
+  /* No bottom padding here: the Footer component immediately below owns the
+     space below itself via --footer-bottom-space (see
+     components/Footer.module.css), so every route that ends in <Footer />
+     gets the same trailing space. */
+  padding-bottom: 0;
 }
 
 .contactRow {
@@ -341,24 +350,6 @@
   border-bottom: 1px solid currentColor;
 }
 
-.footer {
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
-  gap: 1rem;
-  margin-top: clamp(5rem, 12vw, 10rem);
-  padding-top: 1rem;
-  border-top: 1px solid var(--color-border);
-  color: var(--color-muted);
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.footer a {
-  color: var(--color-fg);
-  text-decoration: none;
-}
-
 @media (max-width: 980px) {
   .hero {
     grid-template-columns: minmax(15rem, 0.72fr) minmax(0, 1fr);
@@ -380,7 +371,9 @@
   .hero {
     grid-template-columns: 1fr;
     gap: 2.5rem;
-    padding: 1.5rem 0 4.5rem;
+    /* Top matches Gallery's own mobile top padding (its clamp's floor, 2rem)
+       for the same reason as the desktop value above. */
+    padding: 2rem 0 4.5rem;
   }
 
   .portrait {
@@ -472,13 +465,5 @@
   .educationGrid {
     grid-template-columns: 1fr;
     gap: 2.5rem;
-  }
-
-  .footer {
-    grid-template-columns: 1fr auto;
-  }
-
-  .footer span:nth-child(2) {
-    display: none;
   }
 }

@@ -209,6 +209,45 @@
   color: var(--color-muted);
 }
 
+/* Content-card variant (cardSet block.variant === "content"): for a group
+   whose items differ substantially in text length, where forcing equal
+   grid columns would leave the shorter cards mostly empty. Cards size to
+   their own content (shrink-to-fit) within sensible bounds instead of
+   splitting the row mechanically, and wrap to a new row once the available
+   width runs out. Sequential/process flows (.stateFlow) are a different
+   component and keep their own equal-stage rhythm — this variant is only
+   ever opted into per-block, never a global default. */
+.cardSetContent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  width: min(100%, 940px);
+}
+
+.cardItemContent {
+  flex: 0 1 auto;
+  width: fit-content;
+  min-width: 200px;
+  max-width: 320px;
+  padding-block: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.cardItemContent h4,
+.cardItemContent p {
+  margin: 0;
+}
+
+.cardItemContent h4 {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.cardItemContent p {
+  margin-top: var(--space-2);
+  color: var(--color-muted);
+}
+
 .stateFlow {
   display: flex;
   align-items: stretch;
@@ -226,6 +265,8 @@
 }
 
 .stateFlowContent {
+  /* Process-step default (title + description): text stays left-aligned as
+     one group, vertically centered as a whole via justify-content below. */
   display: flex;
   flex: 1 1 auto;
   min-height: 100%;
@@ -236,6 +277,16 @@
   border: 1px solid var(--color-border);
   border-radius: 8px;
   background: var(--color-surface);
+}
+
+/* Short-label boxes only (a step with no body/description) — these have far
+   less content than the box's own width, so left-aligned text reads as
+   lopsided with a lot of empty space to the right. Center both axes instead;
+   process-step boxes with a description keep the default left alignment
+   above untouched. */
+.stateFlowContentShortLabel {
+  align-items: center;
+  text-align: center;
 }
 
 .stateFlowTitle,

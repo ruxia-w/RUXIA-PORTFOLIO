@@ -305,14 +305,26 @@ export const professionalExperienceProject: CaseStudyProject = {
   focus: ["Cross-Functional Collaboration", "Concept to Production"],
   status: "Professional Work",
   breadcrumb: ["Work", "Professional Experience"],
+  // Same light/dark hero pair as the Home page's project card for
+  // Professional Experience (see app/page.tsx's `projects` array) — one
+  // shared asset definition. 1774x887 matches the actual asset dimensions
+  // (the previous 1915x821 here didn't match the real file).
   hero: {
     ...media(
-      "professional-experience-hero.png",
-      1915,
-      821,
+      "professional-hero-light.png",
+      1774,
+      887,
       "A collection of consumer products spanning fitness, smart home, personal care, wellness, and lifestyle.",
     ),
     priority: true,
+  },
+  heroDark: {
+    ...media(
+      "professional-hero-dark.png",
+      1774,
+      887,
+      "A collection of consumer products spanning fitness, smart home, personal care, wellness, and lifestyle.",
+    ),
   },
   sections: professionalExperienceSections,
 };

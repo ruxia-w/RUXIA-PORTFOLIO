@@ -458,17 +458,21 @@ export const auricSignalProject: CaseStudyProject = {
   status: "Independent concept project",
   breadcrumb: ["Work", "Product Design", "AURIC SIGNAL"],
   links: [{ label: "Explore the Interactive Prototype", url: PROTOTYPE, type: "prototype" }],
+  // Same light/dark hero pair as the Home page's project card for this
+  // project (see app/page.tsx's `projects` array, which now imports these
+  // exact src/width/height values) — one shared asset definition instead of
+  // two independently-maintained hero images.
   hero: {
-    src: `${BASE}/auric-hero-composition.png`,
+    src: `${BASE}/auric-hero-light.png`,
     width: 1774,
     height: 887,
     alt: "AURIC SIGNAL hero composition with one primary mobile screen and supporting portfolio, signal, market, insight, allocation, and action modules.",
     priority: true,
   },
   heroDark: {
-    src: `${BASE}/auric-hero-composition-dark.png`,
-    width: 1536,
-    height: 864,
+    src: `${BASE}/auric-hero-dark.png`,
+    width: 1774,
+    height: 887,
     alt: "AURIC SIGNAL hero composition with one primary mobile screen and supporting portfolio, signal, market, insight, allocation, and action modules.",
     // Not `priority`: .heroDark starts `display: none` (see ProjectHeader.module.css)
     // and only becomes visible in dark theme. A non-priority (lazy) image inside a

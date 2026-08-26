@@ -25,11 +25,22 @@
 }
 
 .mobileItem {
-  flex: 0 0 auto;
+  /* flex-shrink 1 (not 0) + min-width 0 (overriding the flex default
+     min-width:auto content floor): most thumbnails are narrower than a row
+     at the fixed target height and never need this, but a wide-aspect
+     source image (e.g. a landscape shot) can compute wider than the
+     viewport at that height with nothing else to constrain it — this lets
+     the wrap algorithm shrink that one tile to fit instead of overflowing
+     the page horizontally. object-fit: contain on .mobileImage means a
+     shrunk tile letterboxes rather than cropping/stretching. */
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .mobileTile {
   display: block;
+  max-width: 100%;
   padding: 0;
   background: transparent;
   border: 0;
@@ -39,7 +50,7 @@
 
 .mobileImage {
   width: auto;
-  max-width: none;
+  max-width: 100%;
   object-fit: contain;
   display: block;
 }

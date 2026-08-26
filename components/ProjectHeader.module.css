@@ -42,13 +42,13 @@
 }
 
 .hero {
+  /* No outer stage/frame: the hero image is the primary surface, flush with
+     the same safe frame as the breadcrumb/title/metadata above and below it
+     (matches the site's flat "sharp corners for content" rule — see the
+     Home page's own project media, .projectMedia in app/page.module.css). */
   isolation: isolate;
   width: 100%;
   margin-bottom: clamp(1.5rem, 2.5vw, 2.25rem);
-  padding: clamp(1rem, 2vw, 2rem);
-  overflow: hidden;
-  background: var(--hero-stage);
-  border-radius: 12px;
 }
 
 .hero :global(img) {

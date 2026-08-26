@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Anton, Inter, Space_Grotesk } from "next/font/google";
 import { GlobalNavigation } from "@/components/GlobalNavigation";
 import "./globals.css";
 
@@ -12,6 +12,14 @@ const bodyFont = Inter({
 const displayFont = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-display",
+  display: "swap",
+});
+
+// Homepage Hero headline only — see app/page.module.css .heroTitle.
+const heroFont = Anton({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-hero",
   display: "swap",
 });
 
@@ -39,7 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
-      className={`${bodyFont.variable} ${displayFont.variable}`}
+      className={`${bodyFont.variable} ${displayFont.variable} ${heroFont.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

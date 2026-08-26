@@ -1,0 +1,53 @@
+.root {
+  /* Removed from the box tree (children render as if direct children of the
+     h1) so this component changes zero layout/spacing vs. plain text. */
+  display: contents;
+}
+
+.word {
+  white-space: nowrap;
+}
+
+.frame {
+  /* Default (no-JS, reduced-motion, or touch): a plain inline-block holding
+     one glyph — visually identical to plain text. Becomes a clipped,
+     positioned reel window only once JS measures + locks its size (see
+     HeroHeadline.tsx upgradeAndMeasure) and sets [data-ready]. */
+  display: inline-block;
+}
+
+.frame[data-ready="true"] {
+  /* Once both glyph copies are position:absolute (below), the frame has no
+     in-flow content left, so an explicit width+height (set in JS) is
+     required to hold its place — but a baseline-aligned inline-block with
+     an explicit height reserves extra ascent above the line's baseline and
+     inflates the whole line's height. vertical-align: bottom sidesteps that
+     reservation; verified against the approved static screenshot that this
+     doesn't shift letters relative to neighboring (still baseline-aligned)
+     punctuation.
+     clip-path, not overflow:hidden, does the actual clipping: an inline-block
+     whose computed `overflow` is anything but `visible` independently falls
+     back to the same bottom-margin-edge baseline (CSS2.1 10.8.1). clip-path
+     clips identically without ever touching `overflow`. */
+  position: relative;
+  vertical-align: bottom;
+  clip-path: inset(0);
+}
+
+.frame[data-ready="true"] .glyph,
+.frame[data-ready="true"] .glyphDupe {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.glyphDupe {
+  /* Not part of layout/paint at all until upgraded — otherwise a hidden
+     second copy of the letter would still occupy inline space and widen
+     the word, breaking the approved character spacing. */
+  display: none;
+}
+
+.frame[data-ready="true"] .glyphDupe {
+  display: block;
+}

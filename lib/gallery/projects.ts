@@ -59,16 +59,16 @@ export const galleryItems: GalleryItem[] = [
     category: "industrial-design",
     description:
       "A compact aerial imaging concept exploring camera integration, sensor architecture, structural detailing, and technical CMF.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_50_45 PM (2).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_50_45 PM (2).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_50_45 PM (2).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_50_45 PM (2).png"),
         alt: "AI Vision Drone hero render showing the folded arm and multi-lens camera module.",
       },
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_50_45 PM (3).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_50_45 PM (3).png"),
         alt: "AI Vision Drone detail collage of the camera array, motor arm, and rear structural housing.",
       },
     ],
@@ -95,12 +95,12 @@ export const galleryItems: GalleryItem[] = [
     category: "industrial-design",
     description:
       "A modular furniture and planting system exploring repetition, color, lightweight structure, mobility, and adaptable spatial configurations.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_50_46 PM (7).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_50_46 PM (7).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_50_46 PM (7).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_50_46 PM (7).png"),
         alt: "A set of modular wire plant stands in orange, green, black, and navy, arranged at varying heights.",
       },
     ],
@@ -111,16 +111,16 @@ export const galleryItems: GalleryItem[] = [
     category: "product-design",
     description:
       "A rental discovery experience exploring search, affordability, saved places, and application-related decisions within a mobile interface.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_30_07 PM (6).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (6).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_30_07 PM (6).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (6).png"),
         alt: "LeaseFlow three-screen layout showing home search, rent overview, and a matched listing.",
       },
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_30_06 PM (2).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_30_06 PM (2).png"),
         alt: "LeaseFlow composition with an oversized wordmark behind the search, overview, and listing screens.",
       },
     ],
@@ -172,12 +172,12 @@ export const galleryItems: GalleryItem[] = [
     category: "product-design",
     description:
       "A project-management dashboard concept connecting planning, timelines, team activity, and delivery status in one workspace.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_30_07 PM (7).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (7).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_30_07 PM (7).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (7).png"),
         alt: "Project Pulse dashboard with a project timeline, task list, and a six-stage delivery workflow.",
       },
     ],
@@ -201,12 +201,12 @@ export const galleryItems: GalleryItem[] = [
     category: "product-design",
     description:
       "A desktop file-management concept focused on structured navigation, shared assets, and activity visibility across collaborative workspaces.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_30_06 PM (1).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_30_06 PM (1).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_30_06 PM (1).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_30_06 PM (1).png"),
         alt: "Nova Vault desktop file-management interface showing recent activity, storage, and shared projects.",
       },
     ],
@@ -217,12 +217,12 @@ export const galleryItems: GalleryItem[] = [
     category: "industrial-design",
     description:
       "A connected indoor cycling concept balancing a compact frame architecture, integrated display, and fitness-oriented ergonomics.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_50_44 PM (1).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_50_44 PM (1).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_50_44 PM (1).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_50_44 PM (1).png"),
         alt: "Bike+ indoor cycling concept with an integrated performance display and minimal frame.",
       },
     ],
@@ -233,12 +233,12 @@ export const galleryItems: GalleryItem[] = [
     category: "product-design",
     description:
       "A business banking dashboard exploring dense financial information, cash flow, account allocation, and actionable insights.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_50_45 PM (4).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_50_45 PM (4).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_50_45 PM (4).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_50_45 PM (4).png"),
         alt: "Aureus Bank business dashboard with cash flow, account allocation, and card spending overview.",
       },
     ],
@@ -260,12 +260,12 @@ export const galleryItems: GalleryItem[] = [
     category: "product-design",
     description:
       "A mobility dashboard concept that organizes autonomous trip history, route information, and driving-performance metrics.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_30_07 PM (3).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (3).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_30_07 PM (3).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (3).png"),
         alt: "Drive History screen showing an autonomous trip route, distance, and weekly driving performance.",
       },
     ],
@@ -276,12 +276,12 @@ export const galleryItems: GalleryItem[] = [
     category: "industrial-design",
     description:
       "A connected treadmill concept exploring a compact structural frame, integrated display, controls, and performance-focused detailing.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_30_08 PM (8).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_30_08 PM (8).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_30_08 PM (8).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_30_08 PM (8).png"),
         alt: "FlexDeck connected treadmill with an integrated adaptive-run display and compact structural frame.",
       },
     ],
@@ -292,12 +292,12 @@ export const galleryItems: GalleryItem[] = [
     category: "product-design",
     description:
       "A responsive architecture website concept combining editorial presentation, project discovery, identity, and mobile adaptation.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_50_46 PM (5).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_50_46 PM (5).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_50_46 PM (5).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_50_46 PM (5).png"),
         alt: "Northline Studio architecture website shown across desktop, identity, and mobile screens.",
       },
     ],
@@ -319,12 +319,12 @@ export const galleryItems: GalleryItem[] = [
     category: "product-design",
     description:
       "A mobile health experience exploring how data-processing states and personalized insights can be communicated with clarity and calm.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_30_07 PM (4).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (4).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_30_07 PM (4).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (4).png"),
         alt: "Health Insights app processing state showing a calm loading animation while analyzing health data.",
       },
     ],
@@ -346,12 +346,12 @@ export const galleryItems: GalleryItem[] = [
     category: "product-design",
     description:
       "A dark-mode investment experience exploring portfolio performance, watchlists, account management, and financial hierarchy.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_50_46 PM (6).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_50_46 PM (6).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_50_46 PM (6).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_50_46 PM (6).png"),
         alt: "Nexa dark-mode investing app showing portfolio value, watchlist, and account screens.",
       },
     ],
@@ -373,12 +373,12 @@ export const galleryItems: GalleryItem[] = [
     category: "product-design",
     description:
       "A modular financial interface system exploring account activity, savings goals, transfers, and everyday banking interactions.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_30_07 PM (5).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (5).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_30_07 PM (5).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (5).png"),
         alt: "Northline Bank cards showing checking balance, recent activity, and a money-transfer flow.",
       },
     ],
@@ -441,12 +441,12 @@ export const galleryItems: GalleryItem[] = [
     category: "industrial-design",
     description:
       "An adjustable fitness-equipment concept exploring compact mechanics, support geometry, padded surfaces, and user-controlled positioning.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_50_47 PM (9).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_50_47 PM (9).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_50_47 PM (9).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_50_47 PM (9).png"),
         alt: "Northvale adjustable fitness bench with a padded incline surface and stepped base.",
       },
     ],
@@ -457,12 +457,12 @@ export const galleryItems: GalleryItem[] = [
     category: "industrial-design",
     description:
       "A compact handheld device study focused on tactile controls, surface texture, grip proportions, and restrained consumer-electronics detailing.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_50_48 PM (10).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_50_48 PM (10).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_50_48 PM (10).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_50_48 PM (10).png"),
         alt: "Handheld control device with a textured grip surface and a single tactile button.",
       },
     ],
@@ -489,12 +489,12 @@ export const galleryItems: GalleryItem[] = [
     category: "industrial-design",
     description:
       "A collection of footwear form studies focused on proportion, layering, sole architecture, material breaks, and rapid visual exploration.",
-    thumbnail: asset("ChatGPT Image Aug 22, 2026 at 10_50_47 PM (8).png"),
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_50_47 PM (8).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
       {
-        src: asset("ChatGPT Image Aug 22, 2026 at 10_50_47 PM (8).png"),
+        src: asset("ChatGPT Image Aug 22 2026 at 10_50_47 PM (8).png"),
         alt: "Sketch sheet of twelve sneaker studies with annotated colorways.",
       },
       {
