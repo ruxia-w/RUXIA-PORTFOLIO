@@ -1,0 +1,104 @@
+.wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  min-width: 760px;
+}
+
+.diagram {
+  /* Local tokens layered on top of the site's shared color variables — kept
+     in sync with SourcefoldChallengeDiagram so both SOURCEFOLD diagrams
+     read as one visual system. Everything else (--color-fg, --color-muted,
+     --color-border, --color-surface) already flips via the site's existing
+     html[data-theme="dark"] rule in app/globals.css. */
+  --accent: #3d6a91;
+  --accent-tint: rgba(61, 106, 145, 0.06);
+}
+
+:global(html[data-theme="dark"]) .diagram {
+  --accent: #8fb4d6;
+  --accent-tint: rgba(143, 180, 214, 0.08);
+}
+
+.bg { fill: var(--color-bg); }
+
+.arrow { stroke: var(--color-muted); }
+
+.labelMask { fill: var(--color-bg); }
+.labelText {
+  fill: var(--color-muted);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.box { fill: var(--color-surface); stroke: var(--color-fg); }
+.boxFocal { fill: var(--accent-tint); stroke: var(--accent); }
+
+.tag {
+  fill: var(--color-muted);
+  font-size: 8.75px;
+  letter-spacing: 0.1em;
+}
+.tagFocal {
+  fill: var(--accent);
+  font-size: 8.75px;
+  letter-spacing: 0.1em;
+}
+
+.name {
+  fill: var(--color-fg);
+  font-size: 16px;
+  font-weight: 650;
+}
+.nameSmall {
+  fill: var(--color-fg);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.subtitle {
+  fill: var(--color-muted);
+  font-size: 10.5px;
+  font-style: italic;
+}
+
+.exampleChip { fill: var(--color-surface-soft); }
+.exampleChipFocal { fill: var(--accent-tint); }
+.exampleText {
+  fill: var(--color-fg);
+  font-size: 10.5px;
+}
+
+.annotation {
+  fill: var(--accent);
+  font-size: 9px;
+  font-style: italic;
+}
+
+.contextDivider { stroke: var(--color-border); }
+.contextHeader {
+  fill: var(--color-muted);
+  font-size: 8.75px;
+  letter-spacing: 0.14em;
+}
+.contextLabel {
+  fill: var(--color-fg);
+  font-size: 12px;
+  font-weight: 600;
+}
+.contextBody {
+  fill: var(--color-muted);
+  font-size: 9.5px;
+}
+
+.caption {
+  max-width: 60ch;
+  margin: 0.5rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}

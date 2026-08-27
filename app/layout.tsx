@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
-import { Anton, Inter, Space_Grotesk } from "next/font/google";
+import { Anton, Inter } from "next/font/google";
 import { GlobalNavigation } from "@/components/GlobalNavigation";
 import "./globals.css";
 
+// Only two typefaces site-wide: Inter for everything except the Hero, Anton
+// for the Hero alone (below). --font-display is aliased to --font-body in
+// globals.css :root rather than loaded as a second font — see that file.
 const bodyFont = Inter({
   subsets: ["latin"],
   variable: "--font-body",
-  display: "swap",
-});
-
-const displayFont = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-display",
   display: "swap",
 });
 
@@ -47,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
-      className={`${bodyFont.variable} ${displayFont.variable} ${heroFont.variable}`}
+      className={`${bodyFont.variable} ${heroFont.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

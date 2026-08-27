@@ -10,9 +10,20 @@
 }
 
 .heading {
+  /* Restored to the original project-page major-section heading: no
+     font-size/weight/line-height/letter-spacing override at all — those
+     come from the global h2 rule in app/globals.css, unchanged since before
+     this session's typography work. The only override needed here is
+     font-family: --font-display now resolves to Inter (site body font)
+     instead of its original literal "Avenir Next" stack, and that variable
+     can't be reverted globally without also changing Gallery's title (which
+     also reads it) — so the original stack is hardcoded here, scoped to
+     just this shared class, matching every project page's own section
+     headings ("Overview", "Research & Insights", "Outcome", etc.). */
   width: min(100%, 940px);
   max-width: 940px;
   margin: 0 0 1.25rem;
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
 
 .intro,
@@ -36,7 +47,12 @@
 }
 
 .richText :global(h3) {
+  /* Restored original font-family for the same reason as .heading above —
+     size/weight/line-height/letter-spacing already come correctly from the
+     global h3 rule (untouched by this session's work); only font-family
+     needed restoring here. */
   margin: 0 0 var(--space-4);
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
 
 .richText :global(ul),
@@ -50,9 +66,34 @@
 }
 
 .blocks {
+  /* Was a uniform `gap`, giving equal whitespace above and below every
+     supporting image/media block regardless of what it belongs to. Replaced
+     with per-child margin-top so a media block can sit closer to the text
+     that explains it (see .mediaBlock/.mediaGroup/.screenGroup/.appScreenSet/
+     .awardSet overrides below) while the block AFTER it still gets this
+     rule's own larger default margin — the "larger gap before the next idea"
+     falls out of that next block's own margin-top, not a margin-bottom rule
+     here. */
   display: flex;
   flex-direction: column;
-  gap: clamp(2.25rem, 3.5vw, 3.5rem);
+  gap: 0;
+}
+
+.blocks > :not(:first-child) {
+  margin-top: clamp(2.25rem, 3.5vw, 3.5rem);
+}
+
+/* Primarily-visual blocks — a supporting image/video/diagram, a screenshot
+   group, an app-screen grid, or an award row — read as belonging to the
+   text immediately above them, not as an object centered equally between two
+   ideas. Pulled closer above; the larger gap after stays intact because the
+   next block still carries the default margin-top above. */
+.blocks > .mediaBlock:not(:first-child),
+.blocks > .mediaGroup:not(:first-child),
+.blocks > .screenGroup:not(:first-child),
+.blocks > .appScreenSet:not(:first-child),
+.blocks > .awardSet:not(:first-child) {
+  margin-top: clamp(1rem, 1.75vw, 1.75rem);
 }
 
 .mediaBlock {
@@ -172,7 +213,12 @@
 }
 
 .blockHeading {
+  /* Same Level 2 subsection heading as .richText :global(h3) above (e.g.
+     "Research focus", "Core professional signals") — just reached via a
+     cardSet block instead of a richText one. Needs the same restored
+     font-family for the same reason. */
   margin: 0 0 var(--space-6);
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
 
 .cardSetWrap {

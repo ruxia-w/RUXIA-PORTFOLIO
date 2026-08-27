@@ -12,12 +12,20 @@
 }
 
 .title {
+  /* Level 2 — Page / Major Section Display L, same weight/line-height/
+     tracking recipe as "Across scales. One design practice." (see
+     app/page.module.css .sectionHeader h2 etc.). Font-size stays its own
+     smaller, already-tuned clamp rather than matching that heading's number
+     literally — GALLERY is one word, and enlarging it to match a full
+     sentence's max size would be size for its own sake, not hierarchy.
+     Reduced ~12% along with the rest of Display L (was clamp(2.5rem, 4.2vw,
+     3.5rem)) for the same more compact, confident feel. */
   margin: 0 0 var(--space-3);
   font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(2.5rem, 4.2vw, 3.5rem);
-  font-weight: 650;
-  line-height: 1;
-  letter-spacing: -0.05em;
+  font-size: clamp(2.2rem, 3.7vw, 3.1rem);
+  font-weight: var(--display-l-weight);
+  line-height: var(--display-l-line-height);
+  letter-spacing: var(--display-l-tracking);
 }
 
 .intro {

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { Footer } from "@/components/Footer";
 import { HeroHeadline } from "@/components/HeroHeadline";
 import { HomeGalleryWall, type HomeGalleryImage } from "@/components/HomeGalleryWall";
@@ -22,10 +23,10 @@ const projects = [
     disciplines: "Product Strategy · UX/UI · AI Experience",
     projectType: "Independent Project · 2026",
     href: "/work/auric-signal",
-    image: auricSignalProject.hero.src,
+    image: auricSignalProject.hero!.src,
     imageDark: auricSignalProject.heroDark?.src,
-    imageWidth: auricSignalProject.hero.width,
-    imageHeight: auricSignalProject.hero.height,
+    imageWidth: auricSignalProject.hero!.width,
+    imageHeight: auricSignalProject.hero!.height,
     imageAlt:
       "AURIC SIGNAL mobile interface surrounded by portfolio insights and decision-support modules.",
   },
@@ -36,40 +37,50 @@ const projects = [
     disciplines: "Experience Design · Systems Thinking · Physical–Digital",
     projectType: "Independent Project · 2026",
     href: "/work/trace",
-    image: traceProject.hero.src,
+    image: traceProject.hero!.src,
     imageDark: traceProject.heroDark?.src,
-    imageWidth: traceProject.hero.width,
-    imageHeight: traceProject.hero.height,
+    imageWidth: traceProject.hero!.width,
+    imageHeight: traceProject.hero!.height,
     imageAlt:
       "TRACE credential and dock beside a mobile permission-control interface.",
   },
   {
     number: "03",
+    title: "SOURCEFOLD",
+    tagline: "AI-Assisted Global Content Operations",
+    disciplines: "Enterprise UX · AI Workflows · Systems Design",
+    projectType: "Independent Project · 2026",
+    href: "/work/sourcefold",
+    // No hero image yet — omitting `image` triggers the "Coming Soon"
+    // placeholder in the card media area below instead of next/image.
+  },
+  {
+    number: "04",
     title: "SMART PUPPY",
     tagline: "Award-Winning Robotic Companion",
     disciplines: "Industrial Design · UX/UI · Connected Experience",
     projectType: "Independent Project · 2021",
     awards: "IDA Silver · EPDA Honorable Mention · Rookie Awards Highly Commended",
     href: "/work/smart-puppy",
-    image: smartPuppyProject.hero.src,
+    image: smartPuppyProject.hero!.src,
     imageDark: smartPuppyProject.heroDark?.src,
-    imageWidth: smartPuppyProject.hero.width,
-    imageHeight: smartPuppyProject.hero.height,
+    imageWidth: smartPuppyProject.hero!.width,
+    imageHeight: smartPuppyProject.hero!.height,
     imageAlt:
       "SMART PUPPY robotic companion beside its mobile app home interface.",
   },
   {
-    number: "04",
+    number: "05",
     title: "PROFESSIONAL EXPERIENCE",
     tagline: "Commercial Product Development",
     disciplines: "Product Design · Engineering Collaboration · Shipped Products",
     projectType: "Professional Work · 2021–2026",
     ctaLabel: "View work",
     href: "/work/professional-experience",
-    image: professionalExperienceProject.hero.src,
+    image: professionalExperienceProject.hero!.src,
     imageDark: professionalExperienceProject.heroDark?.src,
-    imageWidth: professionalExperienceProject.hero.width,
-    imageHeight: professionalExperienceProject.hero.height,
+    imageWidth: professionalExperienceProject.hero!.width,
+    imageHeight: professionalExperienceProject.hero!.height,
     imageAlt:
       "A selection of commercial consumer products including a blender, adjustable dumbbells, robot vacuum, styling brush, and massage gun.",
   },
@@ -277,11 +288,13 @@ export default function HomePage() {
       <section className={styles.work} aria-labelledby="work-title">
         <header id="selected-work" className={styles.sectionHeader}>
           <p className={styles.sectionIndex}>Selected Work</p>
-          <h2 id="work-title">Across scales. One design practice.</h2>
-          <p>
-            Independent concepts and professional work across physical products,
-            connected experiences, and intelligent systems.
-          </p>
+          <div className={styles.sectionHeading}>
+            <h2 id="work-title">Across scales. One design practice.</h2>
+            <p className={styles.sectionHeadingSupporting}>
+              Independent concepts and professional work across physical products,
+              connected experiences, and intelligent systems.
+            </p>
+          </div>
         </header>
 
         <div className={styles.projectList}>
@@ -302,7 +315,7 @@ export default function HomePage() {
                 </div>
                 <Link href={project.href} className={styles.caseLink}>
                   {"ctaLabel" in project ? project.ctaLabel : "View case study"}{" "}
-                  <span aria-hidden="true">↗</span>
+                  <span aria-hidden="true" className={styles.linkArrow}>↗</span>
                 </Link>
               </div>
               <Link
@@ -310,33 +323,62 @@ export default function HomePage() {
                 className={styles.projectMedia}
                 aria-label={`View ${project.title} case study`}
               >
-                <div className={styles.projectMediaLight}>
-                  <Image
-                    src={project.image}
-                    alt={project.imageAlt}
-                    width={project.imageWidth}
-                    height={project.imageHeight}
-                  />
-                </div>
-                {project.imageDark ? (
-                  // No `sizes`: with it, Chromium never resolves the
-                  // srcset for whichever variant becomes visible via the
-                  // data-theme/:has() CSS toggle above (confirmed by
-                  // isolated testing — img.currentSrc stays permanently
-                  // empty after a live theme-toggle click, on both a fresh
-                  // load and a runtime toggle). Dropping `sizes` here is
-                  // what actually makes the theme switch work; Next still
-                  // serves a responsive srcset, the browser just assumes
-                  // 100vw when picking a candidate.
-                  <div className={styles.projectMediaDark}>
-                    <Image
-                      src={project.imageDark}
-                      alt={project.imageAlt}
-                      width={project.imageWidth}
-                      height={project.imageHeight}
-                    />
-                  </div>
-                ) : null}
+                {/* Named to match components/ProjectHeader.tsx's own hero
+                    ViewTransition (same "project-hero-<slug>" name) — the
+                    browser morphs this image into the case-study hero image
+                    on click. No wrapper div around the light/dark pair here:
+                    a display:contents wrapper was tried first and confirmed
+                    (via instrumenting document.getAnimations()) to silently
+                    break the named pair from ever forming — ViewTransition
+                    needs to sit directly on the pair's own DOM, not behind an
+                    intermediate contents box. */}
+                <ViewTransition
+                  name={`project-hero-${project.href.split("/").pop()}`}
+                  share="project-morph"
+                  default="none"
+                >
+                  {"image" in project ? (
+                    <>
+                      <div className={styles.projectMediaLight}>
+                        <Image
+                          src={project.image}
+                          alt={project.imageAlt}
+                          width={project.imageWidth}
+                          height={project.imageHeight}
+                        />
+                      </div>
+                      {project.imageDark ? (
+                        // No `sizes`: with it, Chromium never resolves the
+                        // srcset for whichever variant becomes visible via the
+                        // data-theme/:has() CSS toggle above (confirmed by
+                        // isolated testing — img.currentSrc stays permanently
+                        // empty after a live theme-toggle click, on both a fresh
+                        // load and a runtime toggle). Dropping `sizes` here is
+                        // what actually makes the theme switch work; Next still
+                        // serves a responsive srcset, the browser just assumes
+                        // 100vw when picking a candidate.
+                        <div className={styles.projectMediaDark}>
+                          <Image
+                            src={project.imageDark}
+                            alt={project.imageAlt}
+                            width={project.imageWidth}
+                            height={project.imageHeight}
+                          />
+                        </div>
+                      ) : null}
+                    </>
+                  ) : (
+                    // No final cover yet — a restrained text placeholder in
+                    // the exact same media box (same position/overflow/
+                    // background/aspect-ratio as every other project's
+                    // cover), not a missing-image state.
+                    <div className={styles.projectMediaPlaceholder}>
+                      <span className={styles.projectMediaPlaceholderLabel} aria-hidden="true">
+                        Coming Soon
+                      </span>
+                    </div>
+                  )}
+                </ViewTransition>
               </Link>
             </article>
           ))}
@@ -384,15 +426,17 @@ export default function HomePage() {
               Open to product design, experience design, and design leadership / project coordination opportunities.
             </p>
             <div className={styles.contactLinks}>
-              <a href="mailto:ruxiadesign@gmail.com">Email me ↗</a>
+              <a href="mailto:ruxiadesign@gmail.com">
+                Email me <span aria-hidden="true" className={styles.linkArrow}>↗</span>
+              </a>
               <a href="https://www.linkedin.com/in/ruxiawang/" target="_blank" rel="noreferrer">
-                LinkedIn ↗
+                LinkedIn <span aria-hidden="true" className={styles.linkArrow}>↗</span>
               </a>
               <a href="https://www.behance.net/ruxiawangdesign" target="_blank" rel="noreferrer">
-                Behance ↗
+                Behance <span aria-hidden="true" className={styles.linkArrow}>↗</span>
               </a>
               <a href="https://www.instagram.com/ruxia.art/" target="_blank" rel="noreferrer">
-                Instagram ↗
+                Instagram <span aria-hidden="true" className={styles.linkArrow}>↗</span>
               </a>
             </div>
           </div>

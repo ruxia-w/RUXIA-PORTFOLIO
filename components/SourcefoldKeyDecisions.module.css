@@ -1,0 +1,112 @@
+.wrap {
+  width: 100%;
+  overflow-x: auto;
+  /* Pulls the diagram closer to the section's intro copy above it — a
+     scoped, local adjustment (not a change to the shared inter-block
+     spacing rule in CaseStudySection.module.css, which every case study
+     uses), matching the same technique already used for the Challenge
+     diagram. */
+  margin-top: -12px;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  min-width: 860px;
+}
+
+.diagram {
+  /* Same local-token pattern as the other three SOURCEFOLD diagrams — kept
+     in sync so all four read as one visual system. */
+  --accent: #3d6a91;
+  --accent-tint: rgba(61, 106, 145, 0.06);
+}
+
+:global(html[data-theme="dark"]) .diagram {
+  --accent: #8fb4d6;
+  --accent-tint: rgba(143, 180, 214, 0.08);
+}
+
+.bg { fill: var(--color-bg); }
+.divider { stroke: var(--color-border); }
+
+.tag {
+  fill: var(--color-muted);
+  font-size: 8.5px;
+  letter-spacing: 0.09em;
+  opacity: 0.8;
+}
+.tagChosen {
+  fill: var(--accent);
+  font-size: 8.75px;
+  letter-spacing: 0.1em;
+}
+.tagRejected {
+  fill: var(--color-muted);
+  font-size: 8.75px;
+  letter-spacing: 0.1em;
+}
+
+.decisionTitle {
+  fill: var(--color-fg);
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.question {
+  fill: var(--color-muted);
+  font-size: 10.5px;
+  font-style: italic;
+}
+
+.boxRejected { fill: var(--color-surface); stroke: var(--color-border); }
+.boxChosen { fill: var(--accent-tint); stroke: var(--accent); }
+
+.titleRejected {
+  fill: var(--color-muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+.titleChosen {
+  fill: var(--color-fg);
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.exampleRejected {
+  fill: var(--color-muted);
+  font-size: 10.5px;
+  font-style: italic;
+}
+.exampleChosen {
+  fill: var(--color-fg);
+  font-size: 10.5px;
+  font-style: italic;
+}
+
+.rationaleRejected {
+  fill: var(--color-muted);
+  font-size: 9px;
+  font-style: italic;
+}
+.rationaleChosen {
+  fill: var(--accent);
+  font-size: 9px;
+  font-style: italic;
+}
+
+.vsLabel {
+  fill: var(--color-muted);
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+/* Deliberately not accent-colored — the blue accent is reserved for the
+   Chosen card's own rationale, so it stays a single, unambiguous signal
+   rather than repeating on every row's summary line too. */
+.takeaway {
+  fill: var(--color-muted);
+  font-size: 10.5px;
+  font-style: italic;
+}

@@ -25,13 +25,32 @@
   padding: clamp(2rem, 4vw, 3.25rem) 0 clamp(5rem, 8vw, 7.5rem);
 }
 
+/* Layout/sizing lives here now (was on .portrait directly) so .portrait
+   itself is free to scale on hover without affecting the grid row's height
+   or the portrait/copy column relationship — overflow: hidden clips the
+   scaled image to this frame's unchanged size. */
+.portraitFrame {
+  width: 100%;
+  align-self: start;
+  overflow: hidden;
+  background: var(--color-surface-soft);
+}
+
 .portrait {
+  display: block;
   width: 100%;
   height: auto;
-  align-self: start;
   object-fit: contain;
   object-position: center;
-  background: var(--color-surface-soft);
+  /* Very slow, restrained camera push — not a noticeable zoom. */
+  transition: transform 1.2s var(--ease-premium);
+}
+
+/* No hover on touch devices. */
+@media (hover: hover) and (pointer: fine) {
+  .portraitFrame:hover .portrait {
+    transform: scale(1.012);
+  }
 }
 
 .heroCopy {
@@ -122,6 +141,32 @@
   border-bottom: 1px solid currentColor;
 }
 
+/* Shared with .contactLinks a below (Get in Touch) — one consistent
+   link-interaction language, matching the Home page's project links: text
+   and underline stay put, only the arrow shifts. font-family restores the
+   arrow glyph's pre-Inter rendering — site body text now resolves
+   --font-body to Inter (see app/globals.css), which renders this "↗"
+   character noticeably heavier/larger than it looked before that swap;
+   scoping the ORIGINAL font stack to just this character keeps the Inter
+   change everywhere else while putting the arrow back exactly as it was. */
+.linkArrow {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  display: inline-block;
+  transition: transform 250ms var(--ease-premium);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .heroLink:hover .linkArrow,
+  .contactLinks a:hover .linkArrow {
+    transform: translate(2px, -2px);
+  }
+}
+
+.heroLink:focus-visible .linkArrow,
+.contactLinks a:focus-visible .linkArrow {
+  transform: translate(2px, -2px);
+}
+
 .background,
 .expertise,
 .education,
@@ -153,13 +198,52 @@
   margin-top: clamp(2rem, 3vw, 3.25rem);
 }
 
-.backgroundIntro h2,
-.expertiseHeader h2,
+/* "Professional background.", "Systems, trade-offs, and craft.", and
+   "Education and recognition." — synchronized to use the exact same
+   typography treatment as the homepage's "Across scales. One design
+   practice." (see app/page.module.css :global(#work-title)): same
+   font-family, size/clamp, weight, line-height, and tracking, values
+   hardcoded to mirror #work-title's own hardcoded values exactly. Applied as
+   a class directly on each <h2> in page.tsx (not via a `.container h2`
+   descendant selector) so the rule is tied straight to the element. Each
+   heading keeps its own separate max-width/margin rule below (layout only),
+   so line-wrapping still responds naturally per heading. "Get in Touch"
+   (.contact h2) stays on its own separate rule below (Anton), matching the
+   homepage's closing statement. */
+.syncedHeading {
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(1.83rem, 3.89vw, 3.89rem);
+  font-weight: 650;
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+}
+
+/* "GET IN TOUCH" — Anton (var(--font-hero), the same font file as the
+   homepage Hero), sized up ~17% from the Level 3 scale it used to share.
+   Weight 400 (Anton's only real weight); line-height/tracking match the
+   Hero's own Anton tuning (0.98, -0.02em), not Level 3's Inter-tuned values.
+   text-transform: uppercase displays "GET IN TOUCH" without changing the
+   underlying text content (still "Get in Touch" in the JSX/DOM).
+   .contact h2 (not a bare #contact-title/:global) — the Home page's own
+   closing statement heading uses this exact same id, and next.js bundles
+   CSS Modules from every route into shared chunks, so a *global* ID
+   selector here would leak onto Home's heading too (confirmed: it did,
+   silently overriding Home's own .contact h2 rule below since ID
+   specificity beats it regardless of source file). .contact is hashed
+   per-file by CSS Modules, so this stays correctly scoped to only this
+   page's own contact section. */
+.contact h2 {
+  font-family: var(--font-hero), "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(2.76rem, 4.35vw, 4.47rem);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.syncedHeading,
 .contact h2 {
   margin: 0;
-  font-size: clamp(2.35rem, 3.7vw, 3.8rem);
-  line-height: 1.06;
-  letter-spacing: -0.036em;
 }
 
 .backgroundText {
@@ -245,16 +329,11 @@
 }
 
 .education h2 {
-  /* Deliberately smaller than the page's other big editorial headlines —
-     this section is meant to read as lightweight factual reference, not
-     another headline moment. Heading -> its own content still stays the
-     smaller relationship (educationGrid's margin-top below is clearly less
-     than this section's own top/bottom padding above). */
+  /* Now unified with the page's other three Level 3 headings above (same
+     rule block) — layout-only properties stay here (line length, its own
+     top margin); typography lives in the shared rule. */
   max-width: 32ch;
   margin: clamp(0.5rem, 1vw, 0.75rem) 0 0;
-  font-size: clamp(1.6rem, 2.4vw, 2.1rem);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
 }
 
 .educationGrid {

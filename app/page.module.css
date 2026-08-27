@@ -17,6 +17,12 @@
   padding: clamp(3.5rem, 5.5vw, 5.5rem) 0 calc(var(--section-space) * 1.3);
   display: flex;
   flex-direction: column;
+  /* .hero has no horizontal padding of its own, so its inline size already
+     equals .main's content box (the actual safe-frame width, gutters
+     already subtracted) — the exact reference .heroTitle's font-size needs.
+     Establishing the query container here lets cqw below track that real,
+     already-gutter-adjusted width directly, instead of the raw viewport. */
+  container-type: inline-size;
 }
 
 .sectionIndex,
@@ -48,10 +54,23 @@
      --font-hero — every other heading keeps the site's default --font-display.
      No local max-width: the headline uses 100% of .hero's own box (the same
      left/right boundary as every other homepage section) so the longest
-     line, "Connected Experiences,", can nearly fill the available width. */
+     line, "Connected Experiences,", can nearly fill the available width.
+     font-size is in cqw (of .hero, see .hero's container-type above), not
+     vw: vw sizing this line and vw sizing the safe frame's own gutter/
+     max-width were two independent formulas that only stayed in sync below
+     ~1421px viewport, then drifted apart on larger screens. Sizing off
+     .hero's actual (already gutter- and max-width-adjusted) inline size
+     keeps the line locked to the same % of the real frame at every width,
+     including past the frame's own max-width, where it now stops growing
+     automatically along with the frame instead of needing a separate
+     large-screen breakpoint. 11.2cqw = the original 10.3vw / 92 (92% being
+     the frame's share of the viewport once both gutters are subtracted in
+     that same original vw system) — i.e. the exact ratio "Connected
+     Experiences," already had to the frame at laptop widths, just now
+     measured against the frame directly instead of the viewport. */
   margin: clamp(1.25rem, 2vw, 2rem) 0 clamp(1.75rem, 2.5vw, 2.5rem);
   font-family: var(--font-hero), "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(3.1rem, 10.3vw, 9.15rem);
+  font-size: clamp(3.1rem, 11.2cqw, 9.15rem);
   font-weight: 400;
   line-height: 0.94;
   letter-spacing: -0.02em;
@@ -157,12 +176,21 @@
 .sectionHeader,
 .sectionHeaderCompact {
   display: grid;
-  grid-template-columns: 0.32fr 1fr 0.65fr;
   gap: clamp(1.5rem, 4vw, 5rem);
   align-items: start;
 }
 
+.sectionHeaderCompact {
+  grid-template-columns: 0.32fr 1fr 0.65fr;
+}
+
 .sectionHeader {
+  /* Two columns, not three: the supporting copy now lives directly below
+     the heading (see .sectionHeading/.sectionHeadingSupporting) instead of
+     occupying its own third column — freeing up the width that column used
+     to take is also what keeps "Across scales. One design practice." at two
+     lines instead of wrapping to three on normal laptop/desktop widths. */
+  grid-template-columns: 0.32fr 1fr;
   /* Header block -> its own content (.projectList): the shared, smaller
      --section-header-gap, deliberately below the larger --section-space
      section-to-section transition above (.work's top padding), so Selected
@@ -214,12 +242,77 @@
   margin: 0;
 }
 
+/* Level 2 — Page / Major Section Display L: "Strategy, systems, and craft."
+   and "Product design, in form and detail." — synchronized to use the exact
+   same typography treatment as "Across scales. One design practice."
+   (#work-title above): same font-family, size/clamp, weight, line-height,
+   and tracking, one heading synchronized to a shared standard rather than
+   each picking its own settings. Note these two no longer use the
+   --display-l-* tokens (still used by Gallery's own title, untouched) — the
+   values are hardcoded here to mirror #work-title's own hardcoded values
+   exactly, not the token, since #work-title itself isn't token-driven
+   anymore either. Each heading keeps its own existing container/max-width,
+   so line-wrapping still responds naturally per section — only the type
+   itself is synchronized. */
 .sectionHeader h2,
 .sectionHeaderCompact h2,
 .capabilitiesHeader h2 {
-  font-size: clamp(2.2rem, 4.8vw, 4.75rem);
-  line-height: 0.98;
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(1.83rem, 3.89vw, 3.89rem);
+  font-weight: 650;
+  line-height: 0.96;
   letter-spacing: -0.035em;
+}
+
+/* "Across scales. One design practice." only — a targeted, one-off
+   correction below the shared Level 2 rule above (which still governs
+   "Strategy, systems, and craft." and "Product design, in form and detail.":
+   left untouched). font-size/line-height/max-width stay at their current,
+   already-tuned values (the 2-line composition depends on them). font-family
+   and font-weight are reverted to what this heading actually rendered as
+   before this session's font-system work: at the pre-session commit,
+   .sectionHeader h2 had no font-family/font-weight override at all — it
+   inherited var(--font-display) (globals.css h1-h4 rule) and the global h2
+   rule's font-weight: 650. --font-display resolved to the literal
+   "Avenir Next", "Helvetica Neue", Arial, sans-serif string back then (a
+   second, since-fixed cascade bug meant the Space Grotesk binding never
+   actually won) — that token now means Inter, so the original stack is
+   hardcoded here explicitly rather than referencing var(--font-display),
+   which would pull in the current (different) font instead. Letter-spacing
+   also restored to its original -0.035em (was -0.015em, inherited from the
+   shared Level 2 token, itself changed since).
+   :global — a bare #work-title here gets hashed by CSS Modules (it's a
+   literal id="work-title" string in the JSX, not routed through the styles
+   object), so it would never match the real DOM id without this. */
+:global(#work-title) {
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(1.83rem, 3.89vw, 3.89rem);
+  font-weight: 650;
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+  max-width: 20ch;
+}
+
+/* Wraps the heading and its supporting copy as one column so the copy reads
+   as belonging to the heading (same left edge, stacked directly beneath it)
+   instead of sitting in its own separate column beside it. */
+.sectionHeading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-content-gap);
+}
+
+.sectionHeadingSupporting {
+  /* Widened from 44ch specifically so this copy breaks into its intended two
+     lines ("...physical products," / "connected experiences, and intelligent
+     systems.") instead of three — font-size/weight/line-height are
+     untouched, this is a container-width change only. 57ch sits in the
+     middle of the actual safe window (measured at 1024-1920px: the target
+     break holds from 54ch-60ch; narrower re-wraps "products," down, wider
+     pulls "connected" up) rather than a guessed value, and stays well short
+     of the heading column's own full width. */
+  color: var(--color-muted);
+  max-width: 57ch;
 }
 
 .sectionHeader > p:last-child,
@@ -262,15 +355,18 @@
      same way a kicker sits close above the headline it belongs to. The
      large gap belongs one level down, at .projectIdentity's own
      margin-bottom (Group 2 -> Group 3), which is unchanged.
-     font-hero (Anton, see app/layout.tsx) is a deliberate small echo of the
-     Hero headline's typeface — weight is fixed at 400 (Anton's only weight;
-     Anton is inherently bold/condensed, so no separate bold declaration is
-     needed or available) and the size is nudged down slightly from the old
-     Space Grotesk value since Anton's condensed, blockier letterforms read
-     visually larger at the same font-size. */
+     Anton (var(--font-hero), the same font file as the homepage Hero — a
+     deliberate reintroduction, this is now the one other place Anton is
+     used) so the number reads as a strong graphic index marker, sized up
+     ~22% from its prior Inter-based scale. Weight is 400 (Anton's only real
+     weight — it's a single-weight font; anything else would either be
+     ignored by the renderer or, worse, synthesized, which font-synthesis:
+     none already disables site-wide). Sized up from the project name below
+     it (see .project h3, untouched, still Inter), not a small label next to
+     the title. */
   margin: 0 0 clamp(0.4rem, 0.8vw, 0.6rem);
   font-family: var(--font-hero), "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(2.1rem, 3.5vw, 3.5rem);
+  font-size: clamp(2.95rem, 5.15vw, 5.5rem);
   font-weight: 400;
   line-height: 1;
   letter-spacing: -0.01em;
@@ -286,8 +382,25 @@
 }
 
 .project h3 {
+  /* Project Name (AURIC SIGNAL, TRACE, SMART PUPPY, PROFESSIONAL EXPERIENCE
+     — this one selector covers all four). font-size/line-height stay at
+     their current, already-tuned values. font-family and font-weight are
+     reverted to what these titles actually rendered as before this
+     session's font-system work: at the pre-session commit, .project h3 had
+     no font-family/font-weight override — it inherited var(--font-display)
+     (globals.css h1-h4 rule) and the global h3 rule's font-weight: 650.
+     --font-display resolved to the literal "Avenir Next", "Helvetica Neue",
+     Arial, sans-serif string back then (a second, since-fixed cascade bug
+     meant the Space Grotesk binding this comment used to reference never
+     actually won) — that token now means Inter, so the original stack is
+     hardcoded here explicitly rather than referencing var(--font-display),
+     which would pull in the current (different) font instead. Letter-spacing
+     also restored to its original -0.032em (was -0.02em, from this
+     session's weight/tracking retune). */
   margin: 0;
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(1.65rem, 2.8vw, 2.8rem);
+  font-weight: 650;
   line-height: 1;
   letter-spacing: -0.032em;
 }
@@ -340,25 +453,83 @@
   padding-top: 2rem;
 }
 
+.linkArrow {
+  /* Restores the arrow glyph's pre-Inter rendering. Site body text now
+     resolves --font-body to Inter (see app/globals.css), which renders this
+     "↗" character noticeably heavier/larger than it looked before that
+     swap — scoping the ORIGINAL font stack to just this character keeps the
+     Inter change everywhere else while putting the arrow back exactly as it
+     was. transform-only otherwise, so the arrow shifts without ever moving
+     the preceding link text (transforms don't affect layout/sibling
+     position). */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  display: inline-block;
+  transition: transform 250ms var(--ease-premium);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .caseLink:hover .linkArrow,
+  .contactLinks a:hover .linkArrow {
+    transform: translate(2px, -2px);
+  }
+}
+
+.caseLink:focus-visible .linkArrow,
+.contactLinks a:focus-visible .linkArrow {
+  transform: translate(2px, -2px);
+}
+
 .projectMedia {
   /* Natural aspect ratio, not a forced crop box: the image's own intrinsic
      width/height (passed to next/image) sets the shape, this just displays
-     it responsively. */
+     it responsively. aspect-ratio matches that same intrinsic ratio
+     (1774/887, shared by every project's hero) — redundant for a project
+     with a real image (which already renders at this ratio) but required
+     for the "Coming Soon" placeholder below, which has no image to derive
+     a height from. */
   position: relative;
   overflow: hidden;
+  aspect-ratio: 1774 / 887;
   background: var(--color-surface-soft);
+}
+
+.projectMediaPlaceholder {
+  /* Sits in the exact same box as .projectMediaLight/.projectMediaDark
+     (position: relative + overflow: hidden come from .projectMedia above),
+     just centering a quiet label instead of an image. */
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.projectMediaPlaceholderLabel {
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .projectMedia img {
   display: block;
   width: 100%;
   height: auto;
-  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  /* Slow, restrained camera-push-in rather than a quick UI-button hover. */
+  transition: transform 1.2s var(--ease-premium);
 }
 
-.projectMedia:hover img,
+/* No hover state on touch devices — gated the same way HeroHeadline gates
+   its own pointer-driven effects. Keyboard focus stays unconditional. */
+@media (hover: hover) and (pointer: fine) {
+  .projectMedia:hover img {
+    transform: scale(1.025);
+  }
+}
+
 .projectMedia:focus-visible img {
-  transform: scale(1.02);
+  transform: scale(1.025);
 }
 
 /* Same light/dark swap technique as ProjectHeader.module.css's case-study
@@ -503,20 +674,21 @@
 
 .contact h2 {
   /* Noticeably larger than the plain default h2 (this section's clear
-     visual anchor again), but well below both the old oversized homepage-
-     section heading size and the Hero display scale. font-hero (Anton, same
-     token as .heroTitle) makes this closing statement a deliberate small
-     echo of the opening Hero — sized well under the Hero clamp and kept in
-     its original sentence case (no text-transform), since only the typeface
-     is meant to carry the callback, not the Hero's full treatment. Weight
-     is fixed at 400 (Anton's only available weight, replacing the inherited
-     650 from the global h2 rule). */
+     visual anchor again), but well below the Hero display scale. Anton
+     (var(--font-hero), the same font file as the homepage Hero — a
+     deliberate reintroduction here), sized up ~12% from its prior
+     Inter-based scale. Weight is 400 (Anton's only real weight). Line-height
+     and tracking match the Hero's own Anton tuning (0.98, -0.02em) rather
+     than the old Inter-tuned values (1.18 read as loose/baggy for Anton's
+     dense letterforms). Kept in its original sentence case (no
+     text-transform) — only the typeface carries the Hero callback here, not
+     a full caps treatment. */
   margin: 0;
   font-family: var(--font-hero), "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(1.85rem, 3vw, 2.9rem);
+  font-size: clamp(2.08rem, 3.38vw, 3.26rem);
   font-weight: 400;
-  line-height: 1.18;
-  letter-spacing: -0.015em;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
 }
 
 .contactInfo {
@@ -549,11 +721,36 @@
 
 @media (max-width: 900px) {
   .heroTitle {
-    font-size: clamp(2.6rem, 7.4vw, 4.6rem);
+    /* Same cqw conversion as the base rule above (7.4vw / 92 = 8.04cqw). */
+    font-size: clamp(2.6rem, 8.04cqw, 4.6rem);
+    /* Unitless line-height is a ratio of the font's own size, so the desktop
+       0.94 already shrinks in lockstep with the smaller font here — but the
+       resulting gap between the three lines gets small enough in absolute
+       px to read as compressed. Loosened at this breakpoint and below, then
+       dialed back slightly from 1 (a touch of the added room read as more
+       than needed) while staying above desktop's own 0.94; desktop itself
+       remains untouched. */
+    line-height: 0.97;
+  }
+
+  /* .heroRoleLabel inherits .heroTitle's line-height (unitless values pass
+     through inheritance and reapply against each element's own font-size) —
+     pinned back to its original value here so loosening the title above
+     doesn't change this label's own line box. */
+  .heroRoleLabel {
+    line-height: 0.94;
   }
 
   .heroLastLineRow {
     gap: 0.4rem 1.5rem;
+  }
+
+  .heroBottomContent {
+    gap: 1.25rem;
+  }
+
+  .heroCapabilities {
+    padding-top: 1rem;
   }
 
   .sectionHeader,
@@ -623,7 +820,19 @@
   }
 
   .heroTitle {
-    font-size: clamp(2.1rem, 12vw, 3.4rem);
+    /* Same cqw conversion as the base rule above (12vw / 92 = 13.04cqw). */
+    font-size: clamp(2.1rem, 13.04cqw, 3.4rem);
+    /* Raised from the old 0.88 (tighter than desktop's own 0.94) — at this
+       font-size 0.88 read as visibly compressed between the three lines.
+       Dialed back slightly from 1.08 (read a touch loose), still clearly
+       above the old 0.88. Desktop's 0.94 is untouched. */
+    line-height: 1;
+  }
+
+  /* Pinned to its pre-existing inherited value (this breakpoint's old
+     .heroTitle line-height was 0.88) so loosening the title above doesn't
+     change this label's own line box. */
+  .heroRoleLabel {
     line-height: 0.88;
   }
 
@@ -639,9 +848,17 @@
     gap: 1.75rem;
   }
 
+  .heroBottomContent {
+    gap: 1rem;
+  }
+
   .heroCapabilities {
     grid-template-columns: 1fr;
-    gap: 1.75rem;
+    /* Stacked single-column rows: the old flat 1.75rem read as loose next
+       to the now-tighter Hero title above it. padding-top (space below the
+       divider, above the first row) tightened to match. */
+    padding-top: 0.875rem;
+    gap: 0.75rem;
   }
 
   .sectionHeader > p:last-child,
@@ -649,14 +866,11 @@
     grid-column: 1;
   }
 
-  .sectionHeader h2,
-  .sectionHeaderCompact h2,
-  .capabilitiesHeader h2 {
-    font-size: clamp(2.15rem, 11vw, 3.4rem);
-  }
-
   .projectNumber {
-    font-size: 2.5rem;
+    /* Scaled up ~20% along with the desktop size (was 2.5rem), not just
+       carried over as-is — still clearly smaller than desktop's own clamp
+       ceiling so it doesn't overwhelm the stacked mobile layout. */
+    font-size: 3rem;
     margin-bottom: 0.5rem;
   }
 

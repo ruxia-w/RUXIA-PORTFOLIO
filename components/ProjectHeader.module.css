@@ -41,6 +41,29 @@
   letter-spacing: -0.018em;
 }
 
+/* Same small-caps "muted label" recipe already used throughout the case
+   study system (.breadcrumb here, plus .sectionIndex/.groupLabel/
+   .relationshipEyebrow/.awardYear elsewhere) — an optional line above the
+   title, only rendered when a project supplies `eyebrow`. */
+.eyebrow {
+  margin: 0 0 var(--space-3);
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+/* Same recipe as CaseStudySection's own `.intro` (a supporting paragraph
+   under a heading) — only rendered when a project supplies `description`. */
+.description {
+  max-width: 58ch;
+  margin: clamp(1rem, 1.6vw, 1.25rem) 0 0;
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
 .hero {
   /* No outer stage/frame: the hero image is the primary surface, flush with
      the same safe frame as the breadcrumb/title/metadata above and below it

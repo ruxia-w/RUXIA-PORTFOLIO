@@ -5,4 +5,5 @@ export const projectOrder = [
   "trace",
   "smart-puppy",
   "professional-experience",
+  "sourcefold",
 ] as const;

@@ -3,6 +3,11 @@ import { RichText } from "@/lib/richText";
 import { ResponsiveMedia } from "./ResponsiveMedia";
 import { PhoneMediaViewer } from "./PhoneMediaViewer";
 import { FinalExperience } from "./FinalExperience";
+import { CaseStudyPlaceholder } from "./CaseStudyPlaceholder";
+import { SourcefoldObjectModel } from "./SourcefoldObjectModel";
+import { SourcefoldChallengeDiagram } from "./SourcefoldChallengeDiagram";
+import { SourcefoldWorkflowDiagram } from "./SourcefoldWorkflowDiagram";
+import { SourcefoldKeyDecisions } from "./SourcefoldKeyDecisions";
 import type { CaseStudySection as CaseStudySectionData, ContentBlock, MediaLayout } from "@/lib/types";
 import styles from "./CaseStudySection.module.css";
 
@@ -229,6 +234,48 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
 
     case "finalExperience":
       return <FinalExperience {...block} />;
+
+    case "placeholder":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <CaseStudyPlaceholder
+            label={block.label}
+            items={block.items}
+            groups={block.groups}
+            aspectRatio={block.aspectRatio}
+            caption={block.caption}
+            details={block.details}
+          />
+        </div>
+      );
+
+    case "sourcefoldObjectModel":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <SourcefoldObjectModel />
+        </div>
+      );
+
+    case "sourcefoldChallengeDiagram":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <SourcefoldChallengeDiagram />
+        </div>
+      );
+
+    case "sourcefoldWorkflowDiagram":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <SourcefoldWorkflowDiagram />
+        </div>
+      );
+
+    case "sourcefoldKeyDecisions":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <SourcefoldKeyDecisions />
+        </div>
+      );
 
     default:
       return null;

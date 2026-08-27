@@ -2,6 +2,7 @@ import { auricSignalProject } from "./auric-signal";
 import { traceProject } from "./trace";
 import { smartPuppyProject } from "./smart-puppy";
 import { professionalExperienceProject } from "./professional-experience";
+import { sourcefoldProject } from "./sourcefold";
 
 /** Minimal per-slug lookup used to render Previous/Next links from projectOrder. */
 export const projectRegistry: Record<string, { title: string; href: string }> = {
@@ -12,4 +13,5 @@ export const projectRegistry: Record<string, { title: string; href: string }> = 
     title: professionalExperienceProject.title,
     href: "/work/professional-experience",
   },
+  sourcefold: { title: sourcefoldProject.title, href: "/work/sourcefold" },
 };

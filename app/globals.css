@@ -1,6 +1,16 @@
 :root {
-  --font-display: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
-  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  /* --font-body is set by next/font (see app/layout.tsx: bodyFont =
+     Inter(...), bound via its `variable` option and applied on <html>). Do
+     not redeclare it here: an equal-specificity :root rule appearing later
+     in the compiled cascade would silently win over the html-scoped
+     next/font class — that exact bug is what previously kept both Inter and
+     a since-removed second display font from ever actually rendering.
+     --font-display is aliased to --font-body below rather than loaded as its
+     own font: the site now uses only two typefaces total — Anton, scoped to
+     the homepage Hero alone (--font-hero), and Inter for everything else.
+     The alias exists so component CSS can keep writing the semantically
+     clearer var(--font-display) for headings without a second font file. */
+  --font-display: var(--font-body);
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -31,6 +41,35 @@
   --section-header-gap: clamp(2rem, 3vw, 2.75rem);
   --section-content-gap: clamp(0.6rem, 1vw, 0.9rem);
   --card-padding: clamp(1.5rem, 2.2vw, 2rem);
+
+  /* Shared display-type "voice" per hierarchy level (Inter, the same family
+     site-wide below the homepage Hero, which stays Anton). Each level
+     keeps its own font-size clamp where it already lives (sizes are
+     necessarily contextual — a page-title vs. a one-word Gallery title vs. a
+     case-study section opener don't share one number) but references these
+     tokens for weight/line-height/tracking, so the site reads as one voice
+     "speaking at different volumes" rather than each heading picking its own
+     settings. Display L > Display M in both weight and looseness of tracking
+     — every level below Hero should feel progressively calmer/more open,
+     never as condensed or as heavy as the Hero itself.
+     Display L weight/line-height retuned: 560/1.02 read as slightly too
+     light and too loose at the large sizes this level renders at — 520
+     lands close to Medium (per the brief's own "approximately 500", capped
+     well short of 600-700) while staying clearly heavier than Display M's
+     own 500, preserving the Level 2 > Level 3 weight step; 0.98 tightens the
+     block slightly without approaching the Hero's own 0.94. */
+  --display-l-weight: 520;
+  --display-l-line-height: 0.98;
+  --display-l-tracking: -0.015em;
+  --display-m-weight: 500;
+  --display-m-line-height: 1.1;
+  --display-m-tracking: -0.008em;
+
+  /* Shared easing for the Home page's motion system (scroll reveal, image
+     hover, link micro-interactions, the Home->project shared image
+     transition, nav underline) — one restrained curve reused everywhere
+     instead of a different feel per interaction. */
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* Space below the shared Footer's own content, down to the very bottom of
      the page — set on Footer itself (see components/Footer.module.css) so
@@ -180,6 +219,38 @@ textarea {
   border: 0;
 }
 
+/* Home -> project-page shared image transition: matching name="project-hero-
+   <slug>" ViewTransition pairs in app/page.tsx and components/ProjectHeader.tsx
+   (React's <ViewTransition>, native to this Next.js/React setup — no config,
+   no extra library). ::view-transition-* pseudo-elements are always
+   document-scoped, so this timing lives here rather than in a CSS Module. */
+::view-transition {
+  /* Restores click/hover on the live page while the transition plays — see
+     "Keeping the page interactive" in the Next.js view-transitions guide.
+     Also covers ThemeToggle's own view transition. */
+  pointer-events: none;
+}
+
+::view-transition-group(.project-morph) {
+  animation-duration: 620ms;
+  animation-timing-function: var(--ease-premium);
+}
+
+::view-transition-new(.hero-meta-fade) {
+  animation: heroMetaFade 500ms var(--ease-premium) both;
+}
+
+@keyframes heroMetaFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -192,5 +263,15 @@ textarea {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* The rule above doesn't reach ::view-transition-* pseudo-elements (they
+     aren't matched by a plain `*`), so the shared image morph, hero metadata
+     fade, and ThemeToggle's own view transition each need this explicit
+     opt-out. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

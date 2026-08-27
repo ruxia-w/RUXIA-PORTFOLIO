@@ -1,4 +1,6 @@
+import { ViewTransition } from "react";
 import { ResponsiveMedia } from "./ResponsiveMedia";
+import { CaseStudyPlaceholder } from "./CaseStudyPlaceholder";
 import type { CaseStudyProject } from "@/lib/types";
 import styles from "./ProjectHeader.module.css";
 
@@ -8,6 +10,7 @@ export function ProjectHeader({ project }: { project: CaseStudyProject }) {
     { label: "Role", value: project.role.join(" · ") },
     { label: "Timeline", value: [project.year, project.duration].filter(Boolean).join(" · ") },
     { label: "Focus", value: project.focus?.join(" · ") ?? "" },
+    { label: "Scope", value: project.scope?.join(" · ") ?? "" },
   ].filter((item) => item.value);
 
   return (
@@ -27,29 +30,53 @@ export function ProjectHeader({ project }: { project: CaseStudyProject }) {
       </nav>
 
       <div className={styles.intro}>
+        {project.eyebrow ? <p className={styles.eyebrow}>{project.eyebrow}</p> : null}
         <h1 className={styles.title}>{project.title}</h1>
         <p className={styles.subtitle}>{project.subtitle}</p>
+        {project.description ? <p className={styles.description}>{project.description}</p> : null}
       </div>
 
       <div className={styles.hero}>
-        <div className={styles.heroLight}>
-          <ResponsiveMedia media={project.hero} viewerLabel={`View full image: ${project.hero.alt}`} />
-        </div>
-        {project.heroDark ? (
-          <div className={styles.heroDark}>
-            <ResponsiveMedia media={project.heroDark} viewerLabel={`View full image: ${project.heroDark.alt}`} />
-          </div>
+        {project.hero ? (
+          /* Same name as the matching Home project image (see app/page.tsx) —
+             the browser morphs that image into this one on arrival. No
+             wrapper div around the light/dark pair: a display:contents
+             wrapper was tried first and confirmed (via instrumenting
+             document.getAnimations()) to silently break the named pair from
+             ever forming. */
+          <ViewTransition
+            name={`project-hero-${project.slug}`}
+            share="project-morph"
+            default="none"
+          >
+            <div className={styles.heroLight}>
+              <ResponsiveMedia media={project.hero} viewerLabel={`View full image: ${project.hero.alt}`} />
+            </div>
+            {project.heroDark ? (
+              <div className={styles.heroDark}>
+                <ResponsiveMedia media={project.heroDark} viewerLabel={`View full image: ${project.heroDark.alt}`} />
+              </div>
+            ) : null}
+          </ViewTransition>
+        ) : project.heroPlaceholder ? (
+          <CaseStudyPlaceholder
+            label={project.heroPlaceholder.label}
+            details={project.heroPlaceholder.details}
+            aspectRatio={project.heroPlaceholder.aspectRatio}
+          />
         ) : null}
       </div>
 
-      <dl className={styles.metadata}>
-        {metadata.map((item) => (
-          <div key={item.label} className={styles.metadataItem}>
-            <dt>{item.label}</dt>
-            <dd>{item.value}</dd>
-          </div>
-        ))}
-      </dl>
+      <ViewTransition enter="hero-meta-fade" default="none">
+        <dl className={styles.metadata}>
+          {metadata.map((item) => (
+            <div key={item.label} className={styles.metadataItem}>
+              <dt>{item.label}</dt>
+              <dd>{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </ViewTransition>
     </header>
   );
 }

@@ -52,14 +52,16 @@ export default function AboutPage() {
   return (
     <main id="main-content" className={styles.main}>
       <section className={styles.hero} aria-labelledby="about-title">
-        <Image
-          className={styles.portrait}
-          src="/about/ruxia-wang-portrait.png"
-          alt="Portrait of Ruxia Wang"
-          width={547}
-          height={711}
-          priority
-        />
+        <div className={styles.portraitFrame}>
+          <Image
+            className={styles.portrait}
+            src="/about/ruxia-wang-portrait.png"
+            alt="Portrait of Ruxia Wang"
+            width={547}
+            height={711}
+            priority
+          />
+        </div>
         <div className={styles.heroCopy}>
           <h1 id="about-title">ABOUT</h1>
           <p className={styles.heroHello}>hello</p>
@@ -82,7 +84,7 @@ export default function AboutPage() {
           </p>
           <div className={styles.heroContactLinks}>
             <a href="mailto:ruxiadesign@gmail.com" className={styles.heroLink}>
-              Email <span aria-hidden="true">↗</span>
+              Email <span aria-hidden="true" className={styles.linkArrow}>↗</span>
             </a>
             <a
               href="https://www.linkedin.com/in/ruxiawang/"
@@ -90,7 +92,7 @@ export default function AboutPage() {
               rel="noreferrer"
               className={styles.heroLink}
             >
-              LinkedIn <span aria-hidden="true">↗</span>
+              LinkedIn <span aria-hidden="true" className={styles.linkArrow}>↗</span>
             </a>
           </div>
         </div>
@@ -99,7 +101,7 @@ export default function AboutPage() {
       <section className={styles.background} aria-labelledby="background-title">
         <p className={styles.sectionIndex}>01 / Background</p>
         <div className={styles.backgroundIntro}>
-          <h2 id="background-title">Professional background.</h2>
+          <h2 id="background-title" className={styles.syncedHeading}>Professional background.</h2>
           <div>
             <div className={styles.backgroundText}>
               <div>
@@ -141,7 +143,7 @@ export default function AboutPage() {
       <section className={styles.expertise} aria-labelledby="how-i-work-title">
         <header className={styles.expertiseHeader}>
           <p className={styles.sectionIndex}>02 / How I Work</p>
-          <h2 id="how-i-work-title">Systems, trade-offs, and craft.</h2>
+          <h2 id="how-i-work-title" className={styles.syncedHeading}>Systems, trade-offs, and craft.</h2>
         </header>
         <div className={styles.capabilityGrid}>
           {howIWork.map((item, index) => (
@@ -156,7 +158,7 @@ export default function AboutPage() {
 
       <section className={styles.education} aria-labelledby="education-title">
         <p className={styles.sectionIndex}>03 / Education &amp; Recognition</p>
-        <h2 id="education-title">Education and recognition.</h2>
+        <h2 id="education-title" className={styles.syncedHeading}>Education and recognition.</h2>
         <div className={styles.educationGrid}>
           <div>
             <p className={styles.sectionIndex}>Education</p>
@@ -201,9 +203,11 @@ export default function AboutPage() {
               of designing with technology.
             </p>
             <div className={styles.contactLinks}>
-              <a href="mailto:ruxiadesign@gmail.com">Email ↗</a>
+              <a href="mailto:ruxiadesign@gmail.com">
+                Email <span aria-hidden="true" className={styles.linkArrow}>↗</span>
+              </a>
               <a href="https://www.linkedin.com/in/ruxiawang/" target="_blank" rel="noreferrer">
-                LinkedIn ↗
+                LinkedIn <span aria-hidden="true" className={styles.linkArrow}>↗</span>
               </a>
             </div>
           </div>

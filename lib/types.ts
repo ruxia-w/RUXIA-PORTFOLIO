@@ -107,6 +107,52 @@ export type ContentBlock =
       linkLabel?: string;
       note?: string;
       presentation?: "device" | "plain";
+    }
+  | {
+      /** A clearly-labeled stand-in for a diagram/UI/video asset that hasn't
+       * been produced yet — used while a case study's copy and structure are
+       * final but its visuals are not. Never a substitute for real media once
+       * that media exists. See components/CaseStudyPlaceholder. */
+      type: "placeholder";
+      label?: string;
+      /** A row of small labeled boxes (e.g. per-market crops) instead of one
+       * large single-label box. */
+      items?: string[];
+      /** Content grouped into labeled clusters (e.g. a state system divided
+       * into categories), each rendered as a title with its own item chips. */
+      groups?: Array<{ title: string; items: string[] }>;
+      aspectRatio?: string;
+      caption?: string;
+      /** Short lines describing what the future asset will contain. */
+      details?: string[];
+      layout?: MediaLayout;
+    }
+  | {
+      /** SOURCEFOLD-specific: renders components/SourcefoldObjectModel, the
+       * one finished diagram in that case study's System Architecture
+       * section. Bespoke rather than data-driven, same precedent as
+       * "awardSet" (SMART PUPPY-only) and "appScreenSet" elsewhere in this
+       * file. */
+      type: "sourcefoldObjectModel";
+      layout?: MediaLayout;
+    }
+  | {
+      /** SOURCEFOLD-specific: renders components/SourcefoldChallengeDiagram,
+       * the finished diagram in that case study's Challenge section. */
+      type: "sourcefoldChallengeDiagram";
+      layout?: MediaLayout;
+    }
+  | {
+      /** SOURCEFOLD-specific: renders components/SourcefoldWorkflowDiagram,
+       * the finished diagram in that case study's Workflow section. */
+      type: "sourcefoldWorkflowDiagram";
+      layout?: MediaLayout;
+    }
+  | {
+      /** SOURCEFOLD-specific: renders components/SourcefoldKeyDecisions,
+       * the finished diagram in that case study's Key Decisions section. */
+      type: "sourcefoldKeyDecisions";
+      layout?: MediaLayout;
     };
 
 export type CaseStudySection = {
@@ -121,16 +167,32 @@ export type CaseStudyProject = {
   slug: string;
   title: string;
   subtitle: string;
+  /** Optional small label above the title (e.g. "INDEPENDENT PRODUCT DESIGN
+   * CONCEPT · 2026"). Most projects omit it and rely on the breadcrumb alone. */
+  eyebrow?: string;
+  /** Optional one-paragraph project summary shown under the subtitle. */
+  description?: string;
   category: string;
   role: string[];
   year: string;
   duration?: string;
   focus?: string[];
+  /** Optional third hero metadata column alongside Role/Focus. */
+  scope?: string[];
   collaborators?: string[];
   status: string;
   breadcrumb: string[];
   links?: ProjectLink[];
-  hero: MediaAsset;
+  /** Real hero media. Omit (with heroPlaceholder set instead) for a project
+   * whose final hero composition hasn't been produced yet. */
+  hero?: MediaAsset;
   heroDark?: MediaAsset;
+  /** Renders a labeled placeholder box in the hero slot instead of `hero`,
+   * at the same width/spacing. Ignored if `hero` is set. */
+  heroPlaceholder?: {
+    label: string;
+    details?: string[];
+    aspectRatio?: string;
+  };
   sections: CaseStudySection[];
 };

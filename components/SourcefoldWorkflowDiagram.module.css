@@ -1,0 +1,92 @@
+.wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  min-width: 900px;
+}
+
+.diagram {
+  /* Same local-token pattern as the other two SOURCEFOLD diagrams — kept in
+     sync so all three read as one visual system. */
+  --accent: #3d6a91;
+}
+
+:global(html[data-theme="dark"]) .diagram {
+  --accent: #8fb4d6;
+}
+
+.bg { fill: var(--color-bg); }
+
+.laneDivider { stroke: var(--color-border); }
+.laneDividerStrong { stroke: var(--color-border); }
+.laneLabel {
+  fill: var(--color-muted);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.arrow { stroke: var(--color-muted); }
+.arrowAccent { stroke: var(--accent); }
+/* The one return path in the diagram — deliberately thinner and more
+   transparent than every other connector so it reads as a quiet, secondary
+   signal rather than competing with the primary left-to-right workflow. */
+.loopArrow {
+  stroke: var(--color-muted);
+  opacity: 0.75;
+}
+
+.labelMask { fill: var(--color-bg); }
+.labelText {
+  fill: var(--color-muted);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+}
+.labelTextAccent {
+  fill: var(--accent);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+}
+.labelTextLoop {
+  fill: var(--color-muted);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  opacity: 0.9;
+}
+
+.box { fill: var(--color-surface); stroke: var(--color-fg); }
+
+.name {
+  fill: var(--color-fg);
+  font-size: 14.5px;
+  font-weight: 650;
+}
+
+.subtitle {
+  fill: var(--color-muted);
+  font-size: 11px;
+  font-style: italic;
+}
+
+.annotation {
+  fill: var(--accent);
+  font-size: 9px;
+  font-style: italic;
+}
+
+.ownerNote {
+  fill: var(--color-muted);
+  font-size: 11px;
+  font-style: italic;
+}
+
+.caption {
+  max-width: 60ch;
+  margin: 0.5rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}

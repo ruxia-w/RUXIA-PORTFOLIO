@@ -64,10 +64,19 @@
   background: currentColor;
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 160ms ease;
+  /* Same mechanism as before, retimed to match the site's standardized
+     micro-interaction band (250-300ms) and shared easing. */
+  transition: transform 250ms var(--ease-premium);
 }
 
-.navLink:hover::after,
+/* No hover state on touch devices. Keyboard focus stays unconditional. */
+@media (hover: hover) and (pointer: fine) {
+  .navLink:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
 .navLink:focus-visible::after {
   transform: scaleX(1);
   transform-origin: left;
