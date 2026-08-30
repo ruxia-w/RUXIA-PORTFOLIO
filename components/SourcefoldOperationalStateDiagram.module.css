@@ -1,0 +1,150 @@
+.wrap {
+  width: 100%;
+  /* Local tokens, scoped to this one diagram — same #5873A8 accent as
+     SourcefoldOverviewDiagram's local tokens. No site-wide monospace token
+     exists yet, so the state-label mono stack is declared locally rather
+     than introducing a new global one. */
+  --accent: #5873a8;
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+}
+
+:global(html[data-theme="dark"]) .wrap {
+  --accent: #9ab0de;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 176px 1fr;
+  column-gap: 1.5rem;
+  align-items: start;
+  padding: 1.75rem 0;
+}
+
+.row:first-child {
+  padding-top: 0;
+}
+
+.row:not(:first-child) {
+  border-top: 1px solid var(--color-border);
+}
+
+.categoryLabel {
+  margin: 0;
+  padding-top: 1.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 650;
+  letter-spacing: -0.005em;
+  color: var(--color-fg);
+}
+
+.categoryAnchor {
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+}
+
+.states {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 1rem;
+  padding-top: 1.75rem;
+}
+
+.rail {
+  position: absolute;
+  top: calc(1.75rem + 3px);
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  text-align: center;
+}
+
+.marker {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-muted);
+}
+
+.stateLabel {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--color-muted);
+  overflow-wrap: break-word;
+}
+
+/* ============ Tablet: same row structure, tighter rhythm ============ */
+
+@media (max-width: 1024px) and (min-width: 721px) {
+  .row {
+    grid-template-columns: 148px 1fr;
+    column-gap: 1rem;
+  }
+
+  .states {
+    column-gap: 0.6rem;
+  }
+
+  .categoryLabel {
+    font-size: 0.875rem;
+  }
+
+  .stateLabel {
+    font-size: 0.75rem;
+  }
+}
+
+/* ============ Mobile: stacked rows, two-column states ============ */
+
+@media (max-width: 720px) {
+  .row {
+    display: block;
+    padding: 1.5rem 0;
+  }
+
+  .categoryLabel {
+    padding-top: 0;
+    margin-bottom: 1.1rem;
+  }
+
+  .states {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1rem;
+    row-gap: 1.1rem;
+    padding-top: 0;
+  }
+
+  .rail {
+    display: none;
+  }
+
+  .state {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+    gap: 0.55rem;
+  }
+
+  .marker {
+    margin-top: 0.4rem;
+  }
+}

@@ -1,0 +1,29 @@
+.wrap {
+  width: min(100%, 940px);
+  padding-top: var(--space-2);
+  text-align: center;
+}
+
+.wrap a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--color-text);
+  font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  text-underline-offset: 0.3em;
+}
+
+.wrap a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 0.35rem;
+}
+
+.wrap p {
+  margin: 0.35rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+}

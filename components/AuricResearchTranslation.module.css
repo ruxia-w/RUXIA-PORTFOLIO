@@ -1,0 +1,261 @@
+.wrap {
+  width: 100%;
+}
+
+/* Deliberately narrower than the 940px media frame — a centered internal
+   object, matching the other three AURIC diagrams' canvas philosophy. */
+.canvas {
+  width: 100%;
+  max-width: 920px;
+  margin-inline: auto;
+}
+
+/* ============ Desktop / tablet three-column map ============ */
+
+.grid {
+  display: grid;
+  /* ~25 / 45 / 30 visual-weight split (5fr : 9fr : 6fr) — the Design
+     Principle column is deliberately the widest and strongest, the
+     transformation layer the eye can't skip past. */
+  grid-template-columns: 24px minmax(0, 5fr) 28px minmax(0, 9fr) 28px minmax(0, 6fr);
+  /* Tighter than the shared --space-8 token (~25% less) so the four rows
+     read as one dense reasoning model rather than a spreadsheet with
+     generous line spacing; the extra gap before the first row (see
+     .colHeader below) keeps the header visually separated from the data. */
+  row-gap: 1.5rem;
+  /* Centers every row's cells on that row's own height, so each connector's
+     center coincides with the text/node it's actually connecting — the
+     same alignment fix used by the other three AURIC diagrams. */
+  align-items: center;
+}
+
+.headerRow {
+  display: contents;
+}
+
+.colHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  /* Larger than the row-to-row gap above, so the header reads as its own
+     zone rather than just "the first row's row-gap". */
+  margin: 0 0 0.85rem;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-section-label-size);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  align-self: end;
+}
+
+/* The one lime marker on the header row — small, not a headline treatment —
+   flagging the middle column as the diagram's visual focus. */
+.headerDot {
+  flex: 0 0 auto;
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--lime);
+}
+
+.row {
+  display: contents;
+}
+
+/* .row uses display: contents (its children become direct grid items, with
+   no box of their own for .row itself), so the reveal transition has to
+   live on each child individually rather than on .row. */
+.rowIndex,
+.signalText,
+.principleBlock,
+.responseNode {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .rowIndex,
+.revealed .signalText,
+.revealed .principleBlock,
+.revealed .responseNode {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.rowIndex {
+  padding-right: 0.4rem;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-annotation-label-size);
+  font-weight: 400;
+  align-self: start;
+}
+
+.rowConnector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Research Signal — quiet, observational: the plainest text in the row. */
+.signalText {
+  margin: 0;
+  padding-right: 0.75rem;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-annotation-body-size);
+  font-weight: 400;
+  line-height: 1.45;
+  text-align: left;
+}
+
+/* Design Principle — the synthesis layer and the diagram's strongest visual
+   element: a restrained tinted block (never a full UI card — no top/right/
+   bottom border, just the tinted fill and one accent edge) so the reader
+   can't skip straight from signal to product without registering it. The
+   shared lime left edge across all four rows doubles as the "synthesis
+   spine" — read top to bottom, it reads as one continuous accent the four
+   rows all pass through. */
+.principleBlock {
+  background: var(--lime-tint);
+  border-left: 2px solid var(--lime);
+  border-radius: 0 6px 6px 0;
+  padding: 0.5rem 0.75rem;
+  margin-right: 0.75rem;
+}
+
+/* A faint top rule on every row after the first — subtle row rhythm,
+   deliberately placed on the synthesis block (the diagram's visual anchor)
+   rather than as a separate full-width divider. */
+.row:not(:first-of-type) .principleBlock {
+  border-top: 1px solid var(--color-border);
+}
+
+.principleText {
+  margin: 0;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-annotation-body-size);
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: left;
+}
+
+/* Product Response — a compact outlined endpoint, not a stretched card.
+   width: fit-content so it hugs its own label; the small lime dot is the
+   one restrained emphasis marker (never a full lime fill). */
+.responseNode {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  width: fit-content;
+  max-width: 100%;
+  /* Deliberately tighter than the shared support-padding tokens — this is a
+     compact endpoint marker, not a button. */
+  padding: 0.45rem 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-node-title-size);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.responseDot {
+  flex: 0 0 auto;
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lime);
+}
+
+@media (max-width: 720px) {
+  .grid,
+  .headerRow {
+    display: none;
+  }
+}
+
+/* ============ Mobile: one vertical group per translation ============ */
+
+.mobileFlow {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .mobileFlow {
+    display: block;
+  }
+}
+
+.mobileGroup {
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .mobileGroup {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Spacing between the four translation groups is deliberately larger than
+   the spacing within a single group, below. */
+.mobileGroup + .mobileGroup {
+  margin-top: var(--diagram-gap-section);
+}
+
+.mobileRowIndex {
+  margin: 0 0 var(--space-4);
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-annotation-label-size);
+  font-weight: 400;
+}
+
+.mobileColLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.35rem;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-section-label-size);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.mobileSignalText {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: var(--diagram-annotation-body-size);
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.mobilePrincipleText {
+  margin: 0;
+  color: var(--color-fg);
+  font-size: var(--diagram-annotation-body-size);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.mobileConnector {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0.5rem 0 0.5rem 0.1rem;
+}
+
+.mobileResponse {
+  margin-top: 0.6rem;
+}

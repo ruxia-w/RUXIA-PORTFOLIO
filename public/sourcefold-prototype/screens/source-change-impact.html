@@ -1,0 +1,1418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SOURCEFOLD — Source Change Impact</title>
+  <style>
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #e8eae9; }
+  </style>
+  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" onload="window.lucide?.createIcons({attrs:{width:16,height:16}})"></script>
+</head>
+<body>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500&display=swap');
+
+#sourcefold-source-change-impact {
+  width: 100%;
+  overflow: hidden;
+  background: transparent;
+  color: #181a1b;
+  font-family: "Instrument Sans", Arial, sans-serif;
+}
+#sourcefold-source-change-impact * { box-sizing: border-box; }
+#sourcefold-source-change-impact h1,
+#sourcefold-source-change-impact h2,
+#sourcefold-source-change-impact h3,
+#sourcefold-source-change-impact p { margin: 0; }
+#sourcefold-source-change-impact button { font: inherit; }
+
+#sourcefold-source-change-impact .sf-scale-stage {
+  position: relative;
+  width: 100%;
+  height: 711px;
+}
+
+#sourcefold-source-change-impact .sf-canvas {
+  --sf-left-width: 220px;
+  --sf-right-width: 296px;
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 1440px;
+  height: 1024px;
+  transform-origin: left top;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: var(--sf-left-width) minmax(0, 1fr) var(--sf-right-width);
+  gap: 8px;
+  padding: 12px;
+  background: #e8eae9;
+  transition: grid-template-columns 220ms ease;
+}
+#sourcefold-source-change-impact .sf-canvas.sf-left-collapsed { --sf-left-width: 64px; }
+#sourcefold-source-change-impact .sf-canvas.sf-right-collapsed { --sf-right-width: 48px; }
+
+#sourcefold-source-change-impact .sf-mono,
+#sourcefold-source-change-impact .sf-kicker,
+#sourcefold-source-change-impact .sf-label,
+#sourcefold-source-change-impact th {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+}
+
+#sourcefold-source-change-impact .sf-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  padding: 24px 18px 20px;
+  background: #f1f2f1;
+  border: 1px solid #dadddb;
+  border-radius: 12px;
+  transition: padding 220ms ease;
+}
+
+#sourcefold-source-change-impact .sf-brand {
+  position: relative;
+  padding: 0 8px 27px;
+  border-bottom: 1px solid #d2d5d7;
+}
+#sourcefold-source-change-impact .sf-panel-toggle {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: #626865;
+  background: transparent;
+  cursor: pointer;
+}
+#sourcefold-source-change-impact .sf-panel-toggle:hover { background: #e5e7e6; color: #202220; }
+#sourcefold-source-change-impact .sf-left-toggle { position: absolute; top: -6px; right: -2px; }
+#sourcefold-source-change-impact .sf-left-toggle i,
+#sourcefold-source-change-impact .sf-right-toggle i { width: 15px; height: 15px; }
+#sourcefold-source-change-impact .sf-wordmark {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: .135em;
+}
+#sourcefold-source-change-impact .sf-wordmark em {
+  color: #586a73;
+  font-style: normal;
+}
+#sourcefold-source-change-impact .sf-tagline {
+  margin-top: 9px;
+  color: #7f8589;
+  font: 400 9px "IBM Plex Mono", monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+#sourcefold-source-change-impact .sf-fold-mark {
+  display: flex;
+  gap: 6px;
+  margin-top: 16px;
+}
+#sourcefold-source-change-impact .sf-fold-mark span {
+  display: block;
+  height: 2px;
+  width: 47px;
+  background: #202223;
+}
+#sourcefold-source-change-impact .sf-fold-mark span:last-child {
+  width: 15px;
+  background: #586a73;
+}
+
+#sourcefold-source-change-impact .sf-nav { margin-top: 27px; }
+#sourcefold-source-change-impact .sf-nav-bottom { margin-top: auto; }
+#sourcefold-source-change-impact .sf-nav-label {
+  padding: 0 8px 10px;
+  color: #8a8f92;
+  font: 400 9px "IBM Plex Mono", monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+#sourcefold-source-change-impact .sf-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  height: 44px;
+  padding: 0 8px;
+  color: #676c70;
+  font-size: 13px;
+}
+#sourcefold-source-change-impact button.sf-nav-item {
+  width: 100%;
+  border: 0;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+}
+#sourcefold-source-change-impact .sf-theme-toggle {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #d2d5d7 !important;
+}
+#sourcefold-source-change-impact .sf-nav-item i { width: 17px; height: 17px; }
+#sourcefold-source-change-impact .sf-nav-item.active {
+  color: #181a1b;
+  font-weight: 500;
+}
+#sourcefold-source-change-impact .sf-nav-item.active::before {
+  content: "";
+  position: absolute;
+  left: -18px;
+  width: 3px;
+  height: 24px;
+  background: #586a73;
+}
+#sourcefold-source-change-impact .sf-campaign-card {
+  margin-top: 32px;
+  padding: 15px 9px 16px;
+  border-top: 1px solid #d2d5d7;
+  border-bottom: 1px solid #d2d5d7;
+}
+#sourcefold-source-change-impact .sf-campaign-card strong,
+#sourcefold-source-change-impact .sf-campaign-card span { display: block; }
+#sourcefold-source-change-impact .sf-campaign-card strong {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+#sourcefold-source-change-impact .sf-campaign-card span {
+  margin-top: 5px;
+  color: #74797d;
+  font-size: 11px;
+}
+
+#sourcefold-source-change-impact .sf-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+  background: #fafaf9;
+  border: 1px solid #dadddb;
+  border-radius: 12px;
+}
+#sourcefold-source-change-impact .sf-main-sticky {
+  position: relative;
+  z-index: 4;
+  flex: 0 0 auto;
+  padding: 25px 24px 0;
+  background: #fafaf9;
+  border-bottom: 1px solid #dadddb;
+}
+#sourcefold-source-change-impact .sf-main-content {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  padding: 0 24px 22px;
+}
+#sourcefold-source-change-impact .sf-main-content::-webkit-scrollbar { display: none; }
+#sourcefold-source-change-impact .sf-main-content .sf-attention-head {
+  padding-top: 18px;
+  border-top: 0;
+}
+#sourcefold-source-change-impact section[aria-labelledby="sf-master-markets"] {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+}
+#sourcefold-source-change-impact .sf-crumbs {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  height: 18px;
+  color: #74797d;
+  font-size: 11px;
+}
+#sourcefold-source-change-impact .sf-crumbs strong { color: #181a1b; font-weight: 500; }
+#sourcefold-source-change-impact .sf-page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px 0 20px;
+}
+#sourcefold-source-change-impact .sf-kicker,
+#sourcefold-source-change-impact .sf-label {
+  color: #6e7477;
+  font-size: 9px;
+  font-weight: 400;
+}
+#sourcefold-source-change-impact .sf-kicker { color: #586a73; margin-bottom: 10px; }
+#sourcefold-source-change-impact h1 {
+  font-size: 36px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -.045em;
+}
+#sourcefold-source-change-impact .sf-meta {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  color: #74797d;
+  font-size: 12px;
+}
+#sourcefold-source-change-impact .sf-meta strong { color: #586a73; font-weight: 500; }
+#sourcefold-source-change-impact .sf-actions { display: flex; gap: 9px; }
+#sourcefold-source-change-impact .sf-action {
+  height: 38px;
+  padding: 0 15px;
+  border: 1px solid #cdd1d3;
+  border-radius: 3px;
+  background: #ffffff;
+  color: #202223;
+  font-size: 12px;
+  font-weight: 500;
+}
+#sourcefold-source-change-impact .sf-action.primary {
+  border-color: #252829;
+  background: #252829;
+  color: #f8f8f7;
+}
+
+#sourcefold-source-change-impact .sf-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+#sourcefold-source-change-impact .sf-section-head h2 {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -.01em;
+}
+#sourcefold-source-change-impact .sf-section-head span,
+#sourcefold-source-change-impact .sf-section-head p {
+  color: #74797d;
+  font-size: 10px;
+}
+#sourcefold-source-change-impact .sf-attention-head {
+  padding-top: 14px;
+  border-top: 1px solid #242627;
+}
+#sourcefold-source-change-impact .sf-open { color: #586a73 !important; }
+#sourcefold-source-change-impact .sf-queue {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 12px;
+  background: #fff;
+  border-top: 1px solid #d3d6d8;
+  border-bottom: 1px solid #d3d6d8;
+}
+#sourcefold-source-change-impact .sf-queue-item {
+  position: relative;
+  min-width: 0;
+  height: 124px;
+  padding: 14px 16px 18px;
+  border: 0;
+  text-align: left;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+#sourcefold-source-change-impact .sf-queue-item + .sf-queue-item { border-left: 1px solid #d3d6d8; }
+#sourcefold-source-change-impact .sf-queue-item:hover,
+#sourcefold-source-change-impact .sf-queue-item.is-selected { background: #f1f2f2; }
+#sourcefold-source-change-impact .sf-queue-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 48px;
+  height: 2px;
+  background: #867460;
+}
+#sourcefold-source-change-impact .sf-queue-item.source::before { background: #586a73; }
+#sourcefold-source-change-impact .sf-queue-item.blocked::before { background: #84665f; }
+#sourcefold-source-change-impact .sf-queue-item h3 {
+  margin-top: 9px;
+  font-size: 14px;
+  font-weight: 500;
+}
+#sourcefold-source-change-impact .sf-queue-item p {
+  margin-top: 5px;
+  color: #6f7477;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#sourcefold-source-change-impact .sf-inline-action {
+  display: block;
+  width: max-content;
+  margin-top: 6px;
+  line-height: 1.25;
+  color: #252829;
+  font-size: 11px;
+  font-weight: 500;
+  border-bottom: 1px solid #8d9295;
+}
+
+#sourcefold-source-change-impact .sf-market-head { margin: 18px 0 10px; }
+#sourcefold-source-change-impact .sf-table-frame {
+  overflow: hidden;
+  border: 1px solid #d3d6d8;
+  border-radius: 4px;
+  background: #fff;
+}
+#sourcefold-source-change-impact table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+#sourcefold-source-change-impact th {
+  height: 40px;
+  padding: 0 8px;
+  text-align: left;
+  color: #858a8e;
+  background: #f1f2f2;
+  border-bottom: 1px solid #d3d6d8;
+  font-size: 9px;
+  font-weight: 400;
+}
+#sourcefold-source-change-impact td {
+  height: 88px;
+  padding: 11px 8px;
+  vertical-align: middle;
+  border-bottom: 1px solid #d8dbdc;
+  color: #242627;
+  font-size: 11px;
+}
+#sourcefold-source-change-impact tbody tr:last-child td { border-bottom: 0; }
+#sourcefold-source-change-impact th:first-child,
+#sourcefold-source-change-impact td:first-child { padding-left: 14px; }
+#sourcefold-source-change-impact tr.attention { background: #f2f3f3; }
+#sourcefold-source-change-impact tr.review td:first-child { box-shadow: inset 2px 0 #867460; }
+#sourcefold-source-change-impact tr.source td:first-child { box-shadow: inset 2px 0 #586a73; }
+#sourcefold-source-change-impact tr.blocked td:first-child { box-shadow: inset 2px 0 #84665f; }
+#sourcefold-source-change-impact .sf-main-text,
+#sourcefold-source-change-impact .sf-sub-text { display: block; }
+#sourcefold-source-change-impact .sf-main-text { color: #202223; font-size: 11px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-sub-text {
+  margin-top: 6px;
+  color: #777c80;
+  font-size: 9px;
+  line-height: 1.35;
+}
+#sourcefold-source-change-impact .sf-market-name { font-size: 12px; }
+#sourcefold-source-change-impact .sf-market-code {
+  color: #8a8f92;
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+#sourcefold-source-change-impact .sf-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  font-size: 10px;
+  font-weight: 500;
+}
+#sourcefold-source-change-impact .sf-status::before {
+  content: "";
+  width: 11px;
+  height: 2px;
+  flex: 0 0 auto;
+  background: #6e7b74;
+}
+#sourcefold-source-change-impact .sf-status.review::before { background: #867460; }
+#sourcefold-source-change-impact .sf-status.source::before { background: #586a73; }
+#sourcefold-source-change-impact .sf-status.blocked::before { background: #84665f; }
+#sourcefold-source-change-impact .sf-version { color: #586a73; }
+#sourcefold-source-change-impact .sf-row-action {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #252829;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.35;
+  text-decoration: underline;
+  text-decoration-color: #9ba0a3;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+#sourcefold-source-change-impact .sf-release {
+  flex: 0 0 142px;
+  display: grid;
+  min-height: 90px;
+  grid-template-rows: auto auto auto;
+  align-content: center;
+  row-gap: 15px;
+  margin-top: 17px;
+  padding: 20px;
+  background: #eceeed;
+  border-top: 1px solid #d3d6d8;
+  border-bottom: 1px solid #d3d6d8;
+}
+#sourcefold-source-change-impact .sf-release-top,
+#sourcefold-source-change-impact .sf-release-grid {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+}
+#sourcefold-source-change-impact .sf-release-top h3 { font-size: 13px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-release-top a {
+  color: #252829;
+  font-size: 10px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+#sourcefold-source-change-impact .sf-release-track {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 3px;
+  height: 4px;
+  margin: 0;
+}
+#sourcefold-source-change-impact .sf-release-track span:nth-child(1) { background: #6e7b74; }
+#sourcefold-source-change-impact .sf-release-track span:nth-child(2) { background: #aaa095; }
+#sourcefold-source-change-impact .sf-release-track span:nth-child(3) { background: #84665f; }
+#sourcefold-source-change-impact .sf-release-grid { justify-content: flex-start; }
+#sourcefold-source-change-impact .sf-release-item {
+  width: 25%;
+  color: #6f7477;
+  font-size: 9px;
+}
+#sourcefold-source-change-impact .sf-release-item strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #202223;
+  font-size: 11px;
+  font-weight: 500;
+}
+#sourcefold-source-change-impact .sf-decision-sequence {
+  margin-top: 18px;
+  padding: 20px 0 24px;
+  border-top: 1px solid #d3d6d8;
+}
+#sourcefold-source-change-impact .sf-sequence-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+#sourcefold-source-change-impact .sf-sequence-head h3 { font-size: 13px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-sequence-head span { color: #777c80; font-size: 10px; }
+#sourcefold-source-change-impact .sf-sequence-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  margin-top: 15px;
+  border-top: 1px solid #d3d6d8;
+  border-bottom: 1px solid #d3d6d8;
+}
+#sourcefold-source-change-impact .sf-sequence-item { padding: 15px 14px 16px; }
+#sourcefold-source-change-impact .sf-sequence-item + .sf-sequence-item { border-left: 1px solid #d3d6d8; }
+#sourcefold-source-change-impact .sf-sequence-item strong { display: block; font-size: 11px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-sequence-item span { display: block; margin-top: 6px; color: #777c80; font-size: 9px; }
+
+#sourcefold-source-change-impact .sf-rail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  padding: 23px 20px 20px;
+  background: #f3f4f3;
+  border: 1px solid #dadddb;
+  border-radius: 12px;
+  transition: padding 220ms ease;
+}
+#sourcefold-source-change-impact .sf-user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #d2d5d7;
+}
+#sourcefold-source-change-impact .sf-right-toggle { position: absolute; top: 18px; right: 14px; }
+#sourcefold-source-change-impact .sf-rail-collapsed {
+  display: none;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  color: #777d79;
+  font: 400 9px "IBM Plex Mono", monospace;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+#sourcefold-source-change-impact .sf-rail-collapsed strong {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 10px;
+  border-radius: 50%;
+  color: #f8f8f7;
+  background: #596d74;
+  font-size: 9px;
+  letter-spacing: 0;
+  writing-mode: horizontal-tb;
+}
+#sourcefold-source-change-impact .sf-avatar {
+  display: grid;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  background: #252829;
+  color: #f8f8f7;
+  border-radius: 50%;
+  font: 400 10px "IBM Plex Mono", monospace;
+}
+#sourcefold-source-change-impact .sf-user strong,
+#sourcefold-source-change-impact .sf-user span { display: block; }
+#sourcefold-source-change-impact .sf-user strong { font-size: 12px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-user span { margin-top: 3px; color: #74797d; font-size: 10px; }
+#sourcefold-source-change-impact .sf-source-title {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  padding: 28px 0 19px;
+  background: #f3f4f3;
+  border-bottom: 1px solid #d2d5d7;
+}
+#sourcefold-source-change-impact .sf-context-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+#sourcefold-source-change-impact .sf-context-body::-webkit-scrollbar { display: none; }
+#sourcefold-source-change-impact .sf-source-title h2 {
+  margin-top: 9px;
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -.035em;
+}
+#sourcefold-source-change-impact .sf-source-title p { margin-top: 7px; color: #74797d; font-size: 10px; }
+#sourcefold-source-change-impact .sf-source-record {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  padding: 15px 0;
+  border-top: 1px solid #242627;
+  border-bottom: 1px solid #d2d5d7;
+}
+#sourcefold-source-change-impact .sf-source-record strong { display: block; margin-top: 7px; font-size: 15px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-source-record span { color: #586a73; font-size: 10px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-lineage {
+  padding: 18px 0;
+  border-bottom: 1px solid #d2d5d7;
+}
+#sourcefold-source-change-impact .sf-lineage-list { position: relative; margin-top: 16px; }
+#sourcefold-source-change-impact .sf-lineage-list::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 13px;
+  bottom: 13px;
+  width: 1px;
+  background: #cbd0d2;
+}
+#sourcefold-source-change-impact .sf-lineage-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 15px minmax(0,1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+#sourcefold-source-change-impact .sf-node {
+  z-index: 1;
+  width: 7px;
+  height: 7px;
+  margin-left: 4px;
+  border-radius: 50%;
+  background: #6e7b74;
+}
+#sourcefold-source-change-impact .sf-lineage-row.review .sf-node { background: #867460; }
+#sourcefold-source-change-impact .sf-lineage-row.source .sf-node { background: #586a73; }
+#sourcefold-source-change-impact .sf-lineage-row.blocked .sf-node { background: #84665f; }
+#sourcefold-source-change-impact .sf-lineage-row strong { display: block; font-size: 11px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-lineage-row small { display: block; margin-top: 4px; color: #757a7e; font-size: 9px; }
+#sourcefold-source-change-impact .sf-lineage-version { color: #586a73; font: 400 10px "IBM Plex Mono", monospace; }
+#sourcefold-source-change-impact .sf-source-event {
+  padding: 18px 0;
+  border-bottom: 1px solid #d2d5d7;
+}
+#sourcefold-source-change-impact .sf-source-event h3 { margin-top: 9px; font-size: 15px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-source-event p { margin-top: 7px; color: #74797d; font-size: 10px; line-height: 1.5; }
+#sourcefold-source-change-impact .sf-rule { padding-top: 18px; }
+#sourcefold-source-change-impact .sf-rule p { margin-top: 9px; color: #676c70; font-size: 10px; line-height: 1.55; }
+#sourcefold-source-change-impact .sf-context-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 13px;
+  padding: 0;
+  border: 0;
+  color: #586a73;
+  background: transparent;
+  font-size: 10px;
+  font-weight: 500;
+  cursor: pointer;
+}
+#sourcefold-source-change-impact .sf-context-reset i { width: 13px; height: 13px; }
+#sourcefold-source-change-impact .sf-impact-summary {
+  padding: 20px 0;
+  border-top: 1px solid #242627;
+  border-bottom: 1px solid #d2d5d7;
+}
+#sourcefold-source-change-impact .sf-impact-summary strong {
+  display: block;
+  margin-top: 9px;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 500;
+}
+#sourcefold-source-change-impact .sf-impact-summary p {
+  margin-top: 7px;
+  color: #74797d;
+  font-size: 10px;
+  line-height: 1.5;
+}
+#sourcefold-source-change-impact .sf-detail-list { padding: 10px 0 2px; }
+#sourcefold-source-change-impact .sf-detail-row {
+  display: grid;
+  grid-template-columns: 92px minmax(0,1fr);
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid #d8dbdc;
+}
+#sourcefold-source-change-impact .sf-detail-row span { color: #7a7f82; font-size: 9px; }
+#sourcefold-source-change-impact .sf-detail-row strong { font-size: 10px; font-weight: 500; line-height: 1.4; }
+#sourcefold-source-change-impact .sf-next-decision {
+  margin-top: auto;
+  padding: 18px 0 30px;
+  border-top: 1px solid #242627;
+}
+#sourcefold-source-change-impact .sf-next-decision p {
+  margin: 9px 0 14px;
+  color: #676c70;
+  font-size: 10px;
+  line-height: 1.55;
+}
+#sourcefold-source-change-impact .sf-next-decision button {
+  width: 100%;
+  height: 38px;
+  border: 1px solid #cdd1d3;
+  border-radius: 3px;
+  color: #252829;
+  background: #ffffff;
+  font-size: 11px;
+  font-weight: 500;
+}
+#sourcefold-source-change-impact .sf-decisions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  margin-top: 18px;
+  padding-top: 17px;
+  border-top: 1px solid #d2d5d7;
+}
+#sourcefold-source-change-impact .sf-decision-list {
+  display: grid;
+  gap: 4px;
+  margin-top: 12px;
+  padding-bottom: 18px;
+}
+#sourcefold-source-change-impact .sf-decision {
+  display: grid;
+  grid-template-columns: 8px minmax(0,1fr);
+  gap: 10px;
+  padding: 8px 0;
+}
+#sourcefold-source-change-impact .sf-decision-mark {
+  width: 5px;
+  height: 5px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: #586a73;
+}
+#sourcefold-source-change-impact .sf-decision.review .sf-decision-mark { background: #867460; }
+#sourcefold-source-change-impact .sf-decision.blocked .sf-decision-mark { background: #84665f; }
+#sourcefold-source-change-impact .sf-decision strong,
+#sourcefold-source-change-impact .sf-decision small { display: block; }
+#sourcefold-source-change-impact .sf-decision strong { font-size: 10px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-decision small { margin-top: 3px; color: #797e82; font-size: 9px; }
+#sourcefold-source-change-impact .sf-review-policy {
+  padding: 19px 0 28px;
+  border-top: 1px solid #d2d5d7;
+}
+#sourcefold-source-change-impact .sf-review-policy p {
+  margin-top: 9px;
+  color: #676c70;
+  font-size: 10px;
+  line-height: 1.55;
+}
+#sourcefold-source-change-impact .sf-source-controls {
+  padding: 19px 0 32px;
+  border-top: 1px solid #d2d5d7;
+}
+#sourcefold-source-change-impact .sf-source-controls .sf-detail-list { padding-top: 9px; }
+#sourcefold-source-change-impact .sf-left-collapsed .sf-sidebar { padding: 24px 10px 20px; }
+#sourcefold-source-change-impact .sf-left-collapsed .sf-brand { height: 80px; padding: 0 0 20px; }
+#sourcefold-source-change-impact .sf-left-collapsed .sf-wordmark,
+#sourcefold-source-change-impact .sf-left-collapsed .sf-tagline,
+#sourcefold-source-change-impact .sf-left-collapsed .sf-nav-label,
+#sourcefold-source-change-impact .sf-left-collapsed .sf-nav-item span,
+#sourcefold-source-change-impact .sf-left-collapsed .sf-campaign-card { display: none; }
+#sourcefold-source-change-impact .sf-left-collapsed .sf-fold-mark {
+  position: absolute;
+  top: 53px;
+  left: 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 0;
+}
+#sourcefold-source-change-impact .sf-left-collapsed .sf-fold-mark span:first-child { width: 24px; }
+#sourcefold-source-change-impact .sf-left-collapsed .sf-fold-mark span:last-child { width: 12px; }
+#sourcefold-source-change-impact .sf-left-collapsed .sf-left-toggle {
+  top: -6px;
+  right: 6px;
+  transform: rotate(180deg);
+}
+#sourcefold-source-change-impact .sf-left-collapsed .sf-nav { margin-top: 27px; }
+#sourcefold-source-change-impact .sf-left-collapsed .sf-nav-item { justify-content: center; padding: 0; }
+#sourcefold-source-change-impact .sf-left-collapsed .sf-nav-item.active::before { left: -10px; }
+
+#sourcefold-source-change-impact .sf-right-collapsed .sf-rail { padding: 20px 9px; }
+#sourcefold-source-change-impact .sf-right-collapsed .sf-user,
+#sourcefold-source-change-impact .sf-right-collapsed .sf-context-body { display: none; }
+#sourcefold-source-change-impact .sf-right-collapsed .sf-right-toggle {
+  display: grid;
+  position: absolute;
+  top: 18px;
+  right: 9px;
+  margin: 0;
+  transform: rotate(180deg);
+}
+#sourcefold-source-change-impact .sf-right-collapsed .sf-rail-collapsed { display: flex; }
+
+#sourcefold-source-change-impact .sf-canvas.sf-dark {
+  color: #f1f2f3;
+  background: #111214;
+}
+#sourcefold-source-change-impact .sf-dark .sf-sidebar,
+#sourcefold-source-change-impact .sf-dark .sf-rail {
+  background: #181a1d;
+  border-color: #30343a;
+}
+#sourcefold-source-change-impact .sf-dark .sf-main {
+  background: #181a1d;
+  border-color: #30343a;
+}
+#sourcefold-source-change-impact .sf-dark .sf-main-sticky {
+  background: #181a1d;
+  border-color: #30343a;
+}
+#sourcefold-source-change-impact .sf-dark .sf-source-title {
+  background: #181a1d;
+  border-color: #30343a;
+}
+#sourcefold-source-change-impact .sf-dark .sf-brand,
+#sourcefold-source-change-impact .sf-dark .sf-user,
+#sourcefold-source-change-impact .sf-dark .sf-campaign-card,
+#sourcefold-source-change-impact .sf-dark .sf-theme-toggle,
+#sourcefold-source-change-impact .sf-dark .sf-source-record,
+#sourcefold-source-change-impact .sf-dark .sf-lineage,
+#sourcefold-source-change-impact .sf-dark .sf-source-event,
+#sourcefold-source-change-impact .sf-dark .sf-decisions,
+#sourcefold-source-change-impact .sf-dark .sf-review-policy,
+#sourcefold-source-change-impact .sf-dark .sf-source-controls,
+#sourcefold-source-change-impact .sf-dark .sf-decision-sequence,
+#sourcefold-source-change-impact .sf-dark .sf-sequence-list,
+#sourcefold-source-change-impact .sf-dark .sf-sequence-item,
+#sourcefold-source-change-impact .sf-dark .sf-detail-row {
+  border-color: #30343a !important;
+}
+#sourcefold-source-change-impact .sf-dark .sf-nav-item,
+#sourcefold-source-change-impact .sf-dark .sf-crumbs,
+#sourcefold-source-change-impact .sf-dark .sf-meta,
+#sourcefold-source-change-impact .sf-dark .sf-queue-item p,
+#sourcefold-source-change-impact .sf-dark .sf-sub-text,
+#sourcefold-source-change-impact .sf-dark .sf-section-head span,
+#sourcefold-source-change-impact .sf-dark .sf-section-head p,
+#sourcefold-source-change-impact .sf-dark .sf-source-title p,
+#sourcefold-source-change-impact .sf-dark .sf-source-event p,
+#sourcefold-source-change-impact .sf-dark .sf-rule p,
+#sourcefold-source-change-impact .sf-dark .sf-release-item,
+#sourcefold-source-change-impact .sf-dark .sf-sequence-head span,
+#sourcefold-source-change-impact .sf-dark .sf-sequence-item span,
+#sourcefold-source-change-impact .sf-dark .sf-review-policy p,
+#sourcefold-source-change-impact .sf-dark .sf-decision small,
+#sourcefold-source-change-impact .sf-dark .sf-lineage-row small {
+  color: #a4a9b0;
+}
+#sourcefold-source-change-impact .sf-dark .sf-nav-item.active,
+#sourcefold-source-change-impact .sf-dark .sf-crumbs strong,
+#sourcefold-source-change-impact .sf-dark .sf-main-text,
+#sourcefold-source-change-impact .sf-dark .sf-release-item strong,
+#sourcefold-source-change-impact .sf-dark .sf-row-action,
+#sourcefold-source-change-impact .sf-dark .sf-inline-action,
+#sourcefold-source-change-impact .sf-dark .sf-release-top a,
+#sourcefold-source-change-impact .sf-dark .sf-release-top h3,
+#sourcefold-source-change-impact .sf-dark .sf-sequence-head h3,
+#sourcefold-source-change-impact .sf-dark .sf-sequence-item strong,
+#sourcefold-source-change-impact .sf-dark .sf-lineage-row strong,
+#sourcefold-source-change-impact .sf-dark .sf-decision strong {
+  color: #f1f2f3;
+}
+#sourcefold-source-change-impact .sf-dark .sf-queue,
+#sourcefold-source-change-impact .sf-dark .sf-table-frame {
+  background: #1d2024;
+  border-color: #30343a;
+}
+#sourcefold-source-change-impact .sf-dark .sf-queue-item + .sf-queue-item,
+#sourcefold-source-change-impact .sf-dark td,
+#sourcefold-source-change-impact .sf-dark th {
+  border-color: #30343a;
+}
+#sourcefold-source-change-impact .sf-dark .sf-queue-item:hover,
+#sourcefold-source-change-impact .sf-dark .sf-queue-item.is-selected,
+#sourcefold-source-change-impact .sf-dark tr.attention {
+  background: #222731;
+}
+#sourcefold-source-change-impact .sf-dark th { background: #202328; color: #a4a9b0; }
+#sourcefold-source-change-impact .sf-dark td { color: #f1f2f3; }
+#sourcefold-source-change-impact .sf-dark .sf-release { background: #202328; border-color: #30343a; }
+#sourcefold-source-change-impact .sf-dark .sf-action { background: #202328; border-color: #3a3f46; color: #f1f2f3; }
+#sourcefold-source-change-impact .sf-dark .sf-action.primary { background: #5873a8; border-color: #5873a8; color: #f7f9fc; }
+#sourcefold-source-change-impact .sf-dark .sf-next-decision button {
+  background: #202328;
+  border-color: #3a3f46;
+  color: #f1f2f3;
+}
+#sourcefold-source-change-impact .sf-dark .sf-next-decision button:hover {
+  background: #252a31;
+  border-color: #5873a8;
+}
+#sourcefold-source-change-impact .sf-dark .sf-avatar { background: #2a2e34; color: #f1f2f3; }
+#sourcefold-source-change-impact .sf-dark .sf-theme-toggle { border-color: #30343a !important; }
+#sourcefold-source-change-impact .sf-dark .sf-nav-item.active::before { background: #6885c4; }
+#sourcefold-source-change-impact .sf-dark .sf-kicker,
+#sourcefold-source-change-impact .sf-dark .sf-open,
+#sourcefold-source-change-impact .sf-dark .sf-version,
+#sourcefold-source-change-impact .sf-dark .sf-lineage-version,
+#sourcefold-source-change-impact .sf-dark .sf-market-head strong { color: #6885c4 !important; }
+#sourcefold-source-change-impact .sf-dark .sf-queue-item.source::before,
+#sourcefold-source-change-impact .sf-dark .sf-status.source::before,
+#sourcefold-source-change-impact .sf-dark .sf-lineage-row.source .sf-node,
+#sourcefold-source-change-impact .sf-dark .sf-decision-mark { background: #6885c4; }
+#sourcefold-source-change-impact .sf-dark .sf-fold-mark span:first-child { background: #737980; }
+#sourcefold-source-change-impact .sf-dark .sf-fold-mark span:last-child { background: #6885c4; }
+#sourcefold-source-change-impact .sf-dark .sf-queue-item::before,
+#sourcefold-source-change-impact .sf-dark .sf-status::before,
+#sourcefold-source-change-impact .sf-dark .sf-node,
+#sourcefold-source-change-impact .sf-dark .sf-release-track span:nth-child(1) { background: #8c9a93; }
+#sourcefold-source-change-impact .sf-dark .sf-queue-item.review::before,
+#sourcefold-source-change-impact .sf-dark .sf-queue-item:not(.source):not(.blocked)::before,
+#sourcefold-source-change-impact .sf-dark .sf-status.review::before,
+#sourcefold-source-change-impact .sf-dark .sf-lineage-row.review .sf-node,
+#sourcefold-source-change-impact .sf-dark .sf-decision.review .sf-decision-mark,
+#sourcefold-source-change-impact .sf-dark .sf-release-track span:nth-child(2) { background: #9aa4b2; }
+#sourcefold-source-change-impact .sf-dark .sf-queue-item.blocked::before,
+#sourcefold-source-change-impact .sf-dark .sf-status.blocked::before,
+#sourcefold-source-change-impact .sf-dark .sf-lineage-row.blocked .sf-node,
+#sourcefold-source-change-impact .sf-dark .sf-decision.blocked .sf-decision-mark,
+#sourcefold-source-change-impact .sf-dark .sf-release-track span:nth-child(3) { background: #a17880; }
+#sourcefold-source-change-impact .sf-dark tr.review td:first-child { box-shadow: inset 2px 0 #9aa4b2; }
+#sourcefold-source-change-impact .sf-dark tr.source td:first-child { box-shadow: inset 2px 0 #6885c4; }
+#sourcefold-source-change-impact .sf-dark tr.blocked td:first-child { box-shadow: inset 2px 0 #a17880; }
+
+#sourcefold-source-change-impact .sf-impact-overview {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 1fr;
+  border-top: 1px solid #d3d6d8;
+  border-bottom: 1px solid #d3d6d8;
+}
+#sourcefold-source-change-impact .sf-main-content > section:not(.sf-change-workspace) { display: none; }
+#sourcefold-source-change-impact .sf-main-content { display: flex; flex-direction: column; }
+#sourcefold-source-change-impact .sf-change-workspace { display: flex; flex: 1 0 auto; flex-direction: column; }
+#sourcefold-source-change-impact .sf-impact-overview > div { padding: 16px 16px 17px; }
+#sourcefold-source-change-impact .sf-impact-overview > div + div { border-left: 1px solid #d3d6d8; }
+#sourcefold-source-change-impact .sf-impact-overview strong,
+#sourcefold-source-change-impact .sf-impact-overview span { display: block; }
+#sourcefold-source-change-impact .sf-impact-overview strong { margin-top: 8px; font-size: 14px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-impact-overview span { margin-top: 5px; color: #74797d; font-size: 10px; line-height: 1.45; }
+#sourcefold-source-change-impact .sf-change-value { color: #4f689d; }
+#sourcefold-source-change-impact .sf-impact-table { margin-top: 25px; }
+#sourcefold-source-change-impact .sf-impact-table tr.is-selected { background: #eef1f5; }
+#sourcefold-source-change-impact .sf-impact-result { display: inline-flex; align-items: center; gap: 7px; font-size: 10px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-impact-result::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #8d9691; }
+#sourcefold-source-change-impact .sf-impact-result.none::before { background: #a5aaae; }
+#sourcefold-source-change-impact .sf-impact-result.review::before { background: #5873a8; }
+#sourcefold-source-change-impact .sf-impact-expand { display: none; }
+#sourcefold-source-change-impact .sf-impact-expand.is-open { display: table-row; }
+#sourcefold-source-change-impact .sf-impact-expand td { padding: 0 !important; box-shadow: none !important; }
+#sourcefold-source-change-impact .sf-expanded-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.15fr;
+  border-top: 1px solid #cfd4d7;
+  border-bottom: 1px solid #cfd4d7;
+  background: #f7f8f8;
+}
+#sourcefold-source-change-impact .sf-expanded-content > div { padding: 15px 17px 17px; }
+#sourcefold-source-change-impact .sf-expanded-content > div + div { border-left: 1px solid #d8dbdd; }
+#sourcefold-source-change-impact .sf-expanded-content strong,
+#sourcefold-source-change-impact .sf-expanded-content span { display: block; }
+#sourcefold-source-change-impact .sf-expanded-content strong { margin-top: 7px; font-size: 12px; font-weight: 500; line-height: 1.45; }
+#sourcefold-source-change-impact .sf-expanded-content span { margin-top: 5px; color: #74797d; font-size: 9px; line-height: 1.5; }
+#sourcefold-source-change-impact .sf-preservation-note {
+  margin-top: auto;
+  padding: 15px 17px 16px;
+  border-left: 2px solid #5873a8;
+  background: #f2f4f7;
+}
+#sourcefold-source-change-impact .sf-preservation-note strong { display: block; font-size: 11px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-preservation-note p { margin-top: 6px; color: #686e73; font-size: 10px; line-height: 1.5; }
+#sourcefold-source-change-impact .sf-analysis-list { margin-top: 12px; }
+#sourcefold-source-change-impact .sf-analysis-row { padding: 11px 0; border-top: 1px solid #dde0e2; }
+#sourcefold-source-change-impact .sf-analysis-row strong,
+#sourcefold-source-change-impact .sf-analysis-row span { display: block; }
+#sourcefold-source-change-impact .sf-analysis-row strong { font-size: 10px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-analysis-row span { margin-top: 4px; color: #777c80; font-size: 9px; line-height: 1.45; }
+#sourcefold-source-change-impact .sf-source-diff { margin: 16px 0 4px; border-top: 1px solid #d2d5d7; border-bottom: 1px solid #d2d5d7; }
+#sourcefold-source-change-impact .sf-source-diff > div { padding: 13px 0 14px; }
+#sourcefold-source-change-impact .sf-source-diff > div + div { border-top: 1px solid #dde0e2; }
+#sourcefold-source-change-impact .sf-source-diff span,
+#sourcefold-source-change-impact .sf-source-diff strong { display: block; }
+#sourcefold-source-change-impact .sf-source-diff span { color: #777c80; font-size: 9px; }
+#sourcefold-source-change-impact .sf-source-diff strong { margin-top: 6px; font-size: 12px; font-weight: 500; }
+#sourcefold-source-change-impact .sf-old-value { color: #7a6266; text-decoration: line-through; }
+#sourcefold-source-change-impact .sf-new-value { color: #4f689d; }
+#sourcefold-source-change-impact .sf-dark .sf-impact-overview,
+#sourcefold-source-change-impact .sf-dark .sf-impact-overview > div + div,
+#sourcefold-source-change-impact .sf-dark .sf-expanded-content,
+#sourcefold-source-change-impact .sf-dark .sf-expanded-content > div + div,
+#sourcefold-source-change-impact .sf-dark .sf-source-diff,
+#sourcefold-source-change-impact .sf-dark .sf-source-diff > div + div,
+#sourcefold-source-change-impact .sf-dark .sf-analysis-row { border-color: #30343a; }
+#sourcefold-source-change-impact .sf-dark .sf-impact-overview span,
+#sourcefold-source-change-impact .sf-dark .sf-expanded-content span,
+#sourcefold-source-change-impact .sf-dark .sf-preservation-note p,
+#sourcefold-source-change-impact .sf-dark .sf-analysis-row span,
+#sourcefold-source-change-impact .sf-dark .sf-source-diff span { color: #a4a9b0; }
+#sourcefold-source-change-impact .sf-dark .sf-impact-table tr.is-selected,
+#sourcefold-source-change-impact .sf-dark .sf-expanded-content { background: #222731; }
+#sourcefold-source-change-impact .sf-dark .sf-preservation-note { background: #202731; }
+#sourcefold-source-change-impact .sf-dark .sf-change-value,
+#sourcefold-source-change-impact .sf-dark .sf-new-value { color: #7f9bd4; }
+#sourcefold-source-change-impact .sf-dark .sf-old-value { color: #d0aeb4; }
+
+
+/* SOURCEFOLD_RESPONSIVE_WORKSPACE_START */
+.sf-root,
+[id^="sourcefold-"] {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  background: #e8eae9;
+}
+
+.sf-root .sf-stage,
+.sf-root .sf-scale-stage,
+[id^="sourcefold-"] .sf-stage,
+[id^="sourcefold-"] .sf-scale-stage {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+.sf-root .sf-canvas,
+[id^="sourcefold-"] .sf-canvas {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  transform: none !important;
+}
+
+.sf-root .sf-left-toggle,
+.sf-root .sf-right-toggle,
+[id^="sourcefold-"] .sf-left-toggle,
+[id^="sourcefold-"] .sf-right-toggle {
+  z-index: 5 !important;
+}
+
+@media (max-width: 1180px) {
+  .sf-root .sf-canvas,
+  [id^="sourcefold-"] .sf-canvas {
+    --sf-left-width: 64px !important;
+    --sf-right-width: 48px !important;
+    --sf-left: 64px !important;
+    --sf-right: 48px !important;
+  }
+
+  .sf-root .sf-sidebar,
+  [id^="sourcefold-"] .sf-sidebar {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .sf-root .sf-wordmark,
+  .sf-root .sf-tagline,
+  .sf-root .sf-fold,
+  .sf-root .sf-nav-label,
+  .sf-root .sf-nav-item span,
+  .sf-root .sf-campaign,
+  .sf-root .sf-rail .sf-avatar,
+  .sf-root .sf-rail .sf-user,
+  .sf-root .sf-rail .sf-rail-body,
+  .sf-root .sf-rail .sf-context-body,
+  [id^="sourcefold-"] .sf-wordmark,
+  [id^="sourcefold-"] .sf-tagline,
+  [id^="sourcefold-"] .sf-fold,
+  [id^="sourcefold-"] .sf-nav-label,
+  [id^="sourcefold-"] .sf-nav-item span,
+  [id^="sourcefold-"] .sf-campaign,
+  [id^="sourcefold-"] .sf-rail .sf-avatar,
+  [id^="sourcefold-"] .sf-rail .sf-user,
+  [id^="sourcefold-"] .sf-rail .sf-rail-body,
+  [id^="sourcefold-"] .sf-rail .sf-context-body {
+    display: none !important;
+  }
+
+  .sf-root .sf-nav-item,
+  [id^="sourcefold-"] .sf-nav-item {
+    justify-content: center !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+/* SOURCEFOLD_RESPONSIVE_WORKSPACE_END */
+</style>
+
+<div id="sourcefold-source-change-impact">
+  <div class="sf-scale-stage">
+    <section class="sf-canvas" aria-label="SOURCEFOLD Global Workspace desktop master, responsive workspace with a 1440 by 900 design baseline">
+      <aside class="sf-sidebar">
+        <div class="sf-brand">
+          <div class="sf-wordmark">SOURCE<em>FOLD</em></div>
+          <div class="sf-tagline">One source · many contexts</div>
+          <div class="sf-fold-mark" aria-hidden="true"><span></span><span></span></div>
+          <button class="sf-panel-toggle sf-left-toggle" type="button" aria-label="Collapse navigation" aria-expanded="true"><i data-lucide="chevrons-left" aria-hidden="true"></i></button>
+        </div>
+        <nav class="sf-nav" aria-label="Primary navigation">
+          <div class="sf-nav-label">Workspace</div>
+          <div class="sf-nav-item"><i data-lucide="home" aria-hidden="true"></i><span>Home</span></div>
+          <div class="sf-nav-item active"><i data-lucide="files" aria-hidden="true"></i><span>Content</span></div>
+          <div class="sf-nav-item"><i data-lucide="globe-2" aria-hidden="true"></i><span>Markets</span></div>
+          <div class="sf-nav-item"><i data-lucide="circle-check" aria-hidden="true"></i><span>Reviews</span></div>
+          <div class="sf-nav-item"><i data-lucide="send" aria-hidden="true"></i><span>Publishing</span></div>
+        </nav>
+        <div class="sf-campaign-card">
+          <div class="sf-label">Current campaign</div>
+          <strong>Orbit Launch</strong>
+          <span>Source v4 · 4 markets</span>
+        </div>
+        <nav class="sf-nav sf-nav-bottom" aria-label="Utility navigation">
+          <div class="sf-nav-item"><i data-lucide="library" aria-hidden="true"></i><span>Library</span></div>
+          <div class="sf-nav-item"><i data-lucide="settings-2" aria-hidden="true"></i><span>Settings</span></div>
+          <button class="sf-nav-item sf-theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><i data-lucide="moon" aria-hidden="true"></i><span>Dark mode</span></button>
+        </nav>
+      </aside>
+
+      <main class="sf-main">
+        <div class="sf-main-sticky">
+          <div class="sf-crumbs"><span>Global Content</span><span>/</span><span>Orbit Launch</span><span>/</span><strong>Source change</strong></div>
+          <header class="sf-page-head">
+            <div>
+              <div class="sf-kicker">Change impact</div>
+              <h1>Source v4 impact review</h1>
+              <div class="sf-meta"><span>Source v3 → Source v4</span><span>·</span><strong>Offer updated</strong><span>·</span><span>18 min ago</span></div>
+            </div>
+            <div class="sf-actions"><button class="sf-action" type="button">View source history</button><button class="sf-action primary" type="button" data-context="france" data-impact-market="france">Review France</button></div>
+          </header>
+        </div>
+
+        <div class="sf-main-content">
+
+        <section class="sf-change-workspace" aria-labelledby="sf-change-title">
+          <div class="sf-impact-overview" aria-label="Source change summary">
+            <div><div class="sf-label">Changed field</div><strong class="sf-change-value">Promotional offer · 20% → 25%</strong><span>English source · Headline and supporting offer copy</span></div>
+            <div><div class="sf-label">Impact scope</div><strong>3 affected markets</strong><span>1 requires human review</span></div>
+            <div><div class="sf-label">System behavior</div><strong>Local edits preserved</strong><span>No approved content overwritten</span></div>
+          </div>
+
+          <div class="sf-section-head sf-impact-table"><h2 id="sf-change-title">Market impact</h2><p>Affected does not automatically mean actionable</p></div>
+          <div class="sf-table-frame">
+            <table aria-label="Market impact from Source v4">
+              <thead><tr><th style="width:15%">Market</th><th style="width:16%">Impact result</th><th style="width:18%">Affected field</th><th style="width:17%">Local decision</th><th style="width:16%">Version relationship</th><th style="width:18%">Next action</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><span class="sf-main-text sf-market-name">United States</span><span class="sf-sub-text">English · US</span></td>
+                  <td><span class="sf-impact-result">Safe to update</span><span class="sf-sub-text">No local conflict</span></td>
+                  <td><span class="sf-main-text">Promotional offer</span><span class="sf-sub-text">20% → 25%</span></td>
+                  <td><span class="sf-main-text">No local edit</span><span class="sf-sub-text">Source-aligned</span></td>
+                  <td><span class="sf-main-text sf-version">Variant v3</span><span class="sf-sub-text">Based on Source v3</span></td>
+                  <td><button class="sf-row-action" type="button">Preview update →</button></td>
+                </tr>
+                <tr>
+                  <td><span class="sf-main-text sf-market-name">Japan</span><span class="sf-sub-text">Japanese · JP</span></td>
+                  <td><span class="sf-impact-result none">No action needed</span><span class="sf-sub-text">Meaning already current</span></td>
+                  <td><span class="sf-main-text">Promotional offer</span><span class="sf-sub-text">25% already present</span></td>
+                  <td><span class="sf-main-text">Human approved</span><span class="sf-sub-text">Aiko · Variant v3</span></td>
+                  <td><span class="sf-main-text sf-version">Variant v3</span><span class="sf-sub-text">Semantically aligned</span></td>
+                  <td><button class="sf-row-action" type="button">View decision →</button></td>
+                </tr>
+                <tr class="source" data-france-row>
+                  <td><span class="sf-main-text sf-market-name">France</span><span class="sf-sub-text">French · FR</span></td>
+                  <td><span class="sf-impact-result review">Review required</span><span class="sf-sub-text">Approved copy differs</span></td>
+                  <td><span class="sf-main-text">Promotional offer</span><span class="sf-sub-text">Local copy still says 20%</span></td>
+                  <td><span class="sf-main-text">Human edited</span><span class="sf-sub-text">Approved by Camille</span></td>
+                  <td><span class="sf-main-text sf-version">Variant v3</span><span class="sf-sub-text">Based on Source v3</span></td>
+                  <td><button class="sf-row-action" type="button" data-context="france" data-impact-market="france">Review impact →</button></td>
+                </tr>
+                <tr class="sf-impact-expand" data-france-detail>
+                  <td colspan="6">
+                    <div class="sf-expanded-content">
+                      <div><div class="sf-label">Approved local version</div><strong lang="fr">Économisez 20 % sur votre premier mois.</strong><span>Variant v3 · Human edited · Approved</span></div>
+                      <div><div class="sf-label">Updated source</div><strong>Save 25% on your first month.</strong><span>Source v4 · Promotional offer changed</span></div>
+                      <div><div class="sf-label">Why review is required</div><strong>The approved French variant still references the previous offer.</strong><span>Only this field is affected. Unrelated local edits remain protected.</span></div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><span class="sf-main-text sf-market-name">Brazil</span><span class="sf-sub-text">Portuguese · BR</span></td>
+                  <td><span class="sf-impact-result">Safe to update</span><span class="sf-sub-text">Separate blocker remains</span></td>
+                  <td><span class="sf-main-text">Promotional offer</span><span class="sf-sub-text">20% → 25%</span></td>
+                  <td><span class="sf-main-text">No local conflict</span><span class="sf-sub-text">Accessibility blocked</span></td>
+                  <td><span class="sf-main-text sf-version">Variant v2</span><span class="sf-sub-text">Update available</span></td>
+                  <td><button class="sf-row-action" type="button">Preview update →</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="sf-preservation-note"><strong>Approved local work is protected</strong><p>SOURCEFOLD identifies the affected field and requests a decision. It does not replace France’s approved local version automatically.</p></div>
+        </section>
+
+        <section aria-labelledby="sf-master-attention">
+          <div class="sf-section-head sf-attention-head"><h2 id="sf-master-attention">Attention queue</h2><span class="sf-mono sf-open">03 open</span></div>
+          <div class="sf-queue">
+            <button class="sf-queue-item" type="button" data-context="japan"><span class="sf-label">01 · Human review</span><h3>Japan</h3><p>Cultural adaptation · Aiko T.</p><span class="sf-inline-action">Review adaptation →</span></button>
+            <button class="sf-queue-item source" type="button" data-context="france"><span class="sf-label">02 · Source change</span><h3>France</h3><p>Promotional offer changed · Maya</p><span class="sf-inline-action">Review impact →</span></button>
+            <button class="sf-queue-item blocked" type="button" data-context="brazil"><span class="sf-label">03 · Blocker</span><h3>Brazil</h3><p>Accessibility metadata missing</p><span class="sf-inline-action">Resolve requirement →</span></button>
+          </div>
+        </section>
+
+        <section aria-labelledby="sf-master-markets">
+          <div class="sf-section-head sf-market-head"><h2 id="sf-master-markets">Market operations</h2><p><strong style="color:#586a73;font-weight:500">Source v4</strong> · 4 variants · 3 decisions</p></div>
+          <div class="sf-table-frame">
+            <table>
+              <thead><tr><th style="width:14%">Market</th><th style="width:15%">Status</th><th style="width:20%">Issue</th><th style="width:12%">Owner</th><th style="width:10%">Version</th><th style="width:13%">Publishing</th><th style="width:16%">Next action</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><span class="sf-main-text sf-market-name">United States</span><span class="sf-sub-text sf-market-code">English · US</span></td>
+                  <td><span class="sf-status">Ready</span><span class="sf-sub-text">No open issues</span></td>
+                  <td><span class="sf-main-text">—</span></td>
+                  <td><span class="sf-main-text">Maya</span></td>
+                  <td><span class="sf-main-text sf-version">Variant v4</span><span class="sf-sub-text">Aligned</span></td>
+                  <td><span class="sf-main-text">Not published</span><span class="sf-sub-text">Eligible</span></td>
+                  <td><button class="sf-row-action" type="button" data-context="us">Review readiness →</button></td>
+                </tr>
+                <tr class="attention review">
+                  <td><span class="sf-main-text sf-market-name">Japan</span><span class="sf-sub-text sf-market-code">Japanese · JP</span></td>
+                  <td><span class="sf-status review">Review required</span><span class="sf-sub-text">Assigned to Aiko</span></td>
+                  <td><span class="sf-main-text">Cultural adaptation</span><span class="sf-sub-text">AI suggested · Human review</span></td>
+                  <td><span class="sf-main-text">Aiko T.</span></td>
+                  <td><span class="sf-main-text sf-version">Variant v3</span><span class="sf-sub-text">Review pending</span></td>
+                  <td><span class="sf-main-text">Not ready</span><span class="sf-sub-text">Review open</span></td>
+                  <td><button class="sf-row-action" type="button" data-context="japan">Review adaptation →</button></td>
+                </tr>
+                <tr class="attention source">
+                  <td><span class="sf-main-text sf-market-name">France</span><span class="sf-sub-text sf-market-code">French · FR</span></td>
+                  <td><span class="sf-status source">Source updated</span><span class="sf-sub-text">Decision required</span></td>
+                  <td><span class="sf-main-text">Promotional offer changed</span><span class="sf-sub-text">Approved local edit preserved</span></td>
+                  <td><span class="sf-main-text">Maya</span></td>
+                  <td><span class="sf-main-text sf-version">Variant v3</span><span class="sf-sub-text">Source changed</span></td>
+                  <td><span class="sf-main-text">Not ready</span><span class="sf-sub-text">Source review</span></td>
+                  <td><button class="sf-row-action" type="button" data-context="france">Review source change →</button></td>
+                </tr>
+                <tr class="attention blocked">
+                  <td><span class="sf-main-text sf-market-name">Brazil</span><span class="sf-sub-text sf-market-code">Portuguese · BR</span></td>
+                  <td><span class="sf-status blocked">Blocked</span><span class="sf-sub-text">Cannot publish</span></td>
+                  <td><span class="sf-main-text">Accessibility metadata</span><span class="sf-sub-text">Required field missing</span></td>
+                  <td><span class="sf-main-text">Localization</span><span class="sf-sub-text">team</span></td>
+                  <td><span class="sf-main-text sf-version">Variant v2</span><span class="sf-sub-text">Aligned</span></td>
+                  <td><span class="sf-main-text">Blocked</span><span class="sf-sub-text">Excluded</span></td>
+                  <td><button class="sf-row-action" type="button" data-context="brazil">Resolve requirement →</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <section class="sf-release" aria-label="Release posture">
+            <div class="sf-release-top"><h3>Release posture</h3><a href="#">Review publishing readiness →</a></div>
+            <div class="sf-release-track" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="sf-release-grid">
+              <div class="sf-release-item"><strong>1 ready now</strong><span>United States</span></div>
+              <div class="sf-release-item"><strong>2 held for review</strong><span>Japan · France</span></div>
+              <div class="sf-release-item"><strong>1 excluded</strong><span>Brazil · blocker</span></div>
+            </div>
+          </section>
+          <section class="sf-decision-sequence" aria-label="Open decision sequence">
+            <div class="sf-sequence-head"><h3>Open decision sequence</h3><span>Before publishing readiness</span></div>
+            <div class="sf-sequence-list">
+              <div class="sf-sequence-item"><strong>Review Japan adaptation</strong><span>Aiko T. · Human review</span></div>
+              <div class="sf-sequence-item"><strong>Resolve France version</strong><span>Maya · Source change</span></div>
+              <div class="sf-sequence-item"><strong>Confirm release scope</strong><span>3 eligible · 1 excluded</span></div>
+            </div>
+          </section>
+        </section>
+        </div>
+      </main>
+
+      <aside class="sf-rail">
+        <button class="sf-panel-toggle sf-right-toggle" type="button" aria-label="Collapse context" aria-expanded="true"><i data-lucide="chevrons-right" aria-hidden="true"></i></button>
+        <div class="sf-user"><div class="sf-avatar">MW</div><div><strong>Maya W.</strong><span>Program owner</span></div></div>
+        <div class="sf-rail-collapsed">Source context <strong>3</strong></div>
+        <div class="sf-context-body" aria-live="polite"></div>
+      </aside>
+    </section>
+  </div>
+</div>
+
+<script>
+(() => {
+  const root = document.getElementById('sourcefold-source-change-impact');
+  const stage = root.querySelector('.sf-scale-stage');
+  const canvas = root.querySelector('.sf-canvas');
+  const leftToggle = root.querySelector('.sf-left-toggle');
+  const rightToggle = root.querySelector('.sf-right-toggle');
+  const themeToggle = root.querySelector('.sf-theme-toggle');
+  const contextBody = root.querySelector('.sf-context-body');
+  const sourceContext = `
+    <header class="sf-source-title"><div class="sf-kicker">Change overview</div><h2>Promotional offer</h2><p>Orbit Launch · English source</p></header>
+    <div class="sf-source-record"><div><div class="sf-label">Current source</div><strong>Source v4</strong></div><span>Published</span></div>
+    <section class="sf-source-diff" aria-label="Source value change"><div><span>Previous · Source v3</span><strong class="sf-old-value">Save 20% on your first month.</strong></div><div><span>Current · Source v4</span><strong class="sf-new-value">Save 25% on your first month.</strong></div></section>
+    <section class="sf-lineage" aria-label="Market lineage">
+      <div class="sf-label">Market lineage</div>
+      <div class="sf-lineage-list">
+        <div class="sf-lineage-row"><span class="sf-node"></span><div><strong>United States</strong><small>Safe update · No local conflict</small></div><span class="sf-lineage-version">v3</span></div>
+        <div class="sf-lineage-row"><span class="sf-node"></span><div><strong>Japan</strong><small>No action · Meaning already current</small></div><span class="sf-lineage-version">v3</span></div>
+        <div class="sf-lineage-row source"><span class="sf-node"></span><div><strong>France</strong><small>Source updated · Decision required</small></div><span class="sf-lineage-version">v3</span></div>
+        <div class="sf-lineage-row blocked"><span class="sf-node"></span><div><strong>Brazil</strong><small>Safe update · Separate blocker</small></div><span class="sf-lineage-version">v2</span></div>
+      </div>
+    </section>
+    <section class="sf-source-event"><div class="sf-label">Impact analysis</div><h3>3 variants affected</h3><p>United States and Brazil can update safely. France requires a human decision. Japan needs no action.</p></section>
+    <section class="sf-rule"><div class="sf-label">System rule</div><p>Source changes surface downstream impact without silently overwriting approved local work.</p></section>
+    <section class="sf-decisions" aria-label="Recent activity">
+      <div class="sf-label">Recent activity</div>
+      <div class="sf-decision-list">
+        <div class="sf-decision"><span class="sf-decision-mark"></span><div><strong>France local edit preserved</strong><small>System · 18 min ago</small></div></div>
+        <div class="sf-decision review"><span class="sf-decision-mark"></span><div><strong>Japan assigned to Aiko</strong><small>Maya · 42 min ago</small></div></div>
+        <div class="sf-decision blocked"><span class="sf-decision-mark"></span><div><strong>Brazil excluded from release</strong><small>Pending resolution</small></div></div>
+      </div>
+    </section>
+    <section class="sf-review-policy"><div class="sf-label">Review policy</div><p>AI suggestions remain provisional until a human owner approves them. Approved local edits stay preserved when the source changes.</p></section>
+    <section class="sf-source-controls"><div class="sf-label">Campaign controls</div><div class="sf-detail-list"><div class="sf-detail-row"><span>Source owner</span><strong>Maya W.</strong></div><div class="sf-detail-row"><span>Launch</span><strong>Sep 10</strong></div><div class="sf-detail-row"><span>Scope</span><strong>4 market variants</strong></div></div></section>`;
+  const marketContexts = {
+    us: {
+      kicker: 'Market readiness', title: 'United States', subtitle: 'English · US',
+      summary: 'Ready to publish', description: 'The market variant is current with Source v4 and has no open review or requirement issues.',
+      rows: [['Status','Ready'],['Owner','Maya W.'],['Version','Variant v4 · Aligned to Source v4'],['Publishing','Eligible · Not published']],
+      decision: 'Publish this market', action: 'Review publishing readiness'
+    },
+    japan: {
+      kicker: 'Review context', title: 'Japan', subtitle: 'Japanese · JP',
+      summary: 'Human review required', description: 'AI suggested a cultural adaptation. Aiko must review the local context before approval.',
+      rows: [['Issue','Cultural adaptation'],['Owner','Aiko T.'],['Provenance','AI suggested · Human review'],['Version','Variant v3 · Based on Source v4 · Review pending']],
+      decision: 'Confirm the adaptation', action: 'Open AI review workspace'
+    },
+    france: {
+      kicker: 'Source change impact', title: 'France', subtitle: 'French · FR',
+      summary: 'One field requires a decision', description: 'Source v4 changed the offer from 20% to 25%. The approved French local edit remains preserved.',
+      rows: [['Changed field','Promotional offer · 20% → 25%'],['Owner','Maya W.'],['Version','Variant v3 · Based on Source v3'],['Preservation','Human-edited copy retained']],
+      decision: 'Resolve the version difference', action: 'Open version resolution'
+    },
+    brazil: {
+      kicker: 'Blocker detail', title: 'Brazil', subtitle: 'Portuguese · BR',
+      summary: 'Publishing is blocked', description: 'Required accessibility metadata is missing. Brazil stays excluded while other eligible markets can proceed.',
+      rows: [['Requirement','Accessibility metadata'],['Owner','Localization Team'],['Version','Variant v2 · Aligned to Source v4'],['Publishing','Excluded until resolved']],
+      decision: 'Complete the missing requirement', action: 'Resolve blocker'
+    }
+  };
+  const renderContext = (key = 'source') => {
+    root.querySelectorAll('[data-context]').forEach(el => el.classList.toggle('is-selected', el.dataset.context === key));
+    if (key === 'source') {
+      contextBody.innerHTML = sourceContext;
+    } else {
+      const item = marketContexts[key];
+      contextBody.innerHTML = `
+        <header class="sf-source-title">
+          <div class="sf-kicker">${item.kicker}</div><h2>${item.title}</h2><p>${item.subtitle}</p>
+          <button class="sf-context-reset" type="button"><i data-lucide="arrow-left" aria-hidden="true"></i>Back to source context</button>
+        </header>
+        <section class="sf-impact-summary"><div class="sf-label">Current state</div><strong>${item.summary}</strong><p>${item.description}</p></section>
+        <div class="sf-detail-list">${item.rows.map(row => `<div class="sf-detail-row"><span>${row[0]}</span><strong>${row[1]}</strong></div>`).join('')}</div>
+        <section class="sf-next-decision"><div class="sf-label">Next decision</div><p>${item.decision}</p><button type="button">${item.action} →</button></section>`;
+      contextBody.querySelector('.sf-context-reset').addEventListener('click', () => renderContext('source'));
+    }
+    if (window.lucide) lucide.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  const resize = () => {
+    const width = Math.max(320, root.getBoundingClientRect().width);
+    const scale = Math.min(1, width / 1440);
+    canvas.style.transform = `scale(${scale})`;
+    stage.style.height = `${1024 * scale}px`;
+  };
+  resize();
+  renderContext('source');
+  new ResizeObserver(resize).observe(root);
+  root.querySelectorAll('[data-context]').forEach(trigger => trigger.addEventListener('click', () => renderContext(trigger.dataset.context)));
+  const franceDetail = root.querySelector('[data-france-detail]');
+  const franceRow = root.querySelector('[data-france-row]');
+  root.querySelectorAll('[data-impact-market="france"]').forEach(trigger => trigger.addEventListener('click', () => {
+    franceDetail.classList.add('is-open');
+    franceRow.classList.add('is-selected');
+  }));
+  leftToggle.addEventListener('click', () => {
+    const collapsed = canvas.classList.toggle('sf-left-collapsed');
+    leftToggle.setAttribute('aria-expanded', String(!collapsed));
+    leftToggle.setAttribute('aria-label', collapsed ? 'Expand navigation' : 'Collapse navigation');
+  });
+  rightToggle.addEventListener('click', () => {
+    const collapsed = canvas.classList.toggle('sf-right-collapsed');
+    rightToggle.setAttribute('aria-expanded', String(!collapsed));
+    rightToggle.setAttribute('aria-label', collapsed ? 'Expand context' : 'Collapse context');
+  });
+  themeToggle.addEventListener('click', () => {
+    const dark = canvas.classList.toggle('sf-dark');
+    themeToggle.setAttribute('aria-pressed', String(dark));
+    themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    themeToggle.innerHTML = `<i data-lucide="${dark ? 'sun' : 'moon'}" aria-hidden="true"></i><span>${dark ? 'Light mode' : 'Dark mode'}</span>`;
+    if (window.lucide) lucide.createIcons({ attrs: { width: 16, height: 16 } });
+  });
+})();
+</script>
+
+</body>
+</html>

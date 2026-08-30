@@ -27,7 +27,12 @@ export type ContentBlock =
       labels?: string[];
       /** Optional one-sentence purpose per item, shown under each label. */
       captions?: string[];
-      variant?: "screens";
+      /** "equalHeight": both media items share one visible frame height
+       * (natural aspect ratio preserved, no cropping) instead of the default
+       * equal-width/bottom-aligned grid — for image pairs whose source
+       * aspect ratios differ enough that equal-width columns produce
+       * visibly mismatched heights. */
+      variant?: "screens" | "screensFill" | "equalHeight";
     }
   | { type: "callout"; title: string; body: string }
   | {
@@ -109,6 +114,12 @@ export type ContentBlock =
       presentation?: "device" | "plain";
     }
   | {
+      type: "sourcefoldPrototypeLink";
+      href: string;
+      label: string;
+      note?: string;
+    }
+  | {
       /** A clearly-labeled stand-in for a diagram/UI/video asset that hasn't
        * been produced yet — used while a case study's copy and structure are
        * final but its visuals are not. Never a substitute for real media once
@@ -125,6 +136,18 @@ export type ContentBlock =
       caption?: string;
       /** Short lines describing what the future asset will contain. */
       details?: string[];
+      layout?: MediaLayout;
+    }
+  | {
+      /** SOURCEFOLD-specific: renders
+       * components/SourcefoldOperationalStateDiagram, replacing the System
+       * States section's "SOURCEFOLD Operational State System" placeholder
+       * with a four-row state matrix — Workflow, Review / provenance,
+       * Version, and Publishing — each a neutral rail carrying its four
+       * states. Deliberately not a lifecycle diagram: no arrowheads, no
+       * per-state accent, since these are independent classification
+       * groups rather than a mandatory sequence. */
+      type: "sourcefoldOperationalStateDiagram";
       layout?: MediaLayout;
     }
   | {
@@ -152,6 +175,161 @@ export type ContentBlock =
       /** SOURCEFOLD-specific: renders components/SourcefoldKeyDecisions,
        * the finished diagram in that case study's Key Decisions section. */
       type: "sourcefoldKeyDecisions";
+      layout?: MediaLayout;
+    }
+  | {
+      /** AURIC SIGNAL-specific: renders components/AuricCoreDecisionFlow,
+       * replacing the static auric-core-user-flows.png in the Core User
+       * Flow section with a responsive HTML/CSS/SVG diagram. */
+      type: "auricCoreDecisionFlow";
+      layout?: MediaLayout;
+    }
+  | {
+      /** AURIC SIGNAL-specific: renders components/AuricInformationArchitecture,
+       * replacing the static auric-information-architecture.png in the
+       * Information Architecture section with a responsive HTML/CSS/SVG
+       * diagram. */
+      type: "auricInformationArchitecture";
+      layout?: MediaLayout;
+    }
+  | {
+      /** AURIC SIGNAL-specific: renders components/AuricAiHumanControlModel,
+       * a new diagram (no static asset replaced) communicating the
+       * interaction boundary between AI assistance and human decision-making. */
+      type: "auricAiHumanControlModel";
+      layout?: MediaLayout;
+    }
+  | {
+      /** AURIC SIGNAL-specific: renders components/AuricResearchTranslation,
+       * a new diagram (no static asset replaced) — a lightweight editorial
+       * three-column map showing how research signals were synthesized into
+       * design principles and then into concrete product responses. */
+      type: "auricResearchTranslation";
+      layout?: MediaLayout;
+    }
+  | {
+      /** AURIC SIGNAL-specific: renders components/AuricDecisionFrictionModel,
+       * replacing the Problem section's plain "Fragmented Information →
+       * Interpretation Gap → Decision Uncertainty" stateFlow with a diagram
+       * that makes the interpretation gap the visual focus. */
+      type: "auricDecisionFrictionModel";
+      layout?: MediaLayout;
+    }
+  | {
+      /** AURIC SIGNAL-specific: renders components/AuricDecisionSupportJourney,
+       * replacing the Overview section's plain "What changed? → Why does it
+       * matter? → What can I do?" stateFlow with a compact, card-free
+       * four-stage executive summary of the whole product model. */
+      type: "auricDecisionSupportJourney";
+      layout?: MediaLayout;
+    }
+  | {
+      /** AURIC SIGNAL-specific: renders components/AuricConceptSelectionMap,
+       * a new diagram (no static asset replaced) explaining the decision
+       * logic behind advancing the Signal-led direction — sits after the
+       * existing early-exploration screenshot/cardSet and before the
+       * "Direction selected" callout, without duplicating either. */
+      type: "auricConceptSelectionMap";
+      layout?: MediaLayout;
+    }
+  | {
+      /** AURIC SIGNAL-specific: renders components/AuricTestingIterationMap,
+       * replacing the Testing section's "Observed → Changed" cardSet with the
+       * same three iterations plus a Product Effect layer and real product
+       * screenshot crops (reused, not fabricated). */
+      type: "auricTestingIterationMap";
+      layout?: MediaLayout;
+    }
+  | {
+      /** TRACE-specific: renders components/TraceSharedPermissionArchitecture,
+       * a new diagram (no static asset replaced) in the Ecosystem
+       * Architecture section — a hub-and-spoke system map showing Personal
+       * App, Physical Credential, Organization Dashboard, and Human Support
+       * all referencing one central Shared Permission State, rather than a
+       * linear chain. */
+      type: "traceSharedPermissionArchitecture";
+      layout?: MediaLayout;
+    }
+  | {
+      /** TRACE-specific: renders components/TracePermissionStateModel, a new
+       * diagram (no static asset replaced) in the Ecosystem Architecture
+       * section, right after traceSharedPermissionArchitecture — a compact
+       * state model (Recognized/Pending/Active/Paused/Closed plus the
+       * Declined/Revoked exception states) replacing the section's previous
+       * plain stateFlow + alternate-paths prose. */
+      type: "tracePermissionStateModel";
+      layout?: MediaLayout;
+    }
+  | {
+      /** TRACE-specific: renders components/TraceServiceBlueprint, a new
+       * diagram (no static asset replaced) in the Onboarding & Service
+       * section — a multi-role service blueprint (Individual, Physical
+       * Credential/Dock, Personal App, Shared Permission State, Staff,
+       * Organization Dashboard) across seven service stages for the
+       * existing financial-consultation scenario. */
+      type: "traceServiceBlueprint";
+      layout?: MediaLayout;
+    }
+  | {
+      /** TRACE-specific: renders components/TraceRecoveryStateModel,
+       * replacing the Recovery Flow section's plain linear stateFlow with a
+       * branching state model (Normal State → ... → Shared Context →
+       * Self-Service/Assisted Recovery → Permission Recheck → Resume/Close). */
+      type: "traceRecoveryStateModel";
+      layout?: MediaLayout;
+    }
+  | {
+      /** TRACE-specific: renders components/TraceSystemAtAGlance, replacing
+       * the Overview section's plain "Physical Object ↔ Personal App ↔
+       * Organization Dashboard ↔ Service Touchpoints" stateFlow with a
+       * lightweight hub-and-spoke overview diagram — deliberately simpler
+       * than the later Shared Permission Architecture diagram. */
+      type: "traceSystemAtAGlance";
+      layout?: MediaLayout;
+    }
+  | {
+      /** TRACE-specific: renders components/TraceAccessJourney, replacing
+       * the Research & Strategy section's plain "End-to-end journey"
+       * stateFlow with a lightweight two-layer (User / System) journey
+       * strip across the same six stages. */
+      type: "traceAccessJourney";
+      layout?: MediaLayout;
+    }
+  | {
+      /** SMART PUPPY-specific: renders components/SmartPuppyBehaviorLoop,
+       * replacing the Behavior & Expression section's two separate linear
+       * stateFlow blocks ("State → Behavior → Expression → User
+       * Interpretation" and "User Action → Recognition → Acknowledgement →
+       * Response → User Interpretation → Next Interaction") with one closed
+       * behavior-communication-loop diagram. */
+      type: "smartPuppyBehaviorLoop";
+      layout?: MediaLayout;
+    }
+  | {
+      /** SMART PUPPY-specific: renders
+       * components/SmartPuppyConnectedArchitecture, replacing the simple
+       * "Human → Smart Puppy → Connected App" relationship block with a
+       * fuller connected-experience architecture (bidirectional Human ↔
+       * Smart Puppy ↔ Connected App plus a Shared Companion State layer). */
+      type: "smartPuppyConnectedArchitecture";
+      layout?: MediaLayout;
+    }
+  | {
+      /** SMART PUPPY-specific: renders components/SmartPuppyRelationshipLoop,
+       * replacing the Research & Journey section's linear "relationship"
+       * block (Discover → Approach → Connect → Engage → Personalize →
+       * Return) with a journey loop — a quiet return path from Return back
+       * to Connect/Engage (never all the way to Discover) plus a subtle
+       * Awareness → Trust → Familiarity → Attachment progression layer. */
+      type: "smartPuppyRelationshipLoop";
+      layout?: MediaLayout;
+    }
+  | {
+      /** SMART PUPPY-specific: renders
+       * components/SmartPuppyDigitalExperienceMap, replacing the dense
+       * screen-by-screen app flowchart image with a strategic structure
+       * diagram (Home → Care/Control/Live → Activity/Assets/Household). */
+      type: "smartPuppyDigitalExperienceMap";
       layout?: MediaLayout;
     };
 

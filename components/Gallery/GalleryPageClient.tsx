@@ -41,7 +41,7 @@ export function GalleryPageClient({ items }: GalleryPageClientProps) {
   return (
     <main id="main-content" className={styles.main}>
       <header className={styles.header}>
-        <h1 className={styles.title}>Gallery</h1>
+        <h1 className={styles.title}>GALLERY</h1>
         <p className={styles.intro}>Selected design work, explorations, and visual experiments.</p>
       </header>
 

@@ -6,6 +6,7 @@ import { HeroHeadline } from "@/components/HeroHeadline";
 import { HomeGalleryWall, type HomeGalleryImage } from "@/components/HomeGalleryWall";
 import { auricSignalProject } from "@/lib/projects/auric-signal";
 import { traceProject } from "@/lib/projects/trace";
+import { sourcefoldProject } from "@/lib/projects/sourcefold";
 import { smartPuppyProject } from "@/lib/projects/smart-puppy";
 import { professionalExperienceProject } from "@/lib/projects/professional-experience";
 import styles from "./page.module.css";
@@ -18,6 +19,20 @@ import styles from "./page.module.css";
 const projects = [
   {
     number: "01",
+    title: "SOURCEFOLD",
+    tagline: "AI-Assisted Global Content Operations",
+    disciplines: "Enterprise UX · AI Workflows · Systems Design",
+    projectType: "Independent Project · 2026",
+    href: "/work/sourcefold",
+    image: sourcefoldProject.hero!.src,
+    imageDark: sourcefoldProject.heroDark?.src,
+    imageWidth: sourcefoldProject.hero!.width,
+    imageHeight: sourcefoldProject.hero!.height,
+    imageAlt:
+      "SOURCEFOLD global content operations workspace shown in light and dark modes with human review, source-change impact, and publishing-readiness panels.",
+  },
+  {
+    number: "02",
     title: "AURIC SIGNAL",
     tagline: "AI Portfolio Intelligence",
     disciplines: "Product Strategy · UX/UI · AI Experience",
@@ -31,7 +46,7 @@ const projects = [
       "AURIC SIGNAL mobile interface surrounded by portfolio insights and decision-support modules.",
   },
   {
-    number: "02",
+    number: "03",
     title: "TRACE",
     tagline: "Visible Permission System",
     disciplines: "Experience Design · Systems Thinking · Physical–Digital",
@@ -43,16 +58,6 @@ const projects = [
     imageHeight: traceProject.hero!.height,
     imageAlt:
       "TRACE credential and dock beside a mobile permission-control interface.",
-  },
-  {
-    number: "03",
-    title: "SOURCEFOLD",
-    tagline: "AI-Assisted Global Content Operations",
-    disciplines: "Enterprise UX · AI Workflows · Systems Design",
-    projectType: "Independent Project · 2026",
-    href: "/work/sourcefold",
-    // No hero image yet — omitting `image` triggers the "Coming Soon"
-    // placeholder in the card media area below instead of next/image.
   },
   {
     number: "04",

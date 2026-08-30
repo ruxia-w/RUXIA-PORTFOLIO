@@ -1,0 +1,303 @@
+.wrap {
+  width: 100%;
+}
+
+/* Local, self-contained diagram tokens — same values as
+   TraceSharedPermissionArchitecture.module.css and
+   TracePermissionStateModel.module.css, kept independent per-file so no
+   existing diagram needs to change. */
+.diagram {
+  --trace-blue: #1e4fff;
+  --trace-blue-tint: rgba(30, 79, 255, 0.07);
+
+  --diagram-lane-label-size: 13px;
+  --diagram-stage-label-size: 11px;
+  --diagram-cell-size: 11px;
+  --diagram-chip-size: 10px;
+  --diagram-rule-size: 10px;
+}
+
+:global(html[data-theme="dark"]) .diagram {
+  --trace-blue: #6c95ff;
+  --trace-blue-tint: rgba(108, 149, 255, 0.12);
+}
+
+/* This is a timeline, so it's allowed more horizontal room than the other
+   two TRACE diagrams — ~90% of the surrounding media frame — but still
+   centered with real margins on both sides. */
+.canvas {
+  width: 100%;
+  max-width: 1010px;
+  margin-inline: auto;
+  overflow-x: visible;
+}
+
+/* ============ Desktop / tablet blueprint ============ */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(120px, 170px) repeat(7, minmax(0, 1fr));
+  align-items: center;
+  column-gap: 0.6rem;
+}
+
+/* Tablet / narrow-laptop range — same structure, but single-word labels
+   ("Recognize", "Pending", "Closed"...) have no natural break point, so
+   this buys back enough per-column width for them to sit on one line
+   instead of breaking mid-word. */
+@media (min-width: 721px) and (max-width: 1024px) {
+  .grid {
+    grid-template-columns: minmax(85px, 100px) repeat(7, minmax(0, 1fr));
+    column-gap: 0.25rem;
+  }
+
+  .stageHeader {
+    font-size: 9px;
+    letter-spacing: 0.02em;
+  }
+
+  .laneLabel {
+    font-size: 12px;
+  }
+
+  .laneCell,
+  .laneCellEmpty {
+    font-size: 9.5px;
+  }
+
+  .stateChip {
+    padding: 0.15rem 0.35rem;
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 720px) {
+  .canvas {
+    display: none;
+  }
+}
+
+.cornerCell {
+  display: block;
+}
+
+.stageHeader {
+  /* Grid items default to min-width: auto, which ignores the
+     minmax(0, 1fr) column's ability to shrink and lets long labels
+     overflow into the next column at narrower widths — this is what
+     actually lets the text wrap/shrink instead. */
+  min-width: 0;
+  /* Stage labels are single words with no natural break point — without
+     this, min-width: 0 alone still can't stop "RECOGNIZE" from
+     overflowing into "REQUEST" at narrower widths. hyphens: auto (with the
+     page's lang="en") gives a proper hyphenated break instead of an
+     orphaned single letter when a word must wrap. */
+  overflow-wrap: break-word;
+  hyphens: auto;
+  position: relative;
+  /* Top-aligned regardless of the grid's own align-items: center — the
+     Request header grows taller than its neighbors (it carries the system
+     rule annotation below), and this keeps every stage label's own
+     baseline consistent instead of drifting toward the middle of a taller
+     row. */
+  align-self: start;
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-stage-label-size);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* A small blue tick on the header cell just before a handoff moment — never
+   a line drawn down through the lanes below. */
+.handoffTick {
+  position: absolute;
+  top: 0;
+  right: -0.35rem;
+  width: 2px;
+  height: 8px;
+  background: var(--trace-blue);
+  border-radius: 1px;
+}
+
+/* The one system-rule annotation, anchored to the Request column where the
+   brief asks for it — small, restrained, TRACE blue, never a banner. */
+.systemRule {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--trace-blue);
+  font-size: var(--diagram-rule-size);
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  text-transform: none;
+  line-height: 1.35;
+  white-space: normal;
+}
+
+.laneRow {
+  display: contents;
+}
+
+.laneLabel,
+.laneCell,
+.laneCellEmpty {
+  /* Same min-width: auto fix as .stageHeader above. */
+  min-width: 0;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--color-border);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .laneLabel,
+.revealed .laneCell,
+.revealed .laneCellEmpty {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.laneLabel {
+  margin: 0;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-lane-label-size);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+
+.laneNumber {
+  color: var(--color-muted);
+  font-weight: 600;
+}
+
+.laneLabelAnchor {
+  color: var(--trace-blue);
+}
+
+.laneCell {
+  display: block;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-cell-size);
+  font-weight: 400;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.laneCellEmpty {
+  display: block;
+  color: var(--color-border);
+  font-size: var(--diagram-cell-size);
+  text-align: center;
+}
+
+/* Shared Permission State lane — the one anchor lane whose states render as
+   small pill markers instead of plain text, per its own brief. Still tiny
+   and quiet, never a UI card. */
+.stateChip {
+  display: inline-block;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--trace-blue);
+  border-radius: 999px;
+  background: var(--trace-blue-tint);
+  color: var(--color-fg);
+  font-size: var(--diagram-chip-size);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  /* Wraps rather than overflowing into the neighboring lane cell at
+     narrower widths — "Active ⇄ Paused" is the longest state label. */
+  white-space: normal;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  text-align: center;
+}
+
+/* ============ Mobile: stacked stage groups ============ */
+
+.mobileFlow {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .mobileFlow {
+    display: block;
+  }
+}
+
+.mobileStageGroup {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .mobileStageGroup {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobileStageHeader {
+  margin: 0 0 0.5rem;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-lane-label-size);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.systemRuleMobile {
+  margin: 0 0 0.6rem;
+  color: var(--trace-blue);
+  font-size: var(--diagram-rule-size);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.mobileLaneList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.mobileLaneItem {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mobileLaneItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.mobileLaneName {
+  flex: 0 0 auto;
+  color: var(--color-muted);
+  font-size: var(--diagram-cell-size);
+  font-weight: 500;
+}
+
+.laneCellMobile {
+  text-align: right;
+  color: var(--color-fg);
+}
+
+.mobileStageConnector {
+  width: 1px;
+  height: 20px;
+  margin: 0.75rem auto;
+  background: var(--color-border);
+}

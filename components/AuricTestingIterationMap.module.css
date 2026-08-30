@@ -1,0 +1,182 @@
+.wrap {
+  width: 100%;
+}
+
+.canvas {
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+}
+
+/* ============ Iteration heading ============ */
+
+.iterationHeading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin: 0 0 var(--space-8);
+}
+
+.iterationNumber,
+.iterationDash {
+  color: var(--color-muted);
+  font-size: var(--diagram-section-label-size);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.iterationTitle {
+  color: var(--color-fg);
+  font-size: var(--diagram-node-title-size);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+/* ============ Desktop row: Observed → Changed → Product Effect ============ */
+
+.iteration + .iteration {
+  margin-top: var(--diagram-gap-section);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr) 28px minmax(0, 180px);
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.cell {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .cell {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.row .cell:nth-child(3) {
+  transition-delay: 60ms;
+  border-left: 2px solid var(--color-border);
+  padding-left: 0.75rem;
+}
+
+.row .cell:nth-child(5) {
+  transition-delay: 120ms;
+}
+
+.microLabel {
+  margin: 0 0 0.3rem;
+  color: var(--color-muted);
+  font-size: var(--diagram-ai-label-size);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.observedText {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: var(--diagram-annotation-body-size);
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.changedText {
+  margin: 0;
+  color: var(--color-fg);
+  font-size: var(--diagram-annotation-body-size);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.effectText {
+  margin: 0 0 0.6rem;
+  color: var(--color-fg);
+  font-size: var(--diagram-node-title-size);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.connector {
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+  transition-delay: 30ms;
+}
+
+.revealed .connector {
+  opacity: 1;
+}
+
+/* ============ Product crop — small, outlined, real screenshot ============ */
+
+.cropFrame {
+  position: relative;
+  width: 100%;
+  max-width: 170px;
+  height: 150px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-border);
+}
+
+.cropImage {
+  object-fit: cover;
+}
+
+@media (max-width: 720px) {
+  .canvas {
+    display: none;
+  }
+}
+
+/* ============ Mobile: stacked iterations ============ */
+
+.mobileFlow {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .mobileFlow {
+    display: block;
+  }
+}
+
+.mobileIteration {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .mobileIteration {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobileIteration + .mobileIteration {
+  margin-top: var(--diagram-gap-section);
+}
+
+.mobileIteration .observedText,
+.mobileIteration .changedText {
+  margin-bottom: 0.4rem;
+}
+
+.mobileIteration .changedText {
+  border-left: 2px solid var(--color-border);
+  padding-left: 0.75rem;
+}
+
+.mobileIteration .cropFrame {
+  max-width: 220px;
+  height: 175px;
+}
+
+.mobileConnector {
+  display: flex;
+  padding: 0.3rem 0;
+}

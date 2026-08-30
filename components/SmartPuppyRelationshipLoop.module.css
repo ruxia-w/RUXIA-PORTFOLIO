@@ -1,0 +1,347 @@
+.wrap {
+  width: 100%;
+}
+
+/* Local, self-contained diagram tokens — same values as the other two
+   Smart Puppy diagrams (Behavior Communication Loop, Connected Experience
+   Architecture), kept independent per-file per this project's established
+   pattern. */
+.diagram {
+  --puppy-accent: #0089b3;
+  --card-bg: rgba(0, 0, 0, 0.025);
+
+  --diagram-number-size: 9px;
+  --diagram-title-size: 12px;
+  --diagram-sub-size: 11px;
+  --diagram-loop-label-size: 10px;
+  --diagram-progression-size: 9.5px;
+}
+
+:global(html[data-theme="dark"]) .diagram {
+  --puppy-accent: #00bfff;
+  --card-bg: rgba(255, 255, 255, 0.035);
+}
+
+/* ============ Breakpoint trees ============ */
+
+.desktopFlow {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .desktopFlow {
+    display: none;
+  }
+}
+
+.tabletFlow {
+  display: none;
+  width: 100%;
+}
+
+@media (min-width: 721px) and (max-width: 1024px) {
+  .tabletFlow {
+    display: block;
+  }
+}
+
+.mobileFlow {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .mobileFlow {
+    display: block;
+  }
+}
+
+/* Sized to its own content, centered with whitespace on both sides — not
+   stretched edge to edge (that treatment belongs to the Behavior
+   Communication Loop diagram, not this one). */
+.archGroup {
+  width: fit-content;
+  max-width: min(100%, 940px);
+  margin-inline: auto;
+}
+
+.stageRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.stageRow + .stageRow {
+  margin-top: 0;
+}
+
+.tabletVConn {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .tabletVConn {
+  opacity: 1;
+}
+
+.connector {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .connector {
+  opacity: 1;
+}
+
+.connectorSvg {
+  display: block;
+  overflow: visible;
+}
+
+.connectorLine {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  fill: none;
+  transition: stroke-dashoffset 450ms var(--ease-premium);
+}
+
+.revealed .connectorLine {
+  stroke-dashoffset: 0;
+}
+
+.connectorArrow {
+  fill: var(--color-border);
+}
+
+/* ============ Stage cards ============ */
+
+.stageCard {
+  flex: 0 1 auto;
+  min-width: 118px;
+  max-width: 200px;
+  box-sizing: border-box;
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--card-bg);
+  text-align: left;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .stageCard {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stageNumber {
+  margin: 0 0 0.2rem;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-number-size);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  opacity: 0.75;
+}
+
+.stageTitle {
+  display: flex;
+  align-items: center;
+  margin: 0 0 0.3rem;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-title-size);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.stageSub {
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-sub-size);
+  font-weight: 400;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+}
+
+.accentDot {
+  flex: 0 0 auto;
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 0.5em;
+  border-radius: 50%;
+  background: var(--puppy-accent);
+}
+
+/* ============ Return loop — Return back to Connect/Engage only, never all
+   the way to Discover: the path's own horizontal segment spans roughly the
+   right 60% of the row, leaving the Discover/Approach portion untouched. */
+
+.returnWrap {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  margin-top: 10px;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .returnWrap {
+  opacity: 1;
+}
+
+.returnSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.returnLine {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  fill: none;
+  opacity: 0.85;
+  transition: stroke-dashoffset 600ms var(--ease-premium);
+}
+
+.revealed .returnLine {
+  stroke-dashoffset: 0;
+}
+
+.returnArrow {
+  fill: var(--color-border);
+  opacity: 0.85;
+}
+
+/* Positioned at the loop path's own horizontal midpoint (68%, not 50% —
+   the line only spans the right ~60% of the row), so the label sits on the
+   visible line rather than floating over the empty Discover/Approach
+   portion. */
+.loopLabel {
+  position: absolute;
+  left: 68%;
+  top: 68%;
+  transform: translate(-50%, -50%);
+  background: var(--color-bg);
+  padding: 0 0.6rem;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-loop-label-size);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+/* ============ Progression layer — quieter than everything above; an
+   interpretive read of the same six stages, not a second process. ======== */
+
+.progressionWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  margin-top: 1.5rem;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .progressionWrap {
+  opacity: 1;
+}
+
+.progressionItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.progressionLabel {
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-progression-size);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.progressionRule {
+  width: 28px;
+  height: 1px;
+  background: var(--color-border);
+  opacity: 0.5;
+}
+
+/* ============ Mobile: vertical stack ============ */
+
+.mobileCard {
+  max-width: none;
+  width: 100%;
+  min-width: 0;
+}
+
+.mobileConnector {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0.35rem 0 0.35rem 0.1rem;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .mobileConnector {
+  opacity: 1;
+}
+
+.mobileReturn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 0.1rem;
+  margin-top: 0.2rem;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .mobileReturn {
+  opacity: 1;
+}
+
+.mobileReturn .loopLabel {
+  position: static;
+  transform: none;
+  padding: 0.3rem 0 0 0;
+  background: transparent;
+}
+
+.mobileProgression {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 1.25rem;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .mobileProgression {
+  opacity: 1;
+}
+
+.progressionSep {
+  margin-left: 0.35rem;
+  color: var(--color-border);
+}

@@ -30,3 +30,17 @@
   letter-spacing: 0.04em;
   color: var(--color-muted);
 }
+
+.projectTitle {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+  text-decoration-color: currentColor;
+  cursor: pointer;
+  transition: text-decoration-thickness 160ms ease;
+}
+
+.link:hover .projectTitle,
+.link:focus-visible .projectTitle {
+  text-decoration-thickness: 1.75px;
+}

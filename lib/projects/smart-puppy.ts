@@ -108,16 +108,8 @@ export const smartPuppySections: CaseStudySection[] = [
         body: "Rather than a single task-completion flow, the experience was mapped as an ongoing relationship that deepens over repeated use.",
       },
       {
-        type: "relationship",
-        ariaLabel: "Relationship journey: Discover, Approach, Connect, Engage, Personalize, Return",
-        items: [
-          { eyebrow: "01", title: "Discover", body: "The companion is noticed and understood at a glance." },
-          { eyebrow: "02", title: "Approach", body: "Form and stance invite a first physical interaction." },
-          { eyebrow: "03", title: "Connect", body: "The companion pairs with the app, establishing the relationship." },
-          { eyebrow: "04", title: "Engage", body: "Daily behavior and response build familiarity." },
-          { eyebrow: "05", title: "Personalize", body: "The app shapes routines and preferences over time." },
-          { eyebrow: "06", title: "Return", body: "Repeated interaction reinforces an ongoing bond." },
-        ],
+        type: "smartPuppyRelationshipLoop",
+        layout: "wide",
       },
       {
         type: "richText",
@@ -206,14 +198,8 @@ export const smartPuppySections: CaseStudySection[] = [
         body: "Smart Puppy uses movement, posture, facial expression, and feedback to communicate state and intention without requiring the user to constantly reference a screen.",
       },
       {
-        type: "stateFlow",
-        ariaLabel: "Behavior language: State, Behavior, Expression, User Interpretation",
-        steps: [
-          { title: "State", connectorAfter: "→" },
-          { title: "Behavior", connectorAfter: "→" },
-          { title: "Expression", connectorAfter: "→" },
-          { title: "User Interpretation" },
-        ],
+        type: "smartPuppyBehaviorLoop",
+        layout: "wide",
       },
       {
         type: "cardSet",
@@ -237,18 +223,6 @@ export const smartPuppySections: CaseStudySection[] = [
         type: "richText",
         heading: "Motion as feedback",
         body: "Movement is not only locomotion. Orientation, posture, response timing, and movement communicate attention, acknowledgement, response, and engagement.",
-      },
-      {
-        type: "stateFlow",
-        ariaLabel: "Interaction loop: User Action, Recognition, Acknowledgement, Response, User Interpretation, Next Interaction",
-        steps: [
-          { title: "User Action", connectorAfter: "→" },
-          { title: "Recognition", connectorAfter: "→" },
-          { title: "Acknowledgement", connectorAfter: "→" },
-          { title: "Response", connectorAfter: "→" },
-          { title: "User Interpretation", connectorAfter: "→" },
-          { title: "Next Interaction" },
-        ],
       },
       {
         type: "richText",
@@ -298,15 +272,6 @@ export const smartPuppySections: CaseStudySection[] = [
         body: "Smart Puppy is structured as an experience architecture rather than a technical one — the companion stays at the center, with the app extending it.",
       },
       {
-        type: "relationship",
-        ariaLabel: "Connected product architecture: Human, Smart Puppy, Connected App",
-        items: [
-          { eyebrow: "Human", title: "Presence and interaction" },
-          { eyebrow: "Smart Puppy", title: "Form · Behavior · Expression · Movement" },
-          { eyebrow: "Connected App", title: "Control · Customization · Status" },
-        ],
-      },
-      {
         type: "callout",
         title: "Design principle",
         body: "The digital layer extends the relationship rather than replacing it.",
@@ -328,6 +293,10 @@ export const smartPuppySections: CaseStudySection[] = [
         body: "The connected app provides additional control, customization, and visibility while keeping direct interaction with Smart Puppy at the center of the experience. Physical behavior creates presence at home; the app closes the loop with status, control, and personalization when more context is needed — not a one-directional command sequence.",
       },
       {
+        type: "smartPuppyConnectedArchitecture",
+        layout: "wide",
+      },
+      {
         type: "media",
         layout: "wide",
         media: {
@@ -336,12 +305,8 @@ export const smartPuppySections: CaseStudySection[] = [
         },
       },
       {
-        type: "media",
+        type: "smartPuppyDigitalExperienceMap",
         layout: "wide",
-        media: {
-          ...media("smart-puppy-app-flowchart.png", 1672, 941, "SMART PUPPY app flowchart covering daily status review, live interaction, and asset and household management.", true),
-          caption: "Three core flows: understand current state, interact remotely, and manage the connected system.",
-        },
       },
       {
         type: "richText",
@@ -443,19 +408,8 @@ export const smartPuppySections: CaseStudySection[] = [
         },
       },
       {
-        type: "stateFlow",
-        ariaLabel: "Final experience sequence: Approach, Recognize, Respond, Connect, Return",
-        steps: [
-          { title: "01 — Approach", body: "Form and stance invite interaction.", connectorAfter: "→" },
-          { title: "02 — Recognize", body: "Expression and posture acknowledge the user.", connectorAfter: "→" },
-          { title: "03 — Respond", body: "Movement turns input into exchange.", connectorAfter: "→" },
-          { title: "04 — Connect", body: "The app extends interaction, not replace it.", connectorAfter: "→" },
-          { title: "05 — Return", body: "Repetition builds familiarity." },
-        ],
-      },
-      {
         type: "finalExperience",
-        body: "The prototype walkthrough shows the connected app experience in the Connect stage above — how the interface supports connection, care, activity, assets, household settings, and remote interaction alongside the physical companion.",
+        body: "The prototype walkthrough shows the connected app experience — how the interface supports connection, care, activity, assets, household settings, and remote interaction alongside the physical companion.",
         videoSrc: `${BASE}/smart-puppy-prototype.mp4`,
         prototypeUrl: "https://id-preview--771ba87b-15ef-4ab0-b6b6-dea1e811bc65.lovable.app/prototype",
         videoAriaLabel: "SMART PUPPY mobile app prototype walkthrough",

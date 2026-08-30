@@ -1,0 +1,283 @@
+.wrap {
+  width: 100%;
+}
+
+/* The diagram is a secondary, editorial layer inside the case study — it
+   should read as a deliberately composed object, not stretch to fill the
+   surrounding 940px media frame. Centered independently of that frame. */
+.canvas {
+  width: 100%;
+  max-width: 920px;
+  margin-inline: auto;
+}
+
+.stage {
+  margin: 0 0 1.5rem;
+}
+
+.stage:last-child {
+  margin-bottom: 0;
+}
+
+.stageLabel {
+  margin: 0 0 var(--space-4);
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-section-label-size);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ============ Desktop / tablet system map (>720px) ============ */
+
+/* Each stage's grid sizes to its own content (width: fit-content) instead of
+   stretching to fill .canvas, so the diagram reads as a compact object with
+   real outer whitespace rather than a full-width strip. Column widths are
+   explicit per stage (below) — not equal 1fr thirds — because each stage
+   assigns a different content-type width per column (an annotated node
+   needs more room than a plain one sharing its column in the other row). */
+.desktopGrid {
+  display: grid;
+  width: fit-content;
+  margin-inline: auto;
+  row-gap: 0.25rem;
+  /* Centers every row's items on the row's own height (governed by its
+     tallest node) instead of stretching or top-pinning them — this is what
+     makes a horizontal connector's center coincide with every connected
+     node's own center, even when neighbors differ in height (e.g. an
+     annotated node next to a plain one). */
+  align-items: center;
+}
+
+/* Stage 1 "Understand a change": columns 1 and 3 each pair a plain node
+   (row 1) with an annotated node (row 3), so they need the large tier;
+   column 5 pairs two non-annotated nodes, so medium is enough. */
+.gridUnderstand {
+  grid-template-columns:
+    minmax(0, var(--diagram-card-w-annotated)) var(--diagram-connector-gap)
+    minmax(0, var(--diagram-card-w-annotated)) var(--diagram-connector-gap)
+    minmax(0, var(--diagram-card-w-standard));
+}
+
+/* Stage 2 "Explore a decision": the annotated node (Risk + Trade-offs) has
+   moved to column 5, so the annotated/standard columns mirror stage 1. */
+.gridExplore {
+  grid-template-columns:
+    minmax(0, var(--diagram-card-w-standard)) var(--diagram-connector-gap)
+    minmax(0, var(--diagram-card-w-standard)) var(--diagram-connector-gap)
+    minmax(0, var(--diagram-card-w-annotated));
+}
+
+/* A generic centered stage-to-stage transition rather than a connector tied
+   to a specific column: stage 1 and stage 2 use different column widths
+   (see above) and are each independently centered, so their column 1 tracks
+   don't share a horizontal position — tying the bridge to one would make it
+   visually incorrect for whichever stage it doesn't align with. */
+.desktopBridge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+}
+
+.desktopBranch {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 4px;
+}
+
+@media (max-width: 720px) {
+  .stage,
+  .desktopGrid,
+  .desktopBridge,
+  .desktopBranch {
+    display: none;
+  }
+}
+
+/* ============ Mobile linear sequence (<=720px) ============ */
+
+.mobileFlow {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .mobileFlow {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.mobileBranch {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1.1rem;
+}
+
+.mobileOutcomes {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.6rem;
+}
+
+/* ============ Nodes (shared by both trees) ============ */
+
+.node {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 78px;
+  width: 100%;
+  padding: var(--diagram-node-padding-y) var(--diagram-node-padding-x);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: transparent;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+  /* Sizes to its own content-type width (below), not its grid column —
+     left-anchored so a narrower node doesn't center/stretch into the extra
+     room a wider column-mate (in the other row) needs. */
+  justify-self: start;
+}
+
+.revealed .node {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Content-type width tiers, independent of the height tiers below. A node's
+   own rendered width is capped at its tier regardless of how wide its grid
+   column is (the column is sized to whichever content-type in it needs the
+   most room — see .gridUnderstand / .gridExplore). Shared with the other
+   two AURIC diagrams via AuricDiagramTokens. */
+.wStandard {
+  max-width: var(--diagram-card-w-standard);
+}
+
+.wAnnotated {
+  max-width: var(--diagram-card-w-annotated);
+}
+
+@media (max-width: 720px) {
+  .wStandard,
+  .wAnnotated {
+    max-width: none;
+  }
+}
+
+/* AI-assisted nodes carry one extra metadata line, so they land a touch
+   taller than a plain single-title node. */
+.nodeAi {
+  min-height: 86px;
+}
+
+/* Annotated nodes hold a second, denser information level (an edge-case
+   label + note) — top-aligned rather than centered, since centering a
+   multi-line hierarchy would blur which line is primary. */
+.nodeAnnotated {
+  justify-content: flex-start;
+  min-height: 112px;
+}
+
+.nodeDecision {
+  border-color: var(--lime);
+  box-shadow: inset 0 0 0 0.5px var(--lime);
+}
+
+.aiTag {
+  color: var(--lime);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-ai-label-size);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.nodeLabel {
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-node-title-size);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--color-fg);
+}
+
+.decisionDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.45em;
+  border-radius: 50%;
+  background: var(--lime);
+  vertical-align: middle;
+}
+
+/* Edge-case annotation — lives inside its parent node's own box, separated
+   by a thin rule, deliberately quieter than the primary label above it, so
+   it reads as branching from that exact step rather than floating loose. */
+.edgeCase {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin-top: 0.15rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.edgeCaseMarker {
+  flex: 0 0 auto;
+  color: var(--color-muted);
+  font-size: var(--diagram-annotation-label-size);
+}
+
+.edgeCaseText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.edgeCaseLabel {
+  color: var(--color-muted);
+  font-size: var(--diagram-annotation-label-size);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.edgeCaseNote {
+  color: var(--color-muted);
+  font-size: var(--diagram-annotation-body-size);
+  line-height: 1.4;
+}
+
+/* ============ Branch outcomes (Human Decision, shared styling) ============ */
+
+.branchOutcomes {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.4rem;
+}
+
+.outcome {
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-node-title-size);
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .outcome {
+  opacity: 1;
+  transform: translateY(0);
+}

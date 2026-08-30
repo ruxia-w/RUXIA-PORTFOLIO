@@ -1,0 +1,281 @@
+.wrap {
+  width: 100%;
+}
+
+/* Local, self-contained diagram tokens — the accent is Smart Puppy's own
+   real brand primary (sampled from public/work/smart-puppy/
+   smart-puppy-ui-design-system.png — Primary #00BFFF), not a new color.
+   Light mode deepens it for contrast on a near-white background; dark mode
+   uses the true brand cyan, which already reads correctly on a dark
+   surface — the same light/dark split pattern used for AURIC's lime and
+   TRACE's blue. */
+.diagram {
+  --puppy-accent: #0089b3;
+  --card-bg: rgba(0, 0, 0, 0.025);
+
+  --diagram-title-size: 12px;
+  --diagram-sub-size: 11px;
+  --diagram-loop-label-size: 10px;
+}
+
+:global(html[data-theme="dark"]) .diagram {
+  --puppy-accent: #00bfff;
+  --card-bg: rgba(255, 255, 255, 0.035);
+}
+
+/* ============ Desktop (>1024px): single row + feedback line ============ */
+
+.desktopFlow {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .desktopFlow {
+    display: none;
+  }
+}
+
+.loopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 940px;
+  margin-inline: auto;
+}
+
+.connector {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .connector {
+  opacity: 1;
+}
+
+.connectorSvg {
+  display: block;
+  overflow: visible;
+}
+
+.connectorLine {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  fill: none;
+  transition: stroke-dashoffset 450ms var(--ease-premium);
+}
+
+.revealed .connectorLine {
+  stroke-dashoffset: 0;
+}
+
+.connectorArrow {
+  fill: var(--color-border);
+}
+
+/* ============ Stage cards — width follows content, never uniform ============ */
+
+.stageCard {
+  /* flex-shrink: 1 (not 0) — cards size to their natural content width when
+     there's room, but must be able to shrink (with text wrapping, via
+     min-width: 0 below) rather than overflow the row when six
+     content-based widths plus five connectors don't all fit at once. */
+  flex: 0 1 auto;
+  /* A small floor so short single-word content (e.g. "Recognition") isn't
+     shrunk tighter than it can comfortably wrap without breaking mid-word,
+     even while the row overall still shrinks to fit narrower viewports. */
+  min-width: 116px;
+  max-width: 230px;
+  box-sizing: border-box;
+  padding: 14px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--card-bg);
+  text-align: left;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .stageCard {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stageTitle {
+  display: flex;
+  align-items: center;
+  margin: 0 0 0.3rem;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-title-size);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+}
+
+.stageSub {
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-sub-size);
+  font-weight: 400;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+  /* A single unbreakable word (e.g. "Recognition") in a narrow card wraps
+     at a proper hyphenation point instead of an arbitrary mid-word split —
+     the page already declares lang="en", so this is reliable. */
+  hyphens: auto;
+}
+
+.accentDot {
+  flex: 0 0 auto;
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 0.5em;
+  border-radius: 50%;
+  background: var(--puppy-accent);
+}
+
+/* ============ Feedback loop — Next Interaction back to User ============ */
+
+.feedbackWrap {
+  position: relative;
+  width: 100%;
+  max-width: 940px;
+  height: 48px;
+  margin: 12px auto 0;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .feedbackWrap {
+  opacity: 1;
+}
+
+.feedbackSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.feedbackLine {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  fill: none;
+  transition: stroke-dashoffset 600ms var(--ease-premium);
+}
+
+.revealed .feedbackLine {
+  stroke-dashoffset: 0;
+}
+
+.feedbackArrow {
+  fill: var(--color-border);
+}
+
+.loopLabel {
+  position: absolute;
+  left: 50%;
+  top: 71%;
+  transform: translate(-50%, -50%);
+  background: var(--color-bg);
+  padding: 0 0.6rem;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-loop-label-size);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+/* ============ Tablet (721–1024px): 3 + 3 rows ============ */
+
+.tabletFlow {
+  display: none;
+  width: 100%;
+  max-width: 940px;
+  margin-inline: auto;
+}
+
+@media (min-width: 721px) and (max-width: 1024px) {
+  .tabletFlow {
+    display: block;
+  }
+}
+
+.tabletRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.tabletVConn {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .tabletVConn {
+  opacity: 1;
+}
+
+/* ============ Mobile (≤720px): vertical stack ============ */
+
+.mobileFlow {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .mobileFlow {
+    display: block;
+  }
+}
+
+.mobileCard {
+  max-width: none;
+  width: 100%;
+}
+
+.mobileConnector {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0.35rem 0 0.35rem 0.1rem;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .mobileConnector {
+  opacity: 1;
+}
+
+.mobileLoopBack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 0.1rem;
+  margin-top: 0.35rem;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .mobileLoopBack {
+  opacity: 1;
+}
+
+.mobileLoopBack .loopLabel {
+  position: static;
+  transform: none;
+  padding: 0.3rem 0 0 0;
+  background: transparent;
+}

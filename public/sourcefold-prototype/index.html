@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SOURCEFOLD Prototype Handoff</title>
+  <style>
+    *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;font-family:Inter,Arial,sans-serif;background:#eceeef;color:#1d2024}body{padding:12px}.shell{display:flex;width:100%;height:100%;min-height:0;flex-direction:column}.top{display:flex;flex:0 0 auto;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:10px}.brand{font-size:22px;font-weight:600;letter-spacing:-.03em}.brand span{color:#5873a8}.meta{font-size:12px;color:#6d7379}.steps{display:flex;flex:0 0 auto;gap:6px;overflow-x:auto;margin-bottom:10px;padding-bottom:1px}.step{flex:0 0 auto;border:1px solid #cbd0d4;background:#f7f8f8;color:#33383d;padding:9px 12px;font-size:12px;cursor:pointer}.step[aria-current="page"]{border-color:#5873a8;background:#5873a8;color:#fff}.viewer{display:flex;min-height:0;flex:1 1 auto;flex-direction:column;background:#fff;border:1px solid #cbd0d4;overflow:hidden}.viewer-head{display:flex;flex:0 0 auto;align-items:center;justify-content:space-between;gap:16px;padding:10px 12px;border-bottom:1px solid #d8dcdf;font-size:12px}.viewer-head strong{font-weight:600}.viewer-head a{color:#4f689d;text-decoration:none}.frame-wrap{position:relative;width:100%;min-height:0;flex:1 1 auto;background:#dfe2e4}.frame-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#e8eae9}.note{display:none}@media(max-width:720px){body{padding:8px}.top{align-items:flex-start;flex-direction:column;gap:4px}.meta{display:none}.viewer-head{padding:8px 10px}.viewer-head a{display:none}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <div class="brand">SOURCE<span>FOLD</span></div>
+      <div class="meta">Responsive prototype · 1440 × 900 design baseline</div>
+    </header>
+    <nav class="steps" aria-label="Available prototype states">
+      <button class="step" type="button" data-src="screens/global-workspace.html" data-label="Global Workspace" aria-current="page">Global Workspace</button>
+      <button class="step" type="button" data-src="screens/ai-review-suggested.html" data-label="AI Review · Suggested">AI Suggested</button>
+      <button class="step" type="button" data-src="screens/ai-review-human-edited.html" data-label="AI Review · Human Edited">Human Edited</button>
+      <button class="step" type="button" data-src="screens/ai-review-approved.html" data-label="AI Review · Approved">Approved</button>
+      <button class="step" type="button" data-src="screens/source-change-impact.html" data-label="Source Change · Impact Review">Source Change</button>
+      <button class="step" type="button" data-src="screens/version-resolution.html" data-label="Version Resolution · France">Version Resolution</button>
+      <button class="step" type="button" data-src="screens/publishing-readiness.html" data-label="Publishing · Readiness and Release">Publishing</button>
+      <button class="step" type="button" data-src="screens/market-variant-detail.html" data-label="Market Variant Detail · Approved + Source Updated">Market Variant</button>
+      <button class="step" type="button" data-src="screens/review-queue-my-reviews.html" data-label="Review Queue · My Reviews">My Reviews</button>
+      <button class="step" type="button" data-src="screens/market-preview.html" data-label="Market Preview · Desktop / Mobile / TV">Market Preview</button>
+    </nav>
+    <section class="viewer" aria-labelledby="current-screen">
+      <div class="viewer-head"><strong id="current-screen">Global Workspace</strong><a id="open-screen" href="screens/global-workspace.html" target="_blank" rel="noreferrer">Open full screen ↗</a></div>
+      <div class="frame-wrap"><iframe id="prototype-frame" src="screens/global-workspace.html" title="SOURCEFOLD Global Workspace"></iframe></div>
+    </section>
+    <p class="note">The flagship flow and supporting role/device views are included: Global Workspace, Japan AI Review, Source Change Impact, Version Resolution, Publishing, Market Variant Detail, My Reviews, and Market Preview. Related states are consolidated inside each screen to keep the handoff compact and integration-safe.</p>
+  </main>
+  <script>
+    const frame=document.getElementById('prototype-frame');
+    const label=document.getElementById('current-screen');
+    const openLink=document.getElementById('open-screen');
+    document.querySelectorAll('.step').forEach((button)=>{
+      button.addEventListener('click',()=>{
+        document.querySelectorAll('.step').forEach((item)=>item.removeAttribute('aria-current'));
+        button.setAttribute('aria-current','page');
+        frame.src=button.dataset.src;
+        frame.title=`SOURCEFOLD ${button.dataset.label}`;
+        label.textContent=button.dataset.label;
+        openLink.href=button.dataset.src;
+      });
+    });
+  </script>
+</body>
+</html>

@@ -14,13 +14,8 @@ export const auricSignalSections: CaseStudySection[] = [
         body: "AURIC SIGNAL is an AI-assisted investment decision-support concept designed to help self-directed investors move from portfolio changes to clearer understanding. It brings together prioritized signals, contextual explanation, and scenario exploration so users can understand what changed, why it may matter, and what they may want to explore next — without handing the final judgment to AI.",
       },
       {
-        type: "stateFlow",
-        ariaLabel: "AURIC's central experience logic",
-        steps: [
-          { title: "What changed?", connectorAfter: "→" },
-          { title: "Why does it matter?", connectorAfter: "→" },
-          { title: "What can I do?" },
-        ],
+        type: "auricDecisionSupportJourney",
+        layout: "wide",
       },
     ],
   },
@@ -34,13 +29,8 @@ export const auricSignalSections: CaseStudySection[] = [
         body: "The challenge is not access to more financial information. Portfolio changes, market signals, performance data, and financial context can create more noise than clarity.\n\nUsers may be able to see what moved without understanding:\n- what caused the change\n- how relevant it is to their portfolio\n- whether it deserves attention\n- whether they should explore a possible response\n\nAURIC explores how AI-assisted interpretation can organize these signals into clearer decision context while keeping judgment and action with the user.",
       },
       {
-        type: "stateFlow",
-        ariaLabel: "From fragmented information to decision uncertainty",
-        steps: [
-          { title: "Fragmented Information", connectorAfter: "→" },
-          { title: "Interpretation Gap", connectorAfter: "→" },
-          { title: "Decision Uncertainty" },
-        ],
+        type: "auricDecisionFrictionModel",
+        layout: "wide",
       },
     ],
   },
@@ -97,6 +87,15 @@ export const auricSignalSections: CaseStudySection[] = [
         type: "richText",
         heading: "Primary user",
         body: "Self-directed investor — someone who manages their own portfolio and understands basic financial information, but is not necessarily a professional analyst.",
+      },
+      {
+        type: "richText",
+        heading: "Research → Product Translation",
+        body: "Each recurring theme was carried through to a design principle, then to a concrete product decision — synthesis, not a direct request-to-feature mapping.",
+      },
+      {
+        type: "auricResearchTranslation",
+        layout: "wide",
       },
     ],
   },
@@ -185,6 +184,10 @@ export const auricSignalSections: CaseStudySection[] = [
         ],
       },
       {
+        type: "auricConceptSelectionMap",
+        layout: "wide",
+      },
+      {
         type: "callout",
         title: "Direction selected",
         body: "Signal-led decision support. This direction created the clearest bridge between monitoring and decision-making — it keeps portfolio context accessible while introducing AI selectively where explanation and interpretation add value.",
@@ -208,15 +211,8 @@ export const auricSignalSections: CaseStudySection[] = [
         body: "**From understanding to exploration**\n\nSignal / Insight → Explore Scenario → Adjust Possible Response → Preview Portfolio Impact → Compare Current vs. Proposed → Review → Decide / Exit\n\nAURIC supports scenario simulation and review. It does not execute trades or move assets.",
       },
       {
-        type: "media",
+        type: "auricCoreDecisionFlow",
         layout: "wide",
-        media: {
-          src: `${BASE}/auric-core-user-flows.png`,
-          width: 1672,
-          height: 941,
-          alt: "Two core user flows covering understanding a portfolio change and evaluating a possible action, including edge conditions.",
-          dense: true,
-        },
       },
       {
         type: "richText",
@@ -236,15 +232,8 @@ export const auricSignalSections: CaseStudySection[] = [
         body: "AURIC's architecture is organized around the user's decision journey — moving from portfolio context and prioritized signals into explanation, exploration, and review.\n\nSupporting navigation, including watchlist activity and account settings, sits alongside this path without interrupting it. AI-assisted explanation stays embedded in the broader workflow rather than becoming a separate chat destination.",
       },
       {
-        type: "media",
+        type: "auricInformationArchitecture",
         layout: "wide",
-        media: {
-          src: `${BASE}/auric-information-architecture.png`,
-          width: 1448,
-          height: 1086,
-          alt: "AURIC SIGNAL information architecture diagram showing the app structure across Home, Insights, Assets, Watchlist, and Profile.",
-          dense: true,
-        },
       },
       {
         type: "relationship",
@@ -256,6 +245,15 @@ export const auricSignalSections: CaseStudySection[] = [
           { eyebrow: "Scenario Exploration", title: "Scenario · Compare · Impact" },
           { eyebrow: "Decision / Review", title: "Review · Save · Exit" },
         ],
+      },
+      {
+        type: "richText",
+        heading: "AI Assistance / Human Control Model",
+        body: "AI supports interpretation and scenario exploration, while evidence, confidence, and uncertainty remain visible. Final judgment stays with the user.",
+      },
+      {
+        type: "auricAiHumanControlModel",
+        layout: "wide",
       },
       {
         type: "richText",
@@ -375,23 +373,8 @@ export const auricSignalSections: CaseStudySection[] = [
         body: "1. Check portfolio health.\n2. Investigate a priority signal.\n3. Review explanation and evidence.\n4. Evaluate a scenario.\n5. Review rebalancing.",
       },
       {
-        type: "cardSet",
-        heading: "Observed → Changed",
-        columns: 3,
-        items: [
-          {
-            title: "01 — Signal Hierarchy",
-            body: "Participants looked for a clear indication of what required attention before exploring supporting metrics — the priority hierarchy was strengthened in response.",
-          },
-          {
-            title: "02 — Explanation & Evidence",
-            body: "When reviewing AI-assisted explanations, participants looked for supporting context before moving deeper into the decision flow — evidence was kept closer to the explanation.",
-          },
-          {
-            title: "03 — Scenario Comparison",
-            body: "Scenario outputs needed to clearly read as exploratory estimates rather than predictions — the framing was clarified in response.",
-          },
-        ],
+        type: "auricTestingIterationMap",
+        layout: "wide",
       },
     ],
   },

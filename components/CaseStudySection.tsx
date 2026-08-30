@@ -1,13 +1,34 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { RichText } from "@/lib/richText";
 import { ResponsiveMedia } from "./ResponsiveMedia";
 import { PhoneMediaViewer } from "./PhoneMediaViewer";
 import { FinalExperience } from "./FinalExperience";
 import { CaseStudyPlaceholder } from "./CaseStudyPlaceholder";
+import { SourcefoldOperationalStateDiagram } from "./SourcefoldOperationalStateDiagram";
 import { SourcefoldObjectModel } from "./SourcefoldObjectModel";
 import { SourcefoldChallengeDiagram } from "./SourcefoldChallengeDiagram";
 import { SourcefoldWorkflowDiagram } from "./SourcefoldWorkflowDiagram";
 import { SourcefoldKeyDecisions } from "./SourcefoldKeyDecisions";
+import { SourcefoldPrototypeLink } from "./SourcefoldPrototypeLink";
+import { AuricCoreDecisionFlow } from "./AuricCoreDecisionFlow";
+import { AuricInformationArchitecture } from "./AuricInformationArchitecture";
+import { AuricAiHumanControlModel } from "./AuricAiHumanControlModel";
+import { AuricResearchTranslation } from "./AuricResearchTranslation";
+import { AuricDecisionFrictionModel } from "./AuricDecisionFrictionModel";
+import { AuricDecisionSupportJourney } from "./AuricDecisionSupportJourney";
+import { AuricConceptSelectionMap } from "./AuricConceptSelectionMap";
+import { AuricTestingIterationMap } from "./AuricTestingIterationMap";
+import { TraceSharedPermissionArchitecture } from "./TraceSharedPermissionArchitecture";
+import { TracePermissionStateModel } from "./TracePermissionStateModel";
+import { TraceServiceBlueprint } from "./TraceServiceBlueprint";
+import { TraceRecoveryStateModel } from "./TraceRecoveryStateModel";
+import { TraceSystemAtAGlance } from "./TraceSystemAtAGlance";
+import { TraceAccessJourney } from "./TraceAccessJourney";
+import { SmartPuppyBehaviorLoop } from "./SmartPuppyBehaviorLoop";
+import { SmartPuppyConnectedArchitecture } from "./SmartPuppyConnectedArchitecture";
+import { SmartPuppyRelationshipLoop } from "./SmartPuppyRelationshipLoop";
+import { SmartPuppyDigitalExperienceMap } from "./SmartPuppyDigitalExperienceMap";
 import type { CaseStudySection as CaseStudySectionData, ContentBlock, MediaLayout } from "@/lib/types";
 import styles from "./CaseStudySection.module.css";
 
@@ -29,16 +50,47 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
 
     case "media":
       return (
-        <div className={mediaClass(block.layout)}>
+        <div
+          className={mediaClass(block.layout)}
+          style={
+            block.media.maxDisplayWidth
+              ? ({
+                  width: `min(100%, ${block.media.maxDisplayWidth}px)`,
+                  maxWidth: `${block.media.maxDisplayWidth}px`,
+                } as CSSProperties)
+              : undefined
+          }
+        >
           <ResponsiveMedia media={block.media} dense={block.media.dense} />
         </div>
       );
 
     case "mediaGroup":
       return (
-        <div className={block.variant === "screens" ? styles.screenGroup : styles.mediaGroup}>
+        <div
+          className={
+            block.variant === "screens" || block.variant === "screensFill"
+              ? `${styles.screenGroup} ${block.variant === "screensFill" ? styles.screenGroupFill : ""}`
+              : block.variant === "equalHeight"
+                ? styles.equalHeightGroup
+                : styles.mediaGroup
+          }
+          style={
+            block.variant === "equalHeight"
+              ? ({ "--grid-cols": block.media.map((m) => `${m.width / m.height}fr`).join(" ") } as CSSProperties)
+              : undefined
+          }
+        >
           {block.media.map((media, i) => (
-            <figure key={media.src} className={styles.groupItem}>
+            <figure
+              key={media.src}
+              className={styles.groupItem}
+              style={
+                block.variant === "equalHeight"
+                  ? ({ "--aspect": media.width / media.height } as CSSProperties)
+                  : undefined
+              }
+            >
               <ResponsiveMedia media={media} />
               {block.labels?.[i] ? (
                 <figcaption>
@@ -235,6 +287,9 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
     case "finalExperience":
       return <FinalExperience {...block} />;
 
+    case "sourcefoldPrototypeLink":
+      return <SourcefoldPrototypeLink href={block.href} label={block.label} note={block.note} />;
+
     case "placeholder":
       return (
         <div className={mediaClass(block.layout)}>
@@ -246,6 +301,13 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
             caption={block.caption}
             details={block.details}
           />
+        </div>
+      );
+
+    case "sourcefoldOperationalStateDiagram":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <SourcefoldOperationalStateDiagram />
         </div>
       );
 
@@ -274,6 +336,132 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
       return (
         <div className={mediaClass(block.layout)}>
           <SourcefoldKeyDecisions />
+        </div>
+      );
+
+    case "auricCoreDecisionFlow":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <AuricCoreDecisionFlow />
+        </div>
+      );
+
+    case "auricInformationArchitecture":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <AuricInformationArchitecture />
+        </div>
+      );
+
+    case "auricAiHumanControlModel":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <AuricAiHumanControlModel />
+        </div>
+      );
+
+    case "auricResearchTranslation":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <AuricResearchTranslation />
+        </div>
+      );
+
+    case "auricDecisionFrictionModel":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <AuricDecisionFrictionModel />
+        </div>
+      );
+
+    case "auricDecisionSupportJourney":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <AuricDecisionSupportJourney />
+        </div>
+      );
+
+    case "auricConceptSelectionMap":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <AuricConceptSelectionMap />
+        </div>
+      );
+
+    case "auricTestingIterationMap":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <AuricTestingIterationMap />
+        </div>
+      );
+
+    case "traceSharedPermissionArchitecture":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <TraceSharedPermissionArchitecture />
+        </div>
+      );
+
+    case "tracePermissionStateModel":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <TracePermissionStateModel />
+        </div>
+      );
+
+    case "traceServiceBlueprint":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <TraceServiceBlueprint />
+        </div>
+      );
+
+    case "traceRecoveryStateModel":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <TraceRecoveryStateModel />
+        </div>
+      );
+
+    case "traceSystemAtAGlance":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <TraceSystemAtAGlance />
+        </div>
+      );
+
+    case "traceAccessJourney":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <TraceAccessJourney />
+        </div>
+      );
+
+    case "smartPuppyBehaviorLoop":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <SmartPuppyBehaviorLoop />
+        </div>
+      );
+
+    case "smartPuppyConnectedArchitecture":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <SmartPuppyConnectedArchitecture />
+        </div>
+      );
+
+    case "smartPuppyRelationshipLoop":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <SmartPuppyRelationshipLoop />
+        </div>
+      );
+
+    case "smartPuppyDigitalExperienceMap":
+      return (
+        <div className={mediaClass(block.layout)}>
+          <SmartPuppyDigitalExperienceMap />
         </div>
       );
 

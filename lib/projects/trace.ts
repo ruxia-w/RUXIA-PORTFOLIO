@@ -26,28 +26,8 @@ export const traceSections: CaseStudySection[] = [
         body: "TRACE connects a tactile physical object with individual and organizational digital interfaces into one coordinated access system, spanning physical, digital, and service context.",
       },
       {
-        type: "stateFlow",
-        ariaLabel: "One system, multiple touchpoints: Physical Object, Personal App, Organization Dashboard, Service Touchpoints",
-        steps: [
-          { title: "Physical Object", connectorAfter: "↔" },
-          { title: "Personal App", connectorAfter: "↔" },
-          { title: "Organization Dashboard", connectorAfter: "↔" },
-          { title: "Service Touchpoints" },
-        ],
-      },
-      {
-        type: "media",
+        type: "traceSystemAtAGlance",
         layout: "wide",
-        media: {
-          ...media(
-            "trace-key-product-experiences.png",
-            1672,
-            941,
-            "TRACE Credential, Dock, and mobile interface illustrating identity, access choice, user control, and physical–digital continuity.",
-            true,
-          ),
-          caption: "Conceptual product framing. Security-related wording embedded in the exploratory artwork is illustrative and is not a validated project claim.",
-        },
       },
     ],
   },
@@ -120,16 +100,8 @@ export const traceSections: CaseStudySection[] = [
         body: "The experience is described as a lifecycle rather than an app flow — the stages an access interaction moves through regardless of which touchpoint is in front of someone.",
       },
       {
-        type: "stateFlow",
-        ariaLabel: "End-to-end journey: Prepare, Approach, Identify, Access, Confirm, Recover",
-        steps: [
-          { title: "Prepare", body: "Arrival and context before a request is made.", connectorAfter: "→" },
-          { title: "Approach", body: "Recognition, without granting access.", connectorAfter: "→" },
-          { title: "Identify", body: "A request is created and reviewed.", connectorAfter: "→" },
-          { title: "Access", body: "Scoped permission becomes active and controllable.", connectorAfter: "→" },
-          { title: "Confirm", body: "The session closes and a record is available.", connectorAfter: "→" },
-          { title: "Recover", body: "Pause, resume, revoke, or get assistance when needed." },
-        ],
+        type: "traceAccessJourney",
+        layout: "wide",
       },
       {
         type: "media",
@@ -187,6 +159,18 @@ export const traceSections: CaseStudySection[] = [
         body: "TRACE is designed as one permission system expressed through multiple interfaces. The individual and the organization interact with different tools, but every touchpoint references the same underlying shared access state.",
       },
       {
+        type: "traceSharedPermissionArchitecture",
+        layout: "wide",
+      },
+      {
+        type: "richText",
+        body: "Permission is treated as an explicit state that can be reviewed, paused, resumed, revoked, or closed—not as a one-time access event.",
+      },
+      {
+        type: "tracePermissionStateModel",
+        layout: "wide",
+      },
+      {
         type: "relationship",
         ariaLabel: "Architecture layers: Individual Layer, Shared Access State, Organization Layer, Service / Human Layer",
         items: [
@@ -222,26 +206,6 @@ export const traceSections: CaseStudySection[] = [
         },
       },
       {
-        type: "richText",
-        heading: "Shared state model",
-        body: "The same permission/session state is referenced by every touchpoint, so a change made in one place is reflected everywhere else.",
-      },
-      {
-        type: "stateFlow",
-        ariaLabel: "Shared permission state",
-        steps: [
-          { title: "Recognized", body: "Identity is known.", connectorAfter: "→" },
-          { title: "Pending", body: "A request awaits a decision.", connectorAfter: "→" },
-          { title: "Active", body: "Scoped access is visible.", connectorAfter: "↔" },
-          { title: "Paused", body: "Sharing is temporarily suspended.", connectorAfter: "→" },
-          { title: "Closed", body: "The session no longer grants access." },
-        ],
-      },
-      {
-        type: "richText",
-        body: "Alternate paths can include **Pending → Declined → Closed**, **Active → Revoked → Closed**, and **Paused → Active**.",
-      },
-      {
         type: "comparison",
         items: [
           { title: "Recognition", body: "Who are you?" },
@@ -252,6 +216,20 @@ export const traceSections: CaseStudySection[] = [
         type: "callout",
         title: "Recognition ≠ Authorization",
         body: "Recognition must never automatically create permission.",
+      },
+      {
+        type: "media",
+        layout: "wide",
+        media: {
+          ...media(
+            "trace-key-product-experiences.png",
+            1672,
+            941,
+            "TRACE Credential, Dock, and mobile interface illustrating identity, access choice, user control, and physical–digital continuity.",
+            true,
+          ),
+          caption: "Conceptual product framing. Security-related wording embedded in the exploratory artwork is illustrative and is not a validated project claim.",
+        },
       },
     ],
   },
@@ -425,14 +403,15 @@ export const traceSections: CaseStudySection[] = [
       },
       {
         type: "mediaGroup",
+        variant: "equalHeight",
         media: [
           {
             ...media("trace-app-home-lifestyle.png", 1199, 1312, "TRACE Home interface shown on a phone in a domestic setting."),
-            caption: "Home keeps the active session, pending request, Credential status, and recent activity visible in one place.",
+            caption: "Home keeps active access, requests, and recent activity visible.",
           },
           {
             ...media("trace-app-assets-in-hand.png", 1448, 1086, "User holding a phone displaying the conceptual TRACE Assets interface."),
-            caption: "Assets, within the Access area, brings connected services, systems, devices, and permissions together. Interface values are illustrative.",
+            caption: "Assets brings connected services, devices, and permissions together. Interface values are illustrative.",
           },
         ],
       },
@@ -592,6 +571,10 @@ export const traceSections: CaseStudySection[] = [
         body: "A client arrives for a private consultation. TRACE recognizes the client, but recognition does not grant access.\n\nThe advisor creates an access request. The client reviews the requester, purpose, requested information, and duration, then chooses what to share. Once approved, the session becomes Active across the Credential, Dock, mobile app, and organization dashboard. The client can Pause, Resume, or Revoke access while the advisor sees the same updated state.\n\nWhen the session ends, access closes and the client receives an Access Record.",
       },
       {
+        type: "traceServiceBlueprint",
+        layout: "wide",
+      },
+      {
         type: "cardSet",
         heading: "Secondary context explorations",
         items: [
@@ -626,16 +609,8 @@ export const traceSections: CaseStudySection[] = [
         body: "Recovery is part of the permission experience, not a separate support layer. When something changes, the ecosystem needs to coordinate a way back without silently restoring access.",
       },
       {
-        type: "stateFlow",
-        ariaLabel: "Recovery flow: Normal State, Change or Breakdown, Action Required, Shared Context, Recovery, Continue or Close",
-        steps: [
-          { title: "Normal State", body: "Access is proceeding as expected.", connectorAfter: "→" },
-          { title: "Change / Breakdown", body: "A permission becomes unavailable or a handoff doesn't complete.", connectorAfter: "→" },
-          { title: "Action Required", body: "The system clearly marks that something needs attention.", connectorAfter: "→" },
-          { title: "Shared Context", body: "The individual and staff see the same state and history.", connectorAfter: "→" },
-          { title: "Recovery", body: "Self-service or assisted recovery restores continuity without silently restoring access.", connectorAfter: "→" },
-          { title: "Continue or Close", body: "The session resumes, or closes clearly and safely." },
-        ],
+        type: "traceRecoveryStateModel",
+        layout: "wide",
       },
       {
         type: "richText",
@@ -670,7 +645,7 @@ export const traceSections: CaseStudySection[] = [
       },
       {
         type: "media",
-        layout: "medium",
+        layout: "wide",
         media: media("trace-rotation-interaction-detail.png", 1536, 1024, "Three-stage rotation interaction showing physical action, transition, and confirmation across the Credential, Dock, and app.", true),
       },
     ],

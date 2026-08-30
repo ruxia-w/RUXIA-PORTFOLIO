@@ -1,4 +1,13 @@
-import type { CaseStudyProject, CaseStudySection } from "@/lib/types";
+import type { CaseStudyProject, CaseStudySection, MediaAsset } from "@/lib/types";
+
+const sourcefoldScreen = (file: string, alt: string): MediaAsset => ({
+  src: `/work/sourcefold/screens/${file}.png`,
+  width: 1440,
+  height: 900,
+  alt,
+  crop: "none",
+  maxDisplayWidth: 1020,
+});
 
 export const sourcefoldSections: CaseStudySection[] = [
   {
@@ -9,28 +18,6 @@ export const sourcefoldSections: CaseStudySection[] = [
       {
         type: "richText",
         body: "SOURCEFOLD explores how global content teams can adapt, review, and publish one source across multiple markets without losing visibility into ownership, version history, or human decisions.\n\nThe concept focuses on the operational moments that become difficult at scale: when AI should pause for review, how local edits survive source updates, and how markets can move independently without fragmenting global oversight.",
-      },
-      {
-        type: "cardSet",
-        variant: "content",
-        items: [
-          { title: "Role", body: "Product Design · UX Strategy · Interaction Design" },
-          { title: "Timeline", body: "Independent Concept · 2026" },
-          { title: "Focus", body: "Enterprise UX · AI Workflows · Systems Design" },
-          { title: "Scope", body: "Strategy · Information Architecture · Interaction Design · Prototype · Testing" },
-        ],
-      },
-      {
-        type: "placeholder",
-        layout: "medium",
-        label: "Overview — Orbit Launch Campaign",
-        details: [
-          "One source",
-          "→ United States — Ready",
-          "→ Japan — Review Required",
-          "→ France — Source Updated",
-          "→ Brazil — Blocked",
-        ],
       },
     ],
   },
@@ -206,13 +193,20 @@ export const sourcefoldSections: CaseStudySection[] = [
         body: "The Global Workspace is organized around exceptions rather than generic dashboard metrics.\n\nEach market exposes the information needed to act:\n\n- Status\n- Reason\n- Owner\n- Version relationship\n- Publishing state\n- Next action\n\nThis allows the content manager to understand campaign readiness without opening every market individually.",
       },
       {
-        type: "placeholder",
+        type: "media",
         layout: "full",
-        label: "Global Workspace — Flagship UI",
+        media: sourcefoldScreen(
+          "global-workspace",
+          "SOURCEFOLD Global Workspace showing Orbit Launch market exceptions, owners, versions, publishing states, and next actions",
+        ),
       },
       {
-        type: "placeholder",
-        items: ["Japan — Review Required", "France — Source Updated", "Brazil — Blocked", "Owner + Next Action"],
+        type: "media",
+        layout: "full",
+        media: sourcefoldScreen(
+          "market-variant-detail",
+          "France market variant detail showing Approved and Source Updated states with an explicit next action",
+        ),
       },
       {
         type: "callout",
@@ -240,13 +234,22 @@ export const sourcefoldSections: CaseStudySection[] = [
         body: "The reviewer can edit, approve, or escalate while the system preserves who changed what and why.",
       },
       {
-        type: "placeholder",
+        type: "media",
         layout: "full",
-        label: "AI Review Workspace — Flagship UI",
+        media: sourcefoldScreen(
+          "ai-review-suggested",
+          "SOURCEFOLD AI Review workspace with an AI-suggested Japan adaptation awaiting human review",
+        ),
       },
       {
-        type: "placeholder",
-        items: ["AI Suggested", "Human Edited", "Human Approved"],
+        type: "mediaGroup",
+        variant: "screensFill",
+        labels: ["AI Suggested", "Human Edited", "Human Approved"],
+        media: [
+          sourcefoldScreen("ai-review-suggested", "AI-suggested review state"),
+          sourcefoldScreen("ai-review-human-edited", "Human-edited review state"),
+          sourcefoldScreen("ai-review-approved", "Human-approved review state"),
+        ],
       },
       {
         type: "callout",
@@ -275,13 +278,27 @@ export const sourcefoldSections: CaseStudySection[] = [
         body: "France requires attention because its approved local variant still references the previous offer.",
       },
       {
-        type: "placeholder",
+        type: "media",
         layout: "full",
-        label: "Source Change Impact — Flagship UI",
+        media: sourcefoldScreen(
+          "source-change-impact",
+          "SOURCEFOLD Source Change Impact overview showing field-level downstream effects across four markets",
+        ),
       },
       {
-        type: "placeholder",
-        items: ["20% → 25%", "France", "Human Edited · Approved"],
+        type: "mediaGroup",
+        variant: "screensFill",
+        labels: ["France impact expanded", "Approved local variant preserved"],
+        media: [
+          sourcefoldScreen(
+            "source-change-impact-france",
+            "Expanded France source-change detail showing the promotional offer change from 20 percent to 25 percent",
+          ),
+          sourcefoldScreen(
+            "market-variant-detail",
+            "France market variant showing the approved local edit preserved after the source update",
+          ),
+        ],
       },
       {
         type: "callout",
@@ -310,17 +327,31 @@ export const sourcefoldSections: CaseStudySection[] = [
         ],
       },
       {
-        type: "placeholder",
+        type: "media",
         layout: "full",
-        label: "Version Resolution — Flagship UI",
+        media: sourcefoldScreen(
+          "version-resolution",
+          "SOURCEFOLD Version Resolution workspace comparing the current France variant with the updated source",
+        ),
       },
       {
-        type: "placeholder",
-        items: ["Current Local Version", "vs.", "Updated Source"],
+        type: "mediaGroup",
+        variant: "screensFill",
+        labels: ["Current local version", "Updated source selected"],
+        media: [
+          sourcefoldScreen("version-resolution", "Current local version and updated source comparison"),
+          sourcefoldScreen("version-resolution-update", "Update affected field resolution selected"),
+        ],
       },
       {
-        type: "placeholder",
-        items: ["Update affected field", "Keep local version", "Review manually"],
+        type: "mediaGroup",
+        variant: "screensFill",
+        labels: ["Update affected field", "Keep local version", "Review manually"],
+        media: [
+          sourcefoldScreen("version-resolution-update", "Update affected field decision state"),
+          sourcefoldScreen("version-resolution-keep", "Keep Local Version decision state"),
+          sourcefoldScreen("version-resolution-manual", "Manual Review decision state"),
+        ],
       },
       {
         type: "callout",
@@ -335,21 +366,21 @@ export const sourcefoldSections: CaseStudySection[] = [
         body: "Approval and publishing are intentionally separate.\n\nBefore release, users can see which version of each market will go live, which markets are excluded, and why.\n\nThis allows approved markets to move forward even if another market remains blocked.",
       },
       {
-        type: "placeholder",
+        type: "media",
         layout: "full",
-        label: "Publishing Readiness",
-        details: [
-          "3 of 4 markets ready",
-          "United States — Ready",
-          "Japan — Approved",
-          "France — Approved Exception",
-          "Brazil — Blocked / Excluded",
-          "Primary action: Publish 3 Markets",
-        ],
+        media: sourcefoldScreen(
+          "publishing-readiness",
+          "SOURCEFOLD Publishing Readiness showing three of four markets ready and Brazil blocked from this release",
+        ),
       },
       {
-        type: "placeholder",
-        items: ["France — Approved Exception", "Brazil — Blocked / Excluded", "Publish 3 Markets"],
+        type: "mediaGroup",
+        variant: "screensFill",
+        labels: ["Publish 3 markets", "3 live · 1 pending"],
+        media: [
+          sourcefoldScreen("publishing-confirmation", "Confirmation before publishing three eligible markets"),
+          sourcefoldScreen("publishing-live", "Publishing result with three markets live and Brazil pending"),
+        ],
       },
 
       // — Role-Based Experience —
@@ -359,10 +390,17 @@ export const sourcefoldSections: CaseStudySection[] = [
         body: "SOURCEFOLD uses a shared content model, but the interface exposes different levels of complexity depending on the user's responsibility.\n\nA content manager needs global readiness and ownership.\n\nA market reviewer needs assigned decisions and supporting evidence.\n\nA program owner needs launch risk and unresolved dependencies.\n\nThe underlying system stays shared while each role sees only the information required to act.",
       },
       {
-        type: "placeholder",
-        layout: "medium",
-        items: ["Global Workspace", "My Reviews"],
-        caption: "Shared state model, role-specific working views.",
+        type: "mediaGroup",
+        variant: "screensFill",
+        labels: ["Global Workspace", "My Reviews"],
+        captions: [
+          "Campaign-level readiness and ownership for the content manager.",
+          "Assigned decisions and supporting context for the market reviewer.",
+        ],
+        media: [
+          sourcefoldScreen("global-workspace", "SOURCEFOLD Global Workspace for a content manager"),
+          sourcefoldScreen("review-queue-my-reviews", "SOURCEFOLD My Reviews queue for a market reviewer"),
+        ],
       },
 
       // — Cross-Device Preview —
@@ -372,9 +410,28 @@ export const sourcefoldSections: CaseStudySection[] = [
         body: "The approved market variant remains consistent across devices while interaction controls adapt to each environment.\n\nDesktop exposes more persistent context.\n\nMobile consolidates controls into touch-first patterns.\n\nTV prioritizes focus states, larger targets, and reduced navigation depth.",
       },
       {
-        type: "placeholder",
-        layout: "medium",
-        label: "Desktop + Mobile + TV Preview",
+        type: "mediaGroup",
+        variant: "screensFill",
+        labels: ["Desktop", "Mobile", "TV"],
+        media: [
+          sourcefoldScreen("market-preview", "SOURCEFOLD market preview in Desktop mode"),
+          sourcefoldScreen("market-preview-mobile", "SOURCEFOLD market preview in Mobile mode"),
+          sourcefoldScreen("market-preview-tv", "SOURCEFOLD market preview in TV mode"),
+        ],
+      },
+      {
+        type: "richText",
+        heading: "One hierarchy, two visual environments.",
+        body: "The interface adapts to light and dark environments while preserving the same hierarchy, operational states, and interaction patterns.",
+      },
+      {
+        type: "mediaGroup",
+        variant: "screensFill",
+        labels: ["Light mode", "Dark mode"],
+        media: [
+          sourcefoldScreen("global-workspace", "SOURCEFOLD Global Workspace in light mode"),
+          sourcefoldScreen("global-workspace-dark", "SOURCEFOLD Global Workspace in dark mode"),
+        ],
       },
     ],
   },
@@ -388,15 +445,8 @@ export const sourcefoldSections: CaseStudySection[] = [
         body: "SOURCEFOLD is defined not only by its primary screens, but by the operational states that connect them.",
       },
       {
-        type: "placeholder",
+        type: "sourcefoldOperationalStateDiagram",
         layout: "full",
-        label: "SOURCEFOLD Operational State System",
-        groups: [
-          { title: "Workflow states", items: ["Ready", "Review Required", "Source Updated", "Blocked"] },
-          { title: "Review / provenance states", items: ["AI Suggested", "Human Edited", "Human Approved", "Escalated"] },
-          { title: "Version states", items: ["Current", "Affected", "Needs Re-approval", "Approved Exception"] },
-          { title: "Publishing states", items: ["Not Ready", "Ready", "Scheduled", "Live"] },
-        ],
       },
       {
         type: "richText",
@@ -419,9 +469,23 @@ export const sourcefoldSections: CaseStudySection[] = [
         body: "Whether users notice what needs attention before anything else.",
       },
       {
-        type: "placeholder",
-        layout: "medium",
-        items: ["Before", "Evidence", "Design Decision", "After"],
+        type: "mediaGroup",
+        variant: "screensFill",
+        labels: ["Exception overview", "Release readiness"],
+        captions: [
+          "Test whether the highest-risk markets and their next actions surface before routine status.",
+          "Test whether ready, held, and excluded markets are distinguishable before publishing.",
+        ],
+        media: [
+          sourcefoldScreen(
+            "global-workspace",
+            "SOURCEFOLD campaign workspace showing the attention queue and market readiness",
+          ),
+          sourcefoldScreen(
+            "publishing-readiness",
+            "SOURCEFOLD publishing readiness screen showing three ready markets and one held market",
+          ),
+        ],
       },
       {
         type: "richText",
@@ -429,9 +493,19 @@ export const sourcefoldSections: CaseStudySection[] = [
         body: "Whether users understand why AI paused for review and what evidence supports it.",
       },
       {
-        type: "placeholder",
-        layout: "medium",
-        items: ["Before", "Evidence", "Design Decision", "After"],
+        type: "mediaGroup",
+        variant: "screensFill",
+        labels: ["AI Suggested", "Human Edited", "Human Approved"],
+        captions: [
+          "Test whether the provisional AI state and the reason for review are recognizable.",
+          "Test whether human ownership and edited provenance remain clear after intervention.",
+          "Test whether approval reads as a separate, explicit decision rather than an automatic state change.",
+        ],
+        media: [
+          sourcefoldScreen("ai-review-suggested", "AI-suggested adaptation awaiting human review"),
+          sourcefoldScreen("ai-review-human-edited", "Human-edited adaptation in the review workspace"),
+          sourcefoldScreen("ai-review-approved", "Human-approved adaptation in the review workspace"),
+        ],
       },
       {
         type: "richText",
@@ -439,14 +513,30 @@ export const sourcefoldSections: CaseStudySection[] = [
         body: "Whether users understand what a source change affects and how to resolve it.",
       },
       {
-        type: "placeholder",
-        layout: "medium",
-        items: ["Before", "Evidence", "Design Decision", "After"],
+        type: "mediaGroup",
+        variant: "screensFill",
+        labels: ["Impact overview", "Affected market", "Resolution decision"],
+        captions: [
+          "Test whether users can identify which markets and fields a source update affects.",
+          "Test whether France's approved local value is visibly protected while the source changes.",
+          "Test whether keeping the local version communicates an intentional exception and its next state.",
+        ],
+        media: [
+          sourcefoldScreen("source-change-impact", "Source-change impact overview across four markets"),
+          sourcefoldScreen(
+            "source-change-impact-france",
+            "Expanded France impact state showing the affected promotional offer",
+          ),
+          sourcefoldScreen(
+            "version-resolution-keep",
+            "Version resolution screen with Keep local version selected",
+          ),
+        ],
       },
       {
         type: "callout",
-        title: "Developer note",
-        body: "These placeholders will be populated only after real prototype testing sessions have been completed. No findings, evidence, or before/after results should be treated as final until then.",
+        title: "Testing status",
+        body: "These screens define the prototype scenarios and evaluation focus. Findings, evidence, and before/after results will be added only after real testing sessions; none of the visuals above represent completed study results.",
       },
     ],
   },
@@ -474,21 +564,17 @@ export const sourcefoldSections: CaseStudySection[] = [
         ],
       },
       {
-        type: "placeholder",
-        layout: "full",
-        aspectRatio: "16 / 9",
-        label: "SOURCEFOLD Final Experience Video",
-        details: [
-          "Global Workspace",
-          "Japan review",
-          "Edit and approve",
-          "France source update",
-          "Version resolution",
-          "Publishing readiness",
-          "Preview",
-          "Publish three markets",
-          "Final live / pending state",
-        ],
+        type: "finalExperience",
+        body: "",
+        videoSrc: "/work/sourcefold/sourcefold-final-experience.webm",
+        videoAriaLabel: "SOURCEFOLD final experience walkthrough from global workspace through review, version resolution, cross-device preview, and partial market release",
+        presentation: "plain",
+      },
+      {
+        type: "sourcefoldPrototypeLink",
+        href: "/sourcefold-prototype/index.html",
+        label: "Explore interactive prototype ↗",
+        note: "Opens the complete SOURCEFOLD prototype in a new tab.",
       },
     ],
   },
@@ -528,10 +614,7 @@ export const sourcefoldSections: CaseStudySection[] = [
 export const sourcefoldProject: CaseStudyProject = {
   slug: "sourcefold",
   title: "SOURCEFOLD",
-  subtitle: "One source. Many contexts.",
-  eyebrow: "Independent Product Design Concept · 2026",
-  description:
-    "An AI-assisted content operations platform for adapting, reviewing, and publishing experiences across markets—while keeping ownership, version history, and human decisions visible.",
+  subtitle: "AI-assisted global content operations across markets",
   category: "Independent Product Design Concept",
   role: ["Product Design", "UX Strategy", "Interaction Design"],
   year: "2026",
@@ -539,13 +622,26 @@ export const sourcefoldProject: CaseStudyProject = {
   scope: ["Product Strategy", "Information Architecture", "Prototyping", "Testing"],
   status: "Independent concept project",
   breadcrumb: ["Work", "Product Design", "SOURCEFOLD"],
-  heroPlaceholder: {
-    label: "SOURCEFOLD Hero Composition",
-    details: [
-      "Global Workspace as primary layer",
-      "AI Review Workspace as secondary layer",
-      "Source Change / version impact as supporting detail",
-    ],
+  // Shared with the Home page's own project entry (see app/page.tsx, which
+  // imports these exact src/width/height values) — one hero asset
+  // definition instead of two independently-maintained copies, same
+  // pattern as auric-signal.ts / trace.ts.
+  hero: {
+    src: "/work/sourcefold/sourcefold-hero-light-v3.png",
+    width: 3548,
+    height: 1774,
+    alt: "SOURCEFOLD global content operations workspace shown in light and dark modes with human review, source-change impact, and publishing-readiness panels.",
+    priority: true,
+  },
+  heroDark: {
+    src: "/work/sourcefold/sourcefold-hero-dark-v3.png",
+    width: 3548,
+    height: 1774,
+    alt: "SOURCEFOLD global content operations workspace shown in light and dark modes with human review, source-change impact, and publishing-readiness panels.",
+    // Not `priority`: .heroDark starts `display: none` (see
+    // ProjectHeader.module.css) and only becomes visible in dark theme, so
+    // it shouldn't be eagerly fetched on every page view.
+    priority: false,
   },
   sections: sourcefoldSections,
 };

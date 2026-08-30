@@ -25,7 +25,7 @@ export function ProjectPagination({ currentSlug }: { currentSlug: string }) {
       {prev ? (
         <Link href={prev.href} className={styles.link}>
           <span className={styles.direction}>Previous</span>
-          <span>{prev.title}</span>
+          <span className={styles.projectTitle}>{prev.title}</span>
         </Link>
       ) : (
         <span />
@@ -33,7 +33,7 @@ export function ProjectPagination({ currentSlug }: { currentSlug: string }) {
       {next ? (
         <Link href={next.href} className={`${styles.link} ${styles.next}`}>
           <span className={styles.direction}>Next</span>
-          <span>{next.title}</span>
+          <span className={styles.projectTitle}>{next.title}</span>
         </Link>
       ) : (
         <span />

@@ -1,0 +1,215 @@
+.wrap {
+  width: 100%;
+}
+
+/* Deliberately narrower than the 940px media frame — a centered internal
+   object, matching the rest of the AURIC diagram family. */
+.canvas {
+  width: 100%;
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 220px) 44px minmax(0, 300px)
+    44px minmax(0, 220px);
+  /* Two explicit rows: the three section labels on their own top row (row
+     1), and the three content blocks + both connectors on a second row
+     (row 2). Splitting header from content this way means row 2's height is
+     governed purely by the tallest CONTENT block (the Interpretation Gap
+     panel), so a single align-items: center vertically centers the
+     Information list, the panel, the Decision State group, and both
+     connectors against each other and against the panel's true center —
+     no hard-coded top offsets, and it stays correct if any block's height
+     changes. Row 1's three labels are equal-height single lines, so
+     center vs. start makes no visual difference there. The 44px connector
+     tracks (wider than the shared 20px token, used only here) give the
+     28px-wide connector svg a consistent ~8px gap to each region's border
+     instead of crowding it. */
+  grid-template-areas:
+    "h1 . h2 . h3"
+    "info c1 panel c2 decision";
+  align-items: center;
+}
+
+.region {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .region {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tierLabel {
+  margin: 0 0 var(--space-4);
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-section-label-size);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ============ 01 — Information (deliberately quiet) ============ */
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--color-border);
+}
+
+.infoItem {
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-annotation-body-size);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* ============ 02 — Interpretation gap (the visual focus) ============ */
+
+.gapZone {
+  /* Deliberately smaller than the shared node-padding tokens — this panel
+     is a lighter conceptual zone, not a UI card, and should read as the
+     diagram's focal point without feeling like a dashboard panel. */
+  padding: 12px 16px;
+  border: 1px solid var(--lime);
+  border-radius: 8px;
+  background: var(--lime-tint);
+}
+
+.gapLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 5px;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  /* One level quieter than the section labels above each region — this is
+     metadata inside the focal panel, not a heading, and must stay clearly
+     smaller/quieter than the three questions below it. */
+  font-size: var(--diagram-ai-label-size);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.gapDot {
+  flex: 0 0 auto;
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lime);
+}
+
+.gapQuestion {
+  margin: 0;
+  padding: 6px 0;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-node-title-size);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.gapQuestion:first-of-type {
+  padding-top: 0;
+}
+
+.gapQuestion:last-of-type {
+  padding-bottom: 0;
+}
+
+.gapQuestion + .gapQuestion {
+  border-top: 1px solid var(--color-border);
+}
+
+/* ============ 03 — Decision state (equally weighted outcomes) ============ */
+
+.decisionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 78px));
+  gap: 0.4rem;
+  /* Fit-content so the compact 2x2 cluster doesn't stretch to fill the
+     region's full width — it should read as a small group of state nodes,
+     not a set of full-width CTA buttons. */
+  width: fit-content;
+}
+
+.decisionPill {
+  display: block;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-node-title-size);
+  font-weight: 600;
+  text-align: left;
+  line-height: 1.3;
+}
+
+/* ============ Footnote ============ */
+
+.footnote {
+  margin: 1rem 0 0;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-annotation-body-size);
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .footnote {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 720px) {
+  .canvas {
+    display: none;
+  }
+}
+
+/* ============ Mobile: vertical stack ============ */
+
+.mobileFlow {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .mobileFlow {
+    display: block;
+  }
+}
+
+.mobileSectionConnector {
+  margin: calc(var(--diagram-gap-section) / 2 - 10px) 0;
+}
+
+.mobileDecisionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 78px));
+  gap: 0.4rem;
+  width: fit-content;
+}

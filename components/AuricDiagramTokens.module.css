@@ -1,0 +1,53 @@
+.diagram {
+  /* AURIC's own product accent (sampled from its real design system —
+     public/work/auric-signal/auric-visual-component-system.png — Accent /
+     Primary #E8F89A). Shared by every AURIC diagram so the lime value can
+     never drift between them. The portfolio site's light/dark theme is
+     separate from that in-product palette: light mode uses a deepened olive
+     shade for contrast against the site's near-white background; dark mode
+     uses the real brand lime, which already reads correctly on a dark
+     surface. */
+  --lime: #6b7a1e;
+  --lime-tint: rgba(107, 122, 30, 0.08);
+
+  /* Shared layout/typography scale for every AURIC diagram, so the three
+     never individually drift on padding, type size, or spacing rhythm.
+     Locked in px (not rem) so these can never be pushed larger by a root
+     font-size change or a clamp/vw expression — the case-study's own body
+     copy runs ~15px and h3 subsection headings ~20-24px (see
+     CaseStudySection.module.css / app/globals.css); every value below must
+     stay strictly under that, confirmed via browser-computed measurement,
+     not just source CSS. */
+  --diagram-node-padding-y: 18px;
+  --diagram-node-padding-x: 20px;
+  --diagram-support-padding-y: 16px;
+  --diagram-support-padding-x: 18px;
+  --diagram-connector-gap: 20px; /* horizontal flow-connector track width */
+  --diagram-gap-flow: 1.25rem; /* 20px — vertical gap between connected nodes */
+  --diagram-gap-section: 5rem; /* 80px — gap between major conceptual stages */
+
+  /* Shared card-width tiers — one system for all three diagrams. "standard"
+     covers plain and AI-tagged nodes; "annotated" is for nodes carrying a
+     second information level (an edge-case label + note); the two support-*
+     tiers are for the quieter Supporting System cards. These are fixed
+     widths (not fit-content caps) so equivalent cards render identically
+     across diagrams regardless of their own label length — "same hierarchy,
+     same card sizing." */
+  --diagram-card-w-standard: 215px;
+  --diagram-card-w-annotated: 240px;
+  --diagram-card-w-support-compact: 155px;
+  --diagram-card-w-support-medium: 190px;
+
+  --diagram-section-label-size: 11px;
+  --diagram-node-title-size: 13px;
+  --diagram-ai-label-size: 9px;
+  --diagram-annotation-label-size: 10px;
+  --diagram-annotation-body-size: 11px;
+  --diagram-support-title-size: 12px;
+  --diagram-support-body-size: 11px;
+}
+
+:global(html[data-theme="dark"]) .diagram {
+  --lime: #e8f89a;
+  --lime-tint: rgba(232, 248, 154, 0.1);
+}

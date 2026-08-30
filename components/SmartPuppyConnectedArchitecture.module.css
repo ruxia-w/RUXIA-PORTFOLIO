@@ -1,0 +1,246 @@
+.wrap {
+  width: 100%;
+}
+
+/* Local, self-contained diagram tokens — same values as
+   SmartPuppyBehaviorLoop.module.css (Smart Puppy's own real brand primary,
+   #00BFFF, sampled from the UI design-system reference), kept independent
+   per-file per this project's established per-diagram pattern. */
+.diagram {
+  --puppy-accent: #0089b3;
+  --card-bg: rgba(0, 0, 0, 0.025);
+  --band-bg: rgba(0, 0, 0, 0.045);
+
+  --diagram-title-size: 12px;
+  --diagram-sub-size: 11px;
+  --diagram-band-label-size: 11px;
+  --diagram-band-states-size: 11px;
+}
+
+:global(html[data-theme="dark"]) .diagram {
+  --puppy-accent: #00bfff;
+  --card-bg: rgba(255, 255, 255, 0.035);
+  --band-bg: rgba(255, 255, 255, 0.06);
+}
+
+/* ============ Desktop / tablet: horizontal row ============ */
+
+.horizontalFlow {
+  width: 100%;
+}
+
+@media (max-width: 720px) {
+  .horizontalFlow {
+    display: none;
+  }
+}
+
+/* Sized to its own content, not stretched to the media frame — generous
+   outer whitespace is intentional here (unlike the edge-to-edge Behavior
+   Communication Loop elsewhere in this case study). */
+.archGroup {
+  width: fit-content;
+  max-width: min(100%, 940px);
+  margin-inline: auto;
+}
+
+.moduleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.connector {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .connector {
+  opacity: 1;
+}
+
+.connectorSvg {
+  display: block;
+  overflow: visible;
+}
+
+.connectorLine {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  fill: none;
+  transition: stroke-dashoffset 450ms var(--ease-premium);
+}
+
+.revealed .connectorLine {
+  stroke-dashoffset: 0;
+}
+
+.connectorArrow {
+  fill: var(--color-border);
+}
+
+/* ============ Module cards ============ */
+
+.moduleCard {
+  flex: 0 1 auto;
+  /* A floor so the longest single word ("Personalization") doesn't get
+     shrunk tight enough to break mid-word — the same lesson as the
+     Behavior Communication Loop diagram. */
+  min-width: 150px;
+  max-width: 240px;
+  box-sizing: border-box;
+  padding: 14px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--card-bg);
+  text-align: left;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .moduleCard {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.moduleTitle {
+  display: flex;
+  align-items: center;
+  margin: 0 0 0.3rem;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-title-size);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.moduleSub {
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-sub-size);
+  font-weight: 400;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+}
+
+.accentDot {
+  flex: 0 0 auto;
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 0.5em;
+  border-radius: 50%;
+  background: var(--puppy-accent);
+}
+
+/* ============ Shared Companion State — a quiet underlying layer, never a
+   fourth equal card: a low pill-shaped band, not the module cards' sharper
+   10px-radius rectangle, spanning the same width as the module group. ==== */
+
+.bandConnector {
+  display: flex;
+  justify-content: center;
+  padding: 0.35rem 0;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .bandConnector {
+  opacity: 1;
+}
+
+.sharedBand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.6rem 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--band-bg);
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .sharedBand {
+  opacity: 1;
+}
+
+.sharedLabel {
+  flex: 0 0 auto;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-band-label-size);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sharedDivider {
+  flex: 0 0 auto;
+  width: 1px;
+  height: 12px;
+  background: var(--color-border);
+}
+
+.sharedStates {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-band-states-size);
+  font-weight: 400;
+  opacity: 0.85;
+  overflow-wrap: break-word;
+}
+
+/* ============ Mobile: vertical stack ============ */
+
+.mobileFlow {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .mobileFlow {
+    display: block;
+  }
+}
+
+.mobileCard {
+  max-width: none;
+  width: 100%;
+  min-width: 0;
+}
+
+.mobileConnector {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0.35rem 0 0.35rem 0.1rem;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .mobileConnector {
+  opacity: 1;
+}
+
+.mobileFlow .sharedBand {
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 14px;
+  text-align: left;
+}
+
+.mobileFlow .sharedDivider {
+  display: none;
+}

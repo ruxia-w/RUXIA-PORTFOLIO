@@ -311,7 +311,7 @@ export const professionalExperienceProject: CaseStudyProject = {
   // (the previous 1915x821 here didn't match the real file).
   hero: {
     ...media(
-      "professional-hero-light.png",
+      "professional-hero-light-v2.png",
       1774,
       887,
       "A collection of consumer products spanning fitness, smart home, personal care, wellness, and lifestyle.",

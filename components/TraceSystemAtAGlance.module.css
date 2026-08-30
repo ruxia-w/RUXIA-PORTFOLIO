@@ -1,0 +1,226 @@
+.wrap {
+  width: 100%;
+}
+
+/* Local, self-contained diagram tokens — same trace-blue values as the
+   other four TRACE diagrams, kept independent per-file. This diagram uses
+   the smallest type scale of the five, deliberately. */
+.diagram {
+  --trace-blue: #1e4fff;
+
+  --diagram-context-label-size: 9px;
+  --diagram-title-size: 12px;
+  --diagram-central-title-size: 13px;
+  --diagram-desc-size: 10px;
+}
+
+:global(html[data-theme="dark"]) .diagram {
+  --trace-blue: #6c95ff;
+}
+
+/* ~60% of a ~960px media frame — noticeably more compact than the other
+   TRACE diagrams, per this diagram's own brief. Generous whitespace left
+   and right. */
+.canvas {
+  width: 100%;
+  max-width: 580px;
+  margin-inline: auto;
+}
+
+.contextLabel {
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-context-label-size);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.canvas .contextLabel:first-child {
+  margin-bottom: 0.85rem;
+}
+
+.canvas .contextLabel:last-child {
+  margin-top: 0.85rem;
+}
+
+/* ============ Desktop / tablet hub and spoke ============ */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 150px) 30px minmax(0, 180px) 30px minmax(0, 150px);
+  grid-template-rows: repeat(5, auto);
+  grid-template-areas:
+    ".    .     top    .     .    "
+    ".    .     vgap1  .     .    "
+    "left hgap1 center hgap2 right"
+    ".    .     vgap2  .     .    "
+    ".    .     bottom .     .    ";
+  row-gap: 0.4rem;
+  align-items: center;
+  justify-items: center;
+}
+
+@media (max-width: 720px) {
+  .canvas {
+    display: none;
+  }
+}
+
+.connectorSvg {
+  display: block;
+  overflow: visible;
+}
+
+.connectorLine {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  transition: stroke-dashoffset 450ms var(--ease-premium);
+}
+
+.revealed .connectorLine {
+  stroke-dashoffset: 0;
+}
+
+.vConn,
+.hConn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .vConn,
+.revealed .hConn {
+  opacity: 1;
+}
+
+/* ============ Cards (shared by desktop + mobile) ============ */
+
+.touchpointCard,
+.centralCard {
+  min-width: 0;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-bg);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .touchpointCard,
+.revealed .centralCard {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.touchpointCard {
+  max-width: 150px;
+}
+
+.centralCard {
+  max-width: 180px;
+  /* The one restrained TRACE-blue touch in this diagram — a plain thin
+     border, not the stronger inset treatment the later diagrams use for
+     their focal states, since this one should read as lighter than all
+     of them. */
+  border-color: var(--trace-blue);
+}
+
+.touchpointTitle {
+  margin: 0 0 0.2rem;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-title-size);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  overflow-wrap: break-word;
+}
+
+.touchpointDescription {
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-desc-size);
+  font-weight: 400;
+  line-height: 1.35;
+  overflow-wrap: break-word;
+}
+
+.centralTitle {
+  margin: 0 0 0.25rem;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-central-title-size);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+
+.centralSupport {
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-desc-size);
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+/* ============ Mobile: stacked composition ============ */
+
+.mobileFlow {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .mobileFlow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.mobileConn {
+  display: flex;
+  justify-content: center;
+  padding: 0.3rem 0;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .mobileConn {
+  opacity: 1;
+}
+
+.mobileMiddleRow {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.mobileCard {
+  max-width: none;
+  width: 100%;
+}
+
+.compactCard {
+  padding: 8px 6px;
+}
+
+.compactCard .touchpointTitle {
+  font-size: 11px;
+}
+
+.compactCard .touchpointDescription {
+  font-size: 9px;
+}

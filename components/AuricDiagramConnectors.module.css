@@ -1,0 +1,47 @@
+.connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* When a connector sits as a direct grid/flex item in a row whose nodes
+     are top-aligned (so differently-tall neighbors don't stretch to match
+     each other), this keeps the connector itself centered on the row's own
+     height instead of pinned to the top edge alongside the nodes. */
+  align-self: center;
+}
+
+.mobileConnector {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0.35rem 0 0.35rem 1.1rem;
+}
+
+.connectorLine {
+  stroke: var(--color-muted);
+  fill: none;
+  stroke-width: 1;
+}
+
+.connectorArrow {
+  fill: var(--color-muted);
+}
+
+.connectorPath {
+  transition: stroke-dashoffset 450ms var(--ease-premium);
+}
+
+.revealed .connectorPath {
+  stroke-dashoffset: 0;
+}
+
+/* Secondary / "influences" connector — dotted, no draw-in animation, used
+   sparingly for cross-tier relationships that are informational rather than
+   part of the primary flow (e.g. product shell → core decision architecture
+   in AuricInformationArchitecture). Distinguishes "this leads into the
+   journey" from "this is the journey" without competing with it. */
+.connectorLineSecondary {
+  stroke: var(--color-muted);
+  fill: none;
+  stroke-width: 1;
+  stroke-dasharray: 2.5 3;
+  opacity: 0.7;
+}

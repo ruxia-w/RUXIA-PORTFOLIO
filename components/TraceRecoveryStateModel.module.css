@@ -1,0 +1,167 @@
+.wrap {
+  width: 100%;
+}
+
+/* Local, self-contained diagram tokens — same values as the other three
+   TRACE diagrams (TraceSharedPermissionArchitecture,
+   TracePermissionStateModel, TraceServiceBlueprint), kept independent
+   per-file so none of them need to change if another is touched. */
+.diagram {
+  --trace-blue: #1e4fff;
+  --trace-blue-tint: rgba(30, 79, 255, 0.07);
+
+  --diagram-state-label-size: 13px;
+}
+
+:global(html[data-theme="dark"]) .diagram {
+  --trace-blue: #6c95ff;
+  --trace-blue-tint: rgba(108, 149, 255, 0.12);
+}
+
+/* Compact and centered — generous whitespace left and right, matching the
+   other two smaller TRACE architecture/state diagrams. */
+.spine {
+  width: 100%;
+  /* Wide enough for the two paired rows below (420px); single-state cards
+     are individually capped narrower (see .stateCard) and simply center
+     within this column via align-items, without stretching. */
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.connectorSvg {
+  display: block;
+  overflow: visible;
+  margin: 0.15rem 0;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .connectorSvg {
+  opacity: 1;
+}
+
+.connectorLine {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  fill: none;
+  transition: stroke-dashoffset 450ms var(--ease-premium);
+}
+
+.revealed .connectorLine {
+  stroke-dashoffset: 0;
+}
+
+.connectorArrow {
+  fill: var(--color-border);
+}
+
+/* ============ State cards ============ */
+
+.stateCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 320px;
+  padding: 13px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-bg);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .stateCard {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stateLabel {
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-state-label-size);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+
+.accentDot {
+  flex: 0 0 auto;
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 0.5em;
+  border-radius: 50%;
+  background: var(--trace-blue);
+}
+
+/* Normal State — an entry state: dashed, otherwise neutral. */
+.toneEntry {
+  border-style: dashed;
+}
+
+/* Shared Context — the alignment moment before a recovery choice: a
+   subtle TRACE blue accent dot, same treatment as "Pending"/"Recognized"
+   in the Permission State Model. */
+.toneAnchor {
+  border-color: var(--color-border);
+}
+
+/* Self-Service Recovery / Assisted Recovery — two equal, muted options;
+   neither is preferred. */
+.toneMuted .stateLabel {
+  color: var(--color-muted);
+}
+
+/* Permission Recheck — the strongest state in the model: recovery does not
+   restore access without this checkpoint. Slightly firmer border, same
+   language as "Active" in the Permission State Model. */
+.toneCheckpoint {
+  border-color: var(--trace-blue);
+  box-shadow: inset 0 0 0 0.5px var(--trace-blue);
+}
+
+/* Close — the one terminal state: a quiet filled background instead of
+   transparent. */
+.toneTerminal {
+  background: var(--color-border);
+}
+
+:global(html[data-theme="dark"]) .toneTerminal {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ============ Paired moments — side by side on desktop/tablet, stacked
+   on mobile (never a straight scaled-down copy, but this diagram is
+   already vertical, so only the two paired rows need to reflow). ======== */
+
+.pairRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+.pairRow .stateCard {
+  max-width: 200px;
+}
+
+@media (max-width: 500px) {
+  .pairRow {
+    flex-direction: column;
+    max-width: 320px;
+  }
+
+  .pairRow .stateCard {
+    max-width: 320px;
+  }
+}

@@ -14,6 +14,7 @@ type Props = {
 export function ResponsiveMedia({ media, dense = false, viewerLabel }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const label = viewerLabel ?? `Open full-size image: ${media.alt}`;
+  const useOriginalImage = media.src.startsWith("/work/sourcefold/");
   const dimInDark = media.src.includes("auric-early-exploration-directions") || media.src.includes("auric-core-user-flows");
   const imageClass = [dense ? styles.denseImage : styles.image, dimInDark ? styles.dimInDark : ""].filter(Boolean).join(" ");
 
@@ -28,6 +29,7 @@ export function ResponsiveMedia({ media, dense = false, viewerLabel }: Props) {
           priority={media.priority}
           className={imageClass}
           sizes="(max-width: 900px) 100vw, 1120px"
+          unoptimized={useOriginalImage}
         />
         <span className={styles.expandIcon} aria-hidden="true">↗</span>
       </button>
@@ -43,7 +45,7 @@ export function ResponsiveMedia({ media, dense = false, viewerLabel }: Props) {
       >
         <button type="button" className={styles.close} onClick={() => dialogRef.current?.close()} aria-label="Close image viewer">×</button>
         <div className={styles.dialogImageWrap}>
-          <Image src={media.src} width={media.width} height={media.height} alt={media.alt} className={styles.dialogImage} sizes="96vw" />
+          <Image src={media.src} width={media.width} height={media.height} alt={media.alt} className={styles.dialogImage} sizes="96vw" unoptimized={useOriginalImage} />
         </div>
       </dialog>
     </figure>

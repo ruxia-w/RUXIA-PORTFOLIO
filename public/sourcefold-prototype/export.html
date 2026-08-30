@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SOURCEFOLD interface export</title>
+  <style>
+    html, body {
+      width: 1440px;
+      height: 900px;
+      margin: 0;
+      overflow: hidden;
+      background: #e8eae9;
+    }
+    .stage {
+      width: 1440px;
+      height: 900px;
+    }
+    iframe {
+      display: block;
+      width: 1440px;
+      height: 900px;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="stage"><iframe id="screen" title="SOURCEFOLD interface export"></iframe></div>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const screen = params.get("screen") || "global-workspace";
+    const state = params.get("state") || "";
+    const retina = params.get("retina") === "true";
+    const frame = document.querySelector("#screen");
+    if (retina) {
+      document.documentElement.style.width = "720px";
+      document.documentElement.style.height = "450px";
+      document.body.style.width = "720px";
+      document.body.style.height = "450px";
+      document.querySelector(".stage").style.width = "720px";
+      document.querySelector(".stage").style.height = "450px";
+      frame.style.width = "720px";
+      frame.style.height = "450px";
+    }
+    frame.addEventListener("load", () => {
+      const doc = frame.contentDocument;
+      const click = (selector) => doc.querySelector(selector)?.click();
+      if (state === "france-expanded") {
+        doc.querySelector("[data-france-detail]")?.classList.add("is-open");
+        doc.querySelector("[data-france-row]")?.classList.add("is-selected");
+      }
+      if (["update", "keep"].includes(state)) click(`[data-resolution="${state}"]`);
+      if (state === "manual") {
+        const options = [...doc.querySelectorAll("[data-resolution]")];
+        options.forEach((option) => {
+          const selected = option.dataset.resolution === "manual";
+          option.classList.toggle("is-selected", selected);
+          option.setAttribute("aria-checked", String(selected));
+        });
+        doc.querySelector("[data-resolution-title]").textContent = "Review manually · Draft under review";
+        doc.querySelector("[data-resolution-description]").textContent = "The affected field will open in the editor. Existing approved copy remains live until a new French version is reviewed.";
+        const confirm = doc.querySelector("[data-resolution-confirm]");
+        confirm.disabled = false;
+        confirm.classList.add("is-ready");
+        confirm.textContent = "Confirm resolution";
+      }
+      if (state === "publishing-confirmation") click("[data-open-publish]");
+      if (state === "publishing-live") {
+        click("[data-open-publish]");
+        click("[data-confirm-publish]");
+      }
+      if (["mobile", "tv"].includes(state)) click(`[data-device="${state}"]`);
+      if (state === "dark") click(".sf-theme-toggle");
+      document.documentElement.dataset.ready = "true";
+    });
+    frame.src = `screens/${screen}.html`;
+  </script>
+</body>
+</html>

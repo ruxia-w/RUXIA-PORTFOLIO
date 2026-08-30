@@ -1,0 +1,281 @@
+.wrap {
+  width: 100%;
+}
+
+/* Local, self-contained diagram tokens. Deliberately no accent color here
+   (unlike the other two Smart Puppy diagrams) — Home's emphasis comes
+   purely from surface/border weight, per this diagram's own brief, which
+   also keeps it visually distinct from the Connected Experience
+   Architecture diagram rather than redundant with it. */
+.diagram {
+  --card-bg: rgba(0, 0, 0, 0.025);
+  --home-bg: rgba(0, 0, 0, 0.045);
+  --band-bg: rgba(0, 0, 0, 0.045);
+
+  --diagram-micro-label-size: 9px;
+  --diagram-title-size: 12px;
+  --diagram-sub-size: 11px;
+  --diagram-band-label-size: 11px;
+  --diagram-band-modules-size: 11px;
+}
+
+:global(html[data-theme="dark"]) .diagram {
+  --card-bg: rgba(255, 255, 255, 0.035);
+  --home-bg: rgba(255, 255, 255, 0.06);
+  --band-bg: rgba(255, 255, 255, 0.06);
+}
+
+/* ============ Desktop / tablet: hierarchical tree ============ */
+
+.horizontalFlow {
+  width: 100%;
+}
+
+@media (max-width: 720px) {
+  .horizontalFlow {
+    display: none;
+  }
+}
+
+.archGroup {
+  width: fit-content;
+  max-width: min(100%, 940px);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.microLabel {
+  margin: 0 0 0.4rem;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-micro-label-size);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* ============ Home — the entry point, slightly stronger surface/border,
+   never a color accent. ============ */
+
+.homeCard {
+  width: fit-content;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 14px 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--home-bg);
+  box-shadow: inset 0 0 0 0.5px var(--color-border);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .homeCard {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.homeTitle {
+  margin: 0 0 0.25rem;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-title-size);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.homeSub {
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-sub-size);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* ============ Branch connector — one tree, not three separate arrows ==== */
+
+.branchSvg {
+  display: block;
+  width: 100%;
+  height: 36px;
+  margin: 0.3rem auto;
+  overflow: visible;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .branchSvg {
+  opacity: 1;
+}
+
+.branchLine {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  fill: none;
+  transition: stroke-dashoffset 500ms var(--ease-premium);
+}
+
+.revealed .branchLine {
+  stroke-dashoffset: 0;
+}
+
+.branchArrow {
+  fill: var(--color-border);
+}
+
+/* ============ Primary experience row — equal widths, one visual tier ==== */
+
+.primaryRow {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.primaryCard {
+  flex: 0 1 168px;
+  width: 168px;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--card-bg);
+  text-align: left;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 400ms var(--ease-premium), transform 400ms var(--ease-premium);
+}
+
+.revealed .primaryCard {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.primaryTitle {
+  margin: 0 0 0.3rem;
+  color: var(--color-fg);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-title-size);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.primarySub {
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-sub-size);
+  font-weight: 400;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+}
+
+/* ============ Ownership band — one quiet layer, never three equal cards == */
+
+.bandConnector {
+  display: flex;
+  justify-content: center;
+  padding: 0.4rem 0;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .bandConnector {
+  opacity: 1;
+}
+
+.ownershipBand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--band-bg);
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .ownershipBand {
+  opacity: 1;
+}
+
+.ownershipLabel {
+  flex: 0 0 auto;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-band-label-size);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ownershipDivider {
+  flex: 0 0 auto;
+  width: 1px;
+  height: 12px;
+  background: var(--color-border);
+}
+
+.ownershipModules {
+  flex: 0 0 auto;
+  color: var(--color-muted);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--diagram-band-modules-size);
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+/* ============ Mobile: vertical stack ============ */
+
+.mobileFlow {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .mobileFlow {
+    display: block;
+  }
+}
+
+.mobileFlow .primaryCard {
+  width: 100%;
+  max-width: none;
+}
+
+.mobileConnector {
+  display: flex;
+  justify-content: center;
+  padding: 0.35rem 0;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-premium);
+}
+
+.revealed .mobileConnector {
+  opacity: 1;
+}
+
+.mobileConnectorTight {
+  height: 0.6rem;
+}
+
+.mobileBand {
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 14px;
+  text-align: left;
+}
+
+.mobileBand .ownershipDivider {
+  display: none;
+}

@@ -60,7 +60,7 @@ export function FinalExperience({
 
   return (
     <div className={styles.wrap}>
-      <p className={styles.intro}>{body}</p>
+      {body ? <p className={styles.intro}>{body}</p> : null}
       {presentation === "plain" ? (
         <div className={styles.plainStage}>
           <video

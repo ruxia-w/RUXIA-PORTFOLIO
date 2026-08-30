@@ -116,17 +116,108 @@
   align-items: end;
 }
 
+/* "equalHeight" variant — both images share one visible height; widths
+   follow their own aspect ratio rather than being forced to 50/50, and the
+   pair together fills the full row.
+
+   grid-template-columns is set inline (see CaseStudySection.tsx) to each
+   image's own real aspect-ratio value as an fr — e.g. "0.914fr 1.333fr" for
+   this pair, computed directly from each MediaAsset's width/height, never
+   guessed. CSS Grid distributes 100% of the row (minus the gap) among the
+   columns in proportion to those fr values, so column_i width = rowWidth ×
+   aspect_i ÷ (sum of every column's aspect ratio) — algebraically the width
+   that image would have at one shared height H = rowWidth ÷ (sum of
+   aspects), the same H for every column.
+
+   The height itself is enforced on .trigger (the button that wraps only
+   the image — NOT the outer <figure>, which also holds the caption) via
+   aspect-ratio, using the same --aspect custom property set per item. This
+   is what keeps caption length/wrapping from ever affecting image
+   geometry: the caption is a sibling of .trigger, entirely outside the
+   aspect-ratio-constrained box. object-fit: contain on the image itself is
+   a pure safety net — with the wrapper's own aspect-ratio matching the
+   image's real aspect ratio, this never actually crops anything.
+
+   Scoped entirely to this class so the default .mediaGroup used elsewhere
+   is unaffected. */
+.equalHeightGroup {
+  display: grid;
+  grid-template-columns: var(--grid-cols);
+  align-items: start;
+  gap: var(--space-6);
+  width: min(100%, 940px);
+}
+
+.equalHeightGroup .groupItem {
+  min-width: 0;
+}
+
+.equalHeightGroup .groupItem :global(.trigger) {
+  aspect-ratio: var(--aspect, auto);
+  overflow: hidden;
+}
+
+.equalHeightGroup .groupItem :global(img) {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 640px) {
+  /* Stack vertically — natural, unconstrained aspect ratio per image
+     rather than the desktop equal-height row. */
+  .equalHeightGroup {
+    grid-template-columns: 1fr;
+  }
+
+  .equalHeightGroup .groupItem :global(.trigger) {
+    aspect-ratio: auto;
+    overflow: visible;
+  }
+
+  .equalHeightGroup .groupItem :global(img) {
+    width: 100%;
+    height: auto;
+    object-fit: unset;
+  }
+}
+
 .screenGroup {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(220px, 260px);
   gap: clamp(0.5rem, 1.4vw, 1.1rem);
-  align-items: end;
+  /* Top-aligned, not bottom-aligned: these screenshots all share the same
+     device dimensions and render at identical widths/heights, but their
+     captions wrap to a different number of lines depending on copy length.
+     align-items: end anchored the (image + caption) box to the row's
+     bottom, so a shorter caption pulled its own image down with it —
+     e.g. Watchlist's one-line caption made it sit visibly lower than its
+     two-line neighbors. Top-aligning keeps every screenshot's top edge on
+     the same baseline regardless of caption length. */
+  align-items: start;
   width: min(100%, 940px);
   padding-bottom: var(--space-3);
   overflow-x: auto;
   overscroll-behavior-inline: contain;
   scroll-snap-type: inline proximity;
+}
+
+/* SOURCEFOLD desktop/tablet screenshot rows use the full article width.
+   The number of implicit columns determines whether two or three screens
+   share the row, avoiding the large unused area left by the compact carousel
+   columns used by other projects. */
+.screenGroupFill {
+  width: 100%;
+  grid-auto-columns: minmax(0, 1fr);
+  overflow-x: visible;
+}
+
+@media (max-width: 720px) {
+  .screenGroupFill {
+    grid-auto-columns: minmax(220px, 260px);
+    overflow-x: auto;
+  }
 }
 
 .groupItem {
@@ -148,6 +239,15 @@
   gap: 0.2rem;
   margin-top: var(--space-3);
   text-align: center;
+}
+
+/* Standardized screen → title and title → description spacing for the
+   "screens" variant specifically (app-screenshot rows), scoped here rather
+   than on the shared .groupItem figcaption rule above so it doesn't affect
+   the plain .mediaGroup lifestyle-photo captions used elsewhere. */
+.screenGroup .groupItem figcaption {
+  gap: var(--space-2);
+  margin-top: var(--space-4);
 }
 
 .groupLabel {
@@ -627,7 +727,14 @@
 
 @media (max-width: 980px) {
   .screenGroup {
+    /* The base rule sets grid-auto-flow: column for the desktop horizontal
+       scroll strip; left unset here, it fought this breakpoint's explicit
+       3-column template and collapsed the first three tracks to a few
+       pixels instead of wrapping properly. Reset to row so this becomes a
+       normal wrapping 3-column grid. */
+    grid-auto-flow: row;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow-x: visible;
   }
 
   .feature {
@@ -650,7 +757,15 @@
   }
 
   .screenGroup {
+    /* Reverts to the desktop horizontal-scroll strip (one large card at a
+       time) instead of the 980px breakpoint's 3-column wrap — at this
+       width, three columns would force each screen down to a sliver.
+       grid-auto-columns only takes effect in column-flow, hence the flow
+       reset back to column here. */
+    grid-auto-flow: column;
+    grid-template-columns: none;
     grid-auto-columns: minmax(190px, 72vw);
+    overflow-x: auto;
   }
 
   .cardSet,
