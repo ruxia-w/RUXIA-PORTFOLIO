@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
 import { CaseStudyLayout } from "@/components/CaseStudyLayout";
+import { createProjectMetadata } from "@/lib/projectMetadata";
 import { auricSignalProject } from "@/lib/projects/auric-signal";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: `${auricSignalProject.title} — Ruxia Wang`,
-  description: auricSignalProject.subtitle,
-};
+export const metadata = createProjectMetadata(auricSignalProject);
 
 export default function AuricSignalPage() {
   return (

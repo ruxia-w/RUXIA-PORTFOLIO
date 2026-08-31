@@ -446,14 +446,14 @@ export const auricSignalProject: CaseStudyProject = {
   // exact src/width/height values) — one shared asset definition instead of
   // two independently-maintained hero images.
   hero: {
-    src: `${BASE}/auric-hero-light.png`,
+    src: `${BASE}/auric-hero-light.webp`,
     width: 1774,
     height: 887,
     alt: "AURIC SIGNAL hero composition with one primary mobile screen and supporting portfolio, signal, market, insight, allocation, and action modules.",
     priority: true,
   },
   heroDark: {
-    src: `${BASE}/auric-hero-dark.png`,
+    src: `${BASE}/auric-hero-dark.webp`,
     width: 1774,
     height: 887,
     alt: "AURIC SIGNAL hero composition with one primary mobile screen and supporting portfolio, signal, market, insight, allocation, and action modules.",

@@ -79,12 +79,12 @@ export const galleryItems: GalleryItem[] = [
     category: "product-design",
     description:
       "A fitness analytics dashboard exploring body-region data, readiness, recovery, muscle load, and training-performance feedback.",
-    thumbnail: asset("fitness dashboard.png"),
+    thumbnail: asset("fitness-dashboard.webp"),
     thumbnailWidth: 3312,
     thumbnailHeight: 2480,
     media: [
       {
-        src: asset("fitness dashboard.png"),
+        src: asset("fitness-dashboard.webp"),
         alt: "MotionPulse dashboard showing muscle load, performance readiness, and recovery balance on a tablet.",
       },
     ],

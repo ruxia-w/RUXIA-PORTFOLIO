@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
 import { CaseStudyLayout } from "@/components/CaseStudyLayout";
+import { createProjectMetadata } from "@/lib/projectMetadata";
 import { smartPuppyProject } from "@/lib/projects/smart-puppy";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: `${smartPuppyProject.title} — Ruxia Wang`,
-  description: smartPuppyProject.subtitle,
-};
+export const metadata = createProjectMetadata(smartPuppyProject);
 
 export default function SmartPuppyPage() {
   return (

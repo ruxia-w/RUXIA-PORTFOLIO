@@ -19,20 +19,6 @@ import styles from "./page.module.css";
 const projects = [
   {
     number: "01",
-    title: "SOURCEFOLD",
-    tagline: "AI-Assisted Global Content Operations",
-    disciplines: "Enterprise UX · AI Workflows · Systems Design",
-    projectType: "Independent Project · 2026",
-    href: "/work/sourcefold",
-    image: sourcefoldProject.hero!.src,
-    imageDark: sourcefoldProject.heroDark?.src,
-    imageWidth: sourcefoldProject.hero!.width,
-    imageHeight: sourcefoldProject.hero!.height,
-    imageAlt:
-      "SOURCEFOLD global content operations workspace shown in light and dark modes with human review, source-change impact, and publishing-readiness panels.",
-  },
-  {
-    number: "02",
     title: "AURIC SIGNAL",
     tagline: "AI Portfolio Intelligence",
     disciplines: "Product Strategy · UX/UI · AI Experience",
@@ -44,6 +30,20 @@ const projects = [
     imageHeight: auricSignalProject.hero!.height,
     imageAlt:
       "AURIC SIGNAL mobile interface surrounded by portfolio insights and decision-support modules.",
+  },
+  {
+    number: "02",
+    title: "SOURCEFOLD",
+    tagline: "AI-Assisted Global Content Operations",
+    disciplines: "Enterprise UX · AI Workflows · Systems Design",
+    projectType: "Independent Project · 2026",
+    href: "/work/sourcefold",
+    image: sourcefoldProject.hero!.src,
+    imageDark: sourcefoldProject.heroDark?.src,
+    imageWidth: sourcefoldProject.hero!.width,
+    imageHeight: sourcefoldProject.hero!.height,
+    imageAlt:
+      "SOURCEFOLD global content operations workspace shown in light and dark modes with human review, source-change impact, and publishing-readiness panels.",
   },
   {
     number: "03",
@@ -64,7 +64,7 @@ const projects = [
     title: "SMART PUPPY",
     tagline: "Award-Winning Robotic Companion",
     disciplines: "Industrial Design · UX/UI · Connected Experience",
-    projectType: "Independent Project · 2021",
+    projectType: "Award-Winning Independent Project · 2021",
     awards: "IDA Silver · EPDA Honorable Mention · Rookie Awards Highly Commended",
     href: "/work/smart-puppy",
     image: smartPuppyProject.hero!.src,
@@ -169,7 +169,7 @@ const capabilities = [
     skills: [
       "Cross-Functional Collaboration",
       "Stakeholder Alignment",
-      "Project Coordination",
+      "Design Direction",
       "Design Critique",
       "Implementation Collaboration",
       "Production & Delivery Continuity",
@@ -225,7 +225,7 @@ const explorationRows: HomeGalleryImage[][] = [
   ],
   [
     {
-      src: "/gallery/fitness dashboard.png",
+      src: "/gallery/fitness-dashboard.webp",
       alt: "MotionPulse dashboard showing muscle load, performance readiness, and recovery balance on a tablet.",
       width: 3312,
       height: 2480,
@@ -278,7 +278,8 @@ export default function HomePage() {
           </a>
           <div className={styles.heroBottomContent}>
             <p className={styles.heroIntro}>
-              New York–based product designer working across digital products,
+              New York–based product and experience designer bringing 5+ years
+              of commercial product development experience to digital products,
               AI-assisted experiences, and connected physical–digital systems.
             </p>
             <div className={styles.heroCapabilities}>

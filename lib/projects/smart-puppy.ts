@@ -465,11 +465,11 @@ export const smartPuppyProject: CaseStudyProject = {
   // definition. 1774x887 matches the actual asset dimensions (the previous
   // 1672x941 here didn't match the real file).
   hero: {
-    ...media("smart-puppy-hero-light.png", 1774, 887, "SMART PUPPY robotic companion beside its dark mobile app home interface."),
+    ...media("smart-puppy-hero-light.webp", 1774, 887, "SMART PUPPY robotic companion beside its dark mobile app home interface."),
     priority: true,
   },
   heroDark: {
-    ...media("smart-puppy-hero-dark.png", 1774, 887, "SMART PUPPY robotic companion beside its dark mobile app home interface."),
+    ...media("smart-puppy-hero-dark.webp", 1774, 887, "SMART PUPPY robotic companion beside its dark mobile app home interface."),
   },
   sections: smartPuppySections,
 };

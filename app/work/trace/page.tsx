@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
 import { CaseStudyLayout } from "@/components/CaseStudyLayout";
+import { createProjectMetadata } from "@/lib/projectMetadata";
 import { traceProject } from "@/lib/projects/trace";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: `${traceProject.title} — Ruxia Wang`,
-  description: traceProject.subtitle,
-};
+export const metadata = createProjectMetadata(traceProject);
 
 export default function TracePage() {
   return (

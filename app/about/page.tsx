@@ -42,10 +42,29 @@ const recognition = [
   { name: "Rookie Awards", line1: "Highly Commended · 2021" },
 ] as const;
 
+const aboutTitle = "About — Ruxia Wang";
+const aboutDescription =
+  "Ruxia Wang is a New York–based Product and Experience Designer working across digital products, connected experiences, and emerging technologies.";
+
 export const metadata: Metadata = {
-  title: "About — Ruxia Wang",
-  description:
-    "Ruxia Wang is a New York–based Product and Experience Designer working across digital products, connected experiences, and emerging technologies.",
+  title: aboutTitle,
+  description: aboutDescription,
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: aboutTitle,
+    description: aboutDescription,
+    url: "/about",
+    type: "profile",
+    images: ["/og.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: aboutTitle,
+    description: aboutDescription,
+    images: ["/og.png"],
+  },
 };
 
 export default function AboutPage() {
@@ -55,7 +74,7 @@ export default function AboutPage() {
         <div className={styles.portraitFrame}>
           <Image
             className={styles.portrait}
-            src="/about/ruxia-wang-portrait.png"
+            src="/about/ruxia-wang-portrait.webp"
             alt="Portrait of Ruxia Wang"
             width={547}
             height={711}
@@ -64,7 +83,6 @@ export default function AboutPage() {
         </div>
         <div className={styles.heroCopy}>
           <h1 id="about-title">ABOUT</h1>
-          <p className={styles.heroHello}>hello</p>
           <p className={styles.heroStatement}>
             Designing across products, experiences, and systems.
           </p>
@@ -133,7 +151,7 @@ export default function AboutPage() {
         </div>
         <Image
           className={styles.studioImage}
-          src="/about/design-studio-wall.png"
+          src="/about/design-studio-wall.webp"
           alt="Design studio wall filled with product sketches, dimensioned drawings, and prototypes"
           width={1492}
           height={525}

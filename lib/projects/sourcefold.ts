@@ -619,7 +619,7 @@ export const sourcefoldProject: CaseStudyProject = {
   role: ["Product Design", "UX Strategy", "Interaction Design"],
   year: "2026",
   focus: ["Enterprise UX", "AI Workflows", "Systems Design"],
-  scope: ["Product Strategy", "Information Architecture", "Prototyping", "Testing"],
+  scope: ["Product Strategy", "Information Architecture", "Prototyping", "Evaluation Planning"],
   status: "Independent concept project",
   breadcrumb: ["Work", "Product Design", "SOURCEFOLD"],
   // Shared with the Home page's own project entry (see app/page.tsx, which
@@ -627,14 +627,14 @@ export const sourcefoldProject: CaseStudyProject = {
   // definition instead of two independently-maintained copies, same
   // pattern as auric-signal.ts / trace.ts.
   hero: {
-    src: "/work/sourcefold/sourcefold-hero-light-v3.png",
+    src: "/work/sourcefold/sourcefold-hero-light-v3.webp",
     width: 3548,
     height: 1774,
     alt: "SOURCEFOLD global content operations workspace shown in light and dark modes with human review, source-change impact, and publishing-readiness panels.",
     priority: true,
   },
   heroDark: {
-    src: "/work/sourcefold/sourcefold-hero-dark-v3.png",
+    src: "/work/sourcefold/sourcefold-hero-dark-v3.webp",
     width: 3548,
     height: 1774,
     alt: "SOURCEFOLD global content operations workspace shown in light and dark modes with human review, source-change impact, and publishing-readiness panels.",
