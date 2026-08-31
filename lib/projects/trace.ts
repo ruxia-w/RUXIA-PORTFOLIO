@@ -677,7 +677,7 @@ export const traceProject: CaseStudyProject = {
   // Same light/dark hero pair as the Home page's project card for TRACE
   // (see app/page.tsx's `projects` array) — one shared asset definition.
   hero: {
-    ...media("trace-hero-light.webp", 1774, 887, "TRACE Credential standing in its Dock beside the mobile permission app in a service setting."),
+    ...media("trace-hero-light.webp", 1672, 836, "TRACE Credential standing in its Dock beside the mobile permission app in a service setting."),
     priority: true,
   },
   heroDark: {
