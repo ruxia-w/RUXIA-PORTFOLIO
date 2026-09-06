@@ -71,6 +71,7 @@ export function GalleryViewer({ item, onClose }: GalleryViewerProps) {
     if (!item) return;
 
     function handleKeyDown(event: KeyboardEvent) {
+      if (mediaCount < 2 || event.target instanceof HTMLVideoElement) return;
       if (event.key === "ArrowLeft") {
         event.preventDefault();
         setMediaIndex((i) => (i - 1 + mediaCount) % mediaCount);
@@ -103,7 +104,21 @@ export function GalleryViewer({ item, onClose }: GalleryViewerProps) {
 
           <div className={styles.mediaWrap}>
             <div className={styles.mediaFrame}>
-              <Image
+              {media.type === "video" ? (
+                <video
+                  key={media.src}
+                  src={media.src}
+                  poster={item.thumbnail}
+                  className={styles.video}
+                  controls
+                  playsInline
+                  loop
+                  preload="metadata"
+                  aria-label={media.alt}
+                >
+                  <a href={media.src}>Watch {item.title}</a>
+                </video>
+              ) : <Image
                 key={media.src}
                 src={media.src}
                 alt={media.alt}
@@ -111,7 +126,7 @@ export function GalleryViewer({ item, onClose }: GalleryViewerProps) {
                 sizes="(min-width: 900px) 70vw, 92vw"
                 className={styles.image}
                 priority
-              />
+              />}
             </div>
 
             {mediaCount > 1 ? (

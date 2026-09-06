@@ -23,6 +23,150 @@ function asset(filename: string): string {
  * without distortion.
  */
 export const galleryItems: GalleryItem[] = [
+{
+  "id": "motion-medical",
+  "title": "Medical",
+  "category": "animation",
+  "description": "Medical motion study.",
+  "thumbnail": "/gallery/motion/medical.jpg",
+  "thumbnailWidth": 1600,
+  "thumbnailHeight": 1200,
+  "media": [
+    {
+      "src": "/gallery/motion/medical.mp4",
+      "alt": "Medical motion video.",
+      "type": "video"
+    }
+  ]
+},
+{
+  "id": "motion-car",
+  "title": "Car",
+  "category": "animation",
+  "description": "Car motion study.",
+  "thumbnail": "/gallery/motion/car.jpg",
+  "thumbnailWidth": 1600,
+  "thumbnailHeight": 1200,
+  "media": [
+    {
+      "src": "/gallery/motion/car.mp4",
+      "alt": "Car motion video.",
+      "type": "video"
+    }
+  ]
+},
+{
+  "id": "motion-machine",
+  "title": "Machine",
+  "category": "animation",
+  "description": "Machine motion study.",
+  "thumbnail": "/gallery/motion/machine.jpg",
+  "thumbnailWidth": 1600,
+  "thumbnailHeight": 1600,
+  "media": [
+    {
+      "src": "/gallery/motion/machine.mp4",
+      "alt": "Machine motion video.",
+      "type": "video"
+    }
+  ]
+},
+{
+  "id": "motion-watch",
+  "title": "Watch",
+  "category": "animation",
+  "description": "Watch motion study.",
+  "thumbnail": "/gallery/motion/watch.jpg",
+  "thumbnailWidth": 1200,
+  "thumbnailHeight": 1600,
+  "media": [
+    {
+      "src": "/gallery/motion/watch.mp4",
+      "alt": "Watch motion video.",
+      "type": "video"
+    }
+  ]
+},
+{
+  "id": "motion-quote",
+  "title": "Quote",
+  "category": "animation",
+  "description": "Quote motion study.",
+  "thumbnail": "/gallery/motion/quote.jpg",
+  "thumbnailWidth": 1200,
+  "thumbnailHeight": 1600,
+  "media": [
+    {
+      "src": "/gallery/motion/quote.mp4",
+      "alt": "Quote motion video.",
+      "type": "video"
+    }
+  ]
+},
+{
+  "id": "motion-presentation-canvas",
+  "title": "Presentation Canvas",
+  "category": "animation",
+  "description": "Presentation Canvas motion study.",
+  "thumbnail": "/gallery/motion/presentation-canvas.jpg",
+  "thumbnailWidth": 1600,
+  "thumbnailHeight": 1200,
+  "media": [
+    {
+      "src": "/gallery/motion/presentation-canvas.mp4",
+      "alt": "Presentation Canvas motion video.",
+      "type": "video"
+    }
+  ]
+},
+{
+  "id": "motion-music-player-motion-playful-intro",
+  "title": "Music Player — Playful Intro",
+  "category": "animation",
+  "description": "Music Player — Playful Intro motion study.",
+  "thumbnail": "/gallery/motion/music-player-motion-playful-intro.jpg",
+  "thumbnailWidth": 1600,
+  "thumbnailHeight": 1200,
+  "media": [
+    {
+      "src": "/gallery/motion/music-player-motion-playful-intro.mp4",
+      "alt": "Music Player — Playful Intro motion video.",
+      "type": "video"
+    }
+  ]
+},
+{
+  "id": "motion-parking",
+  "title": "Parking",
+  "category": "animation",
+  "description": "Parking motion study.",
+  "thumbnail": "/gallery/motion/parking.jpg",
+  "thumbnailWidth": 1600,
+  "thumbnailHeight": 1600,
+  "media": [
+    {
+      "src": "/gallery/motion/parking.mp4",
+      "alt": "Parking motion video.",
+      "type": "video"
+    }
+  ]
+},
+{
+  "id": "motion-bank-promotion",
+  "title": "Bank Promotion",
+  "category": "animation",
+  "description": "Bank Promotion motion study.",
+  "thumbnail": "/gallery/motion/bank-promotion.jpg",
+  "thumbnailWidth": 1600,
+  "thumbnailHeight": 1013,
+  "media": [
+    {
+      "src": "/gallery/motion/bank-promotion.mp4",
+      "alt": "Bank Promotion motion video.",
+      "type": "video"
+    }
+  ]
+},
   {
     id: "chronograph-watch-study",
     title: "Chronograph Watch Study",
@@ -509,5 +653,5 @@ export const galleryCategoryLabels: Record<"discover" | GalleryItem["category"],
   discover: "Discover",
   "product-design": "Product Design",
   "industrial-design": "Industrial Design",
-  animation: "Animation",
+  animation: "Motion",
 };
