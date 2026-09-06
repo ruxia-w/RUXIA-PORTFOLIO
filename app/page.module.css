@@ -283,8 +283,10 @@
    shared Level 2 token, itself changed since).
    :global — a bare #work-title here gets hashed by CSS Modules (it's a
    literal id="work-title" string in the JSX, not routed through the styles
-   object), so it would never match the real DOM id without this. */
-:global(#work-title) {
+   object), so it would never match the real DOM id without this. Scoped
+   under .work (the section it's nested in) because Lightning CSS rejects a
+   selector that is entirely :global(...) as "not pure". */
+.work :global(#work-title) {
   font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(1.83rem, 3.89vw, 3.89rem);
   font-weight: 650;
