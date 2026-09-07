@@ -7,6 +7,14 @@ import type { GalleryFilterValue } from "./GalleryFilters";
 import { GalleryGrid } from "./GalleryGrid";
 import { GalleryViewer } from "./GalleryViewer";
 import type { GalleryItem } from "@/lib/gallery/types";
+import {
+  discoverExcluded,
+  discoverOrder,
+  industrialDesignOrder,
+  motionOrder,
+  orderItemsByIds,
+  productDesignOrder,
+} from "@/lib/gallery/order";
 import styles from "./GalleryPageClient.module.css";
 
 type GalleryPageClientProps = {
@@ -26,10 +34,17 @@ export function GalleryPageClient({ items }: GalleryPageClientProps) {
     return canonicalOrder.filter((category) => present.has(category));
   }, [items]);
 
-  const visibleItems = useMemo(
-    () => (filter === "discover" ? items : items.filter((item) => item.category === filter)),
-    [items, filter]
-  );
+  const visibleItems = useMemo(() => {
+    if (filter === "discover") {
+      const eligible = items.filter((item) => !discoverExcluded.includes(item.id));
+      return orderItemsByIds(eligible, discoverOrder);
+    }
+    const filtered = items.filter((item) => item.category === filter);
+    if (filter === "animation") return orderItemsByIds(filtered, motionOrder);
+    if (filter === "product-design") return orderItemsByIds(filtered, productDesignOrder);
+    if (filter === "industrial-design") return orderItemsByIds(filtered, industrialDesignOrder);
+    return filtered;
+  }, [items, filter]);
 
   const activeItem = activeIndex !== null ? visibleItems[activeIndex] ?? null : null;
 

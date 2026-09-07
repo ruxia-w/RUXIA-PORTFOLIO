@@ -320,7 +320,7 @@ export const professionalExperienceProject: CaseStudyProject = {
   },
   heroDark: {
     ...media(
-      "professional-hero-dark.webp",
+      "professional-hero-dark.png",
       1774,
       887,
       "A collection of consumer products spanning fitness, smart home, personal care, wellness, and lifestyle.",

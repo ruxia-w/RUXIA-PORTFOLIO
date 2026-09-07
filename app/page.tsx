@@ -199,68 +199,68 @@ const capabilities = [
 const explorationRows: HomeGalleryImage[][] = [
   [
     {
+      src: "/gallery/motion/presentation-canvas.jpg",
+      video: "/gallery/motion/presentation-canvas.mp4",
+      alt: "SAYO real-time translation app shown across three phone screens.",
+      width: 1600,
+      height: 1200,
+    },
+    {
+      src: "/gallery/Bike.png",
+      alt: "Runway road bike frame and seatpost detail showing an integrated LED taillight.",
+      width: 1086,
+      height: 1448,
+    },
+    {
+      src: "/gallery/fitness dashboard.png",
+      alt: "MotionPulse dashboard showing muscle load, performance readiness, and recovery balance on a tablet.",
+      width: 3312,
+      height: 2480,
+    },
+  ],
+  [
+    {
       src: "/gallery/headphone.png",
-      alt: "Over-ear headphones in matte black with copper-toned ear cushions.",
+      alt: "Over-ear headphones with a brushed metal headband and contrasting cushion lining.",
       width: 1122,
       height: 1402,
     },
     {
       src: "/gallery/ChatGPT Image Aug 22 2026 at 10_30_07 PM (3).png",
-      alt: "Autonomous drive history mobile interface staged on dark rock.",
+      alt: "Drive History screen showing an autonomous trip route, distance, and weekly driving performance.",
       width: 1448,
       height: 1086,
     },
     {
-      src: "/gallery/ChatGPT Image Aug 22 2026 at 10_50_45 PM (2).png",
-      alt: "AI vision drone render with camera gimbal and folded rotor arms.",
-      width: 1448,
-      height: 1086,
-    },
-    {
-      src: "/gallery/fitness_pushing machine.png",
-      alt: "Macro detail of a black pilates reformer's rail, carriage, and adjustment knobs.",
-      width: 1086,
-      height: 1448,
+      src: "/gallery/motion/music-player-motion-playful-intro.jpg",
+      video: "/gallery/motion/music-player-motion-playful-intro.mp4",
+      alt: "Midnight Drift music player interface with the tagline \"Play this mood.\"",
+      width: 1600,
+      height: 1200,
     },
   ],
   [
     {
-      src: "/gallery/fitness-dashboard.webp",
-      alt: "MotionPulse dashboard showing muscle load, performance readiness, and recovery balance on a tablet.",
-      width: 3312,
-      height: 2480,
+      src: "/gallery/ChatGPT Image Aug 22 2026 at 10_30_06 PM (2).png",
+      alt: "LeaseFlow composition with an oversized wordmark behind the search, overview, and listing screens.",
+      width: 1448,
+      height: 1086,
+      widthGroup: "row3-left",
+      matchGroupWidthTo: ["/gallery/headphone.png", "/gallery/ChatGPT Image Aug 22 2026 at 10_30_07 PM (3).png"],
     },
     {
-      src: "/gallery/Watch Exploded View.png",
-      alt: "Exploded construction view of the chronograph case, movement, and strap.",
-      width: 1536,
-      height: 1024,
+      src: "/gallery/motion/quote.jpg",
+      video: "/gallery/motion/quote.mp4",
+      alt: "Blue athletic training graphic with the headline \"Progress feels different here.\"",
+      width: 1200,
+      height: 1600,
+      widthGroup: "row3-left",
     },
     {
       src: "/gallery/bottle.png",
       alt: "Portable hydration bottle in slate blue with an orange loop strap, held in hand.",
       width: 1024,
       height: 1536,
-    },
-  ],
-  [
-    {
-      src: "/gallery/Bike.png",
-      alt: "Close-up of a bicycle seat post and frame detail with an integrated rear light.",
-      width: 1086,
-      height: 1448,
-    },
-    {
-      src: "/gallery/ChatGPT Image Aug 22 2026 at 10_30_07 PM (6).png",
-      alt: "LeaseFlow mobile app showing home search, rent overview, and a matched listing.",
-      width: 1448,
-      height: 1086,
-    },
-    {
-      src: "/gallery/ChatGPT Image Aug 22 2026 at 10_30_06 PM (1).png",
-      alt: "Nova Vault file-management dashboard on a laptop staged on dark rock.",
-      width: 1448,
-      height: 1086,
     },
   ],
 ];
@@ -421,7 +421,10 @@ export default function HomePage() {
           <h2 id="gallery-title">Product design, in form and detail.</h2>
           <p>A closer look at product and interface design across physical and digital work.</p>
         </header>
-        <HomeGalleryWall rows={explorationRows} cta={{ href: "/gallery", label: "View more" }} />
+        <HomeGalleryWall
+          rows={explorationRows}
+          cta={{ href: "/gallery", label: "View more", arrowClassName: styles.linkArrow }}
+        />
       </section>
 
       <section className={styles.contact} aria-labelledby="contact-title">

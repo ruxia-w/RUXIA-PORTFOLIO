@@ -8,14 +8,12 @@ function asset(filename: string): string {
 }
 
 /**
- * Curated Discover order. This is the single source of truth for both the
- * unfiltered Discover view and category filtering — do not create a second
- * dataset. Reorder this array to change the Discover sequence.
- *
- * Order is art-directed rather than alphabetical or grouped by category:
- * strongest, most visually distinctive work leads, disciplines are
- * interleaved throughout, and technical/exploded/sketch-only images sit at
- * the end.
+ * Single source of truth for gallery item data. This array's own order is
+ * incidental — the Discover and Motion display orders are curated
+ * separately in lib/gallery/order.ts (discoverOrder / motionOrder) so
+ * reordering either view never requires reshuffling this dataset. Other
+ * category filters (Product Design, Industrial Design) fall back to this
+ * array's order.
  *
  * thumbnailWidth/thumbnailHeight are each thumbnail's real intrinsic pixel
  * dimensions (verified against the source files) — required by the
@@ -178,6 +176,17 @@ export const galleryItems: GalleryItem[] = [
     thumbnailHeight: 941,
     media: [
       { src: asset("watch2.png"), alt: "Chronograph watch dial detail with triple sub-registers and a red central seconds hand." },
+    ],
+  },
+  {
+    id: "chronograph-watch-exploded-view",
+    title: "Chronograph Watch Exploded View",
+    category: "industrial-design",
+    description: "An exploded construction study of a mechanical chronograph, detailing the case, movement, and strap assembly.",
+    thumbnail: asset("Watch Exploded View.png"),
+    thumbnailWidth: 1536,
+    thumbnailHeight: 1024,
+    media: [
       { src: asset("Watch Exploded View.png"), alt: "Exploded construction view of the chronograph case, movement, and strap." },
     ],
   },
@@ -211,6 +220,17 @@ export const galleryItems: GalleryItem[] = [
         src: asset("ChatGPT Image Aug 22 2026 at 10_50_45 PM (2).png"),
         alt: "AI Vision Drone hero render showing the folded arm and multi-lens camera module.",
       },
+    ],
+  },
+  {
+    id: "ai-vision-drone-detail",
+    title: "AI Vision Drone Detail",
+    category: "industrial-design",
+    description: "A detail collage of the AI Vision Drone's camera array, motor arm, and rear structural housing.",
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_50_45 PM (3).png"),
+    thumbnailWidth: 1448,
+    thumbnailHeight: 1086,
+    media: [
       {
         src: asset("ChatGPT Image Aug 22 2026 at 10_50_45 PM (3).png"),
         alt: "AI Vision Drone detail collage of the camera array, motor arm, and rear structural housing.",
@@ -218,18 +238,18 @@ export const galleryItems: GalleryItem[] = [
     ],
   },
   {
-    id: "motionpulse",
-    title: "MotionPulse",
+    id: "motionpulse-dashboard-alt",
+    title: "MotionPulse Dashboard",
     category: "product-design",
     description:
-      "A fitness analytics dashboard exploring body-region data, readiness, recovery, muscle load, and training-performance feedback.",
-    thumbnail: asset("fitness-dashboard.webp"),
+      "An alternate export of the MotionPulse fitness dashboard concept, showing the same performance-readiness and recovery-balance interface.",
+    thumbnail: asset("fitness dashboard.png"),
     thumbnailWidth: 3312,
     thumbnailHeight: 2480,
     media: [
       {
-        src: asset("fitness-dashboard.webp"),
-        alt: "MotionPulse dashboard showing muscle load, performance readiness, and recovery balance on a tablet.",
+        src: asset("fitness dashboard.png"),
+        alt: "Alternate export of the MotionPulse dashboard showing muscle load, performance readiness, and recovery balance on a tablet.",
       },
     ],
   },
@@ -250,19 +270,14 @@ export const galleryItems: GalleryItem[] = [
     ],
   },
   {
-    id: "leaseflow",
-    title: "LeaseFlow",
+    id: "leaseflow-wordmark-composition",
+    title: "LeaseFlow Wordmark Composition",
     category: "product-design",
-    description:
-      "A rental discovery experience exploring search, affordability, saved places, and application-related decisions within a mobile interface.",
-    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (6).png"),
+    description: "A LeaseFlow composition featuring an oversized wordmark behind the search, overview, and listing screens.",
+    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_30_06 PM (2).png"),
     thumbnailWidth: 1448,
     thumbnailHeight: 1086,
     media: [
-      {
-        src: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (6).png"),
-        alt: "LeaseFlow three-screen layout showing home search, rent overview, and a matched listing.",
-      },
       {
         src: asset("ChatGPT Image Aug 22 2026 at 10_30_06 PM (2).png"),
         alt: "LeaseFlow composition with an oversized wordmark behind the search, overview, and listing screens.",
@@ -294,20 +309,6 @@ export const galleryItems: GalleryItem[] = [
         src: asset("animal tracking app.png"),
         alt: "Leopard Tracker app showing species scan, habitat map, and behavior data on a phone.",
       },
-    ],
-  },
-  {
-    id: "vorin-automatic-watch",
-    title: "VORIN Automatic Watch",
-    category: "industrial-design",
-    description:
-      "A minimalist automatic watch concept exploring layered dial construction, material contrast, typography, and precision detailing.",
-    thumbnail: asset("watch.png"),
-    thumbnailWidth: 1086,
-    thumbnailHeight: 1448,
-    media: [
-      { src: asset("watch.png"), alt: "VORIN Automatic watch hero render on a dark textured strap." },
-      { src: asset("watch1.png"), alt: "VORIN Automatic watch shown from an alternate angle against a light background." },
     ],
   },
   {
@@ -569,33 +570,6 @@ export const galleryItems: GalleryItem[] = [
     media: [{ src: asset("keyboard.png"), alt: "Mechanical keyboard with a machined metal frame, blue keycaps, and a volume knob." }],
   },
   {
-    id: "protective-sport-goggles",
-    title: "Protective Sport Goggles",
-    category: "industrial-design",
-    description:
-      "A protective eyewear concept exploring transparent layering, facial cushioning, ventilation, strap integration, and lightweight construction.",
-    thumbnail: asset("desert goggles.png"),
-    thumbnailWidth: 1448,
-    thumbnailHeight: 1086,
-    media: [{ src: asset("desert goggles.png"), alt: "White protective sport goggles with a cushioned frame and adjustable woven strap." }],
-  },
-  {
-    id: "northvale-fitness-bench",
-    title: "Northvale Fitness Bench",
-    category: "industrial-design",
-    description:
-      "An adjustable fitness-equipment concept exploring compact mechanics, support geometry, padded surfaces, and user-controlled positioning.",
-    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_50_47 PM (9).png"),
-    thumbnailWidth: 1448,
-    thumbnailHeight: 1086,
-    media: [
-      {
-        src: asset("ChatGPT Image Aug 22 2026 at 10_50_47 PM (9).png"),
-        alt: "Northvale adjustable fitness bench with a padded incline surface and stepped base.",
-      },
-    ],
-  },
-  {
     id: "handheld-control-device",
     title: "Handheld Control Device",
     category: "industrial-design",
@@ -641,11 +615,91 @@ export const galleryItems: GalleryItem[] = [
         src: asset("ChatGPT Image Aug 22 2026 at 10_50_47 PM (8).png"),
         alt: "Sketch sheet of twelve sneaker studies with annotated colorways.",
       },
+    ],
+  },
+  {
+    id: "footwear-sketch-exploration-sheet-two",
+    title: "Footwear Sketch Exploration II",
+    category: "industrial-design",
+    description: "A second sheet of footwear form studies exploring proportion, layering, and annotated colorways.",
+    thumbnail: asset("shoes sketch.png"),
+    thumbnailWidth: 1672,
+    thumbnailHeight: 941,
+    media: [
       {
         src: asset("shoes sketch.png"),
         alt: "Second sketch sheet of nine sneaker studies with annotated names and colorways.",
       },
     ],
+  },
+  {
+    id: "runway-road-bike",
+    title: "Runway Road Bike",
+    category: "industrial-design",
+    description:
+      "An aerodynamic road bike concept exploring an integrated LED taillight, seatpost detailing, and a lightweight titanium-tone frame finish.",
+    thumbnail: asset("Bike.png"),
+    thumbnailWidth: 1086,
+    thumbnailHeight: 1448,
+    media: [{ src: asset("Bike.png"), alt: "Runway road bike frame and seatpost detail showing an integrated LED taillight." }],
+  },
+  {
+    id: "orvyn-vaporizer",
+    title: "ORVYN Vaporizer",
+    category: "industrial-design",
+    description:
+      "A personal vaporizer concept exploring dual-tone finishes, an OLED battery readout, and compact ergonomic proportions.",
+    thumbnail: asset("Electronic cigarettes.png"),
+    thumbnailWidth: 3312,
+    thumbnailHeight: 2480,
+    media: [
+      {
+        src: asset("Electronic cigarettes.png"),
+        alt: "Two ORVYN vaporizer devices in black and silver finishes, each showing a battery-percentage display.",
+      },
+    ],
+  },
+  {
+    id: "studio-audio-interface",
+    title: "Studio Audio Interface",
+    category: "industrial-design",
+    description:
+      "A professional audio interface concept exploring a knurled monitoring dial, waveform metering, and tactile transport controls.",
+    thumbnail: asset("detail2.png"),
+    thumbnailWidth: 1254,
+    thumbnailHeight: 1254,
+    media: [
+      {
+        src: asset("detail2.png"),
+        alt: "Close-up of a silver audio interface with a knurled dial, waveform display, and a green transport button.",
+      },
+    ],
+  },
+  {
+    id: "reformer-training-system",
+    title: "Reformer Training System",
+    category: "industrial-design",
+    description:
+      "A studio fitness equipment concept exploring sliding carriage mechanics, padded supports, and precision adjustment hardware.",
+    thumbnail: asset("fitness_pushing machine.png"),
+    thumbnailWidth: 1086,
+    thumbnailHeight: 1448,
+    media: [
+      {
+        src: asset("fitness_pushing machine.png"),
+        alt: "Close-up of a black reformer training system with a padded headrest and a green adjustment knob.",
+      },
+    ],
+  },
+  {
+    id: "ash-side-table",
+    title: "Ash Side Table",
+    category: "industrial-design",
+    description: "A minimalist wood side table concept exploring joinery, proportion, and natural material texture.",
+    thumbnail: asset("table.png"),
+    thumbnailWidth: 434,
+    thumbnailHeight: 574,
+    media: [{ src: asset("table.png"), alt: "A wooden side table with a ceramic vase and an open book resting on top." }],
   },
 ];
 
