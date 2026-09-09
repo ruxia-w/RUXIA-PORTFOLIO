@@ -61,19 +61,12 @@ function lastRowHeight(entries: Entry[], containerWidth: number, targetHeight: n
   return Math.round(Math.min(targetHeight, Math.max(maxHeightForCta, 1)));
 }
 
-// Same row composition (3 / 3 / 4-with-CTA) at every width — the gap just
-// scales down smoothly as the row narrows, matching the same
-// clamp(4px, 0.8vw, 12px) intent as the CSS everywhere else, computed here
-// (from the same width fed into the row math below) so the value used to lay
-// out each row's pixel widths is always exactly the gap actually rendered —
-// otherwise a mismatch between the two would stop rows from filling 100%.
-const GAP_MIN = 4;
-const GAP_MAX = 12;
-const GAP_VW_FACTOR = 0.008; // 0.8vw
-
-function computeGap(width: number): number {
-  return Math.round(Math.min(GAP_MAX, Math.max(GAP_MIN, width * GAP_VW_FACTOR)));
-}
+// Fixed to match the standalone /gallery page's own tile gap exactly (see
+// GALLERY_PAGE_GAP in components/Gallery/GalleryGrid.tsx) — same value used
+// both for the actual rendered CSS gap and fed into the row math below, so
+// rows keep summing to exactly 100% width (a mismatch between the two would
+// reintroduce the old "doesn't fill width" bug).
+const HOME_GALLERY_GAP = 6;
 
 /**
  * Desktop tile. Plain image by default; when `image.video` is set, it
@@ -197,7 +190,7 @@ export function HomeGalleryWall({ rows: rowGroups, cta }: { rows: HomeGalleryIma
   // viewport from the very first render.
   const FALLBACK_CONTAINER_WIDTH = 1440;
   const width = containerWidth > 0 ? containerWidth : FALLBACK_CONTAINER_WIDTH;
-  const gap = computeGap(width);
+  const gap = HOME_GALLERY_GAP;
 
   // Always the same 3/3/4(+CTA) row structure, at every viewport width — no
   // column count ever changes, nothing wraps into a different row, and no

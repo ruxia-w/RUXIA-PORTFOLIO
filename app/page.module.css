@@ -662,41 +662,27 @@
 /* Hover micro-interactions — cards are informational, not links, so this is
    :hover-only (no focus state to add) and scoped entirely to devices with a
    real hover+fine pointer, so touch devices render exactly the rules above
-   with zero difference (no sticky hover, no resting-state change either). */
+   with zero difference (no sticky hover, no resting-state change either).
+   Deliberately restrained: a ~1.5px lift and a slightly stronger border are
+   the only card-level change — no shadow, no glow, no scale, no change to
+   text opacity or the title, and no separate icon-group lift layered on top
+   of the card's own movement (that used to double the perceived motion).
+   Default and hover should read as almost the same state. */
 @media (hover: hover) and (pointer: fine) {
   .capabilityCard {
     transition:
-      transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 240ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1);
+      transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 200ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .capabilityCard:hover {
-    transform: translateY(-5px);
-    border-color: color-mix(in srgb, var(--color-fg) 32%, var(--color-border));
-    box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--color-fg) 22%, transparent);
-  }
-
-  .capabilityCardHead {
-    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .capabilityCard:hover .capabilityCardHead {
-    transform: translateY(-2px);
-  }
-
-  .capabilitySkills {
-    opacity: 0.85;
-    transition: opacity 240ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .capabilityCard:hover .capabilitySkills {
-    opacity: 1;
+    transform: translateY(-1.5px);
+    border-color: color-mix(in srgb, var(--color-fg) 18%, var(--color-border));
   }
 
   /* 01 Product & UX — the panel's internal divider line eases sideways. */
   .iconLayoutDivider {
-    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .capabilityCard:hover .iconLayoutDivider {
@@ -704,63 +690,61 @@
   }
 
   /* 02 Systems & Experience — nodes ease outward with a slight stagger
-     between them, reading as a restrained sequential pulse. */
+     between them; one-shot on hover-in, never looping/pulsing. */
   .iconNetworkNodeA,
   .iconNetworkNodeB,
   .iconNetworkNodeC {
-    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .capabilityCard:hover .iconNetworkNodeA {
-    transform: translate(-1.5px, -1.5px);
+    transform: translate(-1px, -1px);
   }
 
   .capabilityCard:hover .iconNetworkNodeB {
     transition-delay: 40ms;
-    transform: translate(1.5px, -1.5px);
+    transform: translate(1px, -1px);
   }
 
   .capabilityCard:hover .iconNetworkNodeC {
     transition-delay: 80ms;
-    transform: translateY(2px);
+    transform: translateY(1.5px);
   }
 
   /* 03 Leadership & Delivery — the two figures ease slightly toward each
      other/the icon's center, reading as alignment. */
   .iconUsersLeft,
   .iconUsersRight {
-    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .capabilityCard:hover .iconUsersLeft {
-    transform: translateX(0.75px);
+    transform: translateX(0.5px);
   }
 
   .capabilityCard:hover .iconUsersRight {
-    transform: translateX(-1.25px);
+    transform: translateX(-0.75px);
   }
 
   /* 04 Prototyping & Build — the < > brackets ease slightly outward. */
   .iconCodeLeft,
   .iconCodeRight {
-    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .capabilityCard:hover .iconCodeLeft {
-    transform: translateX(-1.5px);
+    transform: translateX(-1px);
   }
 
   .capabilityCard:hover .iconCodeRight {
-    transform: translateX(1.5px);
+    transform: translateX(1px);
   }
 }
 
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
-  /* Border/shadow/opacity stay (not motion) — only the transform-based
-     movement (card lift, icon-group lift, per-icon micro-animation) is
-     stripped out. */
+  /* border-color stays (not motion) — only the transform-based movement
+     (card lift, per-icon micro-animation) is stripped out. */
   .capabilityCard,
-  .capabilityCardHead,
   .iconLayoutDivider,
   .iconNetworkNodeA,
   .iconNetworkNodeB,
@@ -773,7 +757,6 @@
   }
 
   .capabilityCard:hover,
-  .capabilityCard:hover .capabilityCardHead,
   .capabilityCard:hover .iconLayoutDivider,
   .capabilityCard:hover .iconNetworkNodeA,
   .capabilityCard:hover .iconNetworkNodeB,

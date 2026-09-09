@@ -213,7 +213,7 @@ const explorationRows: HomeGalleryImage[][] = [
       src: "/gallery/airport-operations-dashboard.png",
       alt: "Airport terminal operations dashboard with real-time gate, flight, passenger flow, and ground service monitoring",
       width: 5670,
-      height: 4267,
+      height: 4259,
     },
     {
       src: "/gallery/headphone.png",

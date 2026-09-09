@@ -15,12 +15,32 @@
   background: rgb(0 0 0 / 76%);
 }
 
+/* Light Mode only — every rule below this point overrides colors for
+   html[data-theme="light"] specifically. Dark Mode (the default rules
+   above/below, and html[data-theme="dark"], which never matches these
+   selectors) is completely untouched — this is a same-shape light palette
+   layered on top, not a change to the approved dark presentation. */
+:global(html[data-theme="light"]) .dialog {
+  color: var(--color-fg);
+  background: color-mix(in srgb, var(--color-bg) 94%, transparent);
+}
+
+:global(html[data-theme="light"]) .dialog::backdrop {
+  background: rgb(255 255 255 / 76%);
+}
+
 .content {
   position: relative;
   display: flex;
   min-height: 100%;
   flex-direction: column;
   align-items: center;
+  /* safe center: vertically centers the image+caption composition so the
+     empty space above the image and below the description reads as roughly
+     equal, but falls back to top-aligned (today's behavior) whenever the
+     content is taller than the viewport (tall portrait images, long
+     descriptions) so nothing is ever scrolled out of reach. */
+  justify-content: safe center;
   padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1rem, 5vw, 5rem) clamp(2rem, 4vw, 3.5rem);
 }
 
@@ -30,17 +50,26 @@
   right: 1rem;
   z-index: 2;
   display: grid;
-  width: 2.5rem;
-  height: 2.5rem;
+  /* 20% smaller than the previous 2.5rem/1.5rem (within the requested
+     15-20% range) — same top-right position, still comfortably clickable. */
+  width: 2rem;
+  height: 2rem;
   place-items: center;
   padding: 0;
   color: #f5f5f0;
   background: rgb(20 20 20 / 76%);
   border: 1px solid rgb(255 255 255 / 20%);
   border-radius: 999px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   line-height: 1;
   cursor: pointer;
+}
+
+:global(html[data-theme="light"]) .close,
+:global(html[data-theme="light"]) .navButton {
+  color: var(--color-fg);
+  background: rgb(255 255 255 / 76%);
+  border-color: rgb(0 0 0 / 14%);
 }
 
 .mediaWrap {
@@ -107,10 +136,17 @@
   transform: translateX(-50%);
 }
 
+:global(html[data-theme="light"]) .position {
+  color: rgb(20 20 20 / 70%);
+}
+
 .info {
   width: 100%;
   max-width: 640px;
-  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+  /* Tightened by a flat 16px (within the requested 15-20px range) at every
+     viewport width — shifts the whole fluid curve down by exactly that
+     amount rather than scaling it, so the same responsive shape is kept. */
+  margin-top: clamp(1.5rem, calc(4vw - 16px), 2.5rem);
   text-align: center;
 }
 
@@ -123,10 +159,32 @@
   letter-spacing: 0.09em;
 }
 
+:global(html[data-theme="light"]) .category {
+  /* Same 62% mix ratio as the Dark Mode rule above, against --color-fg
+     (near-black) instead of the hardcoded near-white — a true mirror of
+     Dark Mode's own category/description hierarchy, not a new palette. */
+  color: color-mix(in srgb, var(--color-fg) 62%, transparent);
+}
+
 .title {
   margin: 0 0 var(--space-3);
+  /* Forced, theme-independent-by-default white — the global `h1,h2,h3,h4 {
+     color: var(--color-fg) }` rule (app/globals.css) would otherwise tie
+     this title to the active theme's foreground color, going dark-on-dark
+     against this modal's always-dark-by-default overlay. This is the Dark
+     Mode (and pre-theme-override default) value; the Light Mode override
+     right below supplies its own equally-forced near-black instead. */
+  color: #ffffff !important;
   font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(1.25rem, 2vw, 1.625rem);
+}
+
+:global(html[data-theme="light"]) .title {
+  /* !important + the extra attribute-selector specificity together beat the
+     Dark Mode rule above (also !important) — highest specificity among
+     equally-!important declarations wins, so this correctly overrides it
+     only when html[data-theme="light"] is set. */
+  color: var(--color-fg) !important;
 }
 
 .description {
@@ -134,6 +192,12 @@
   color: rgb(245 245 240 / 78%);
   font-size: 0.9375rem;
   line-height: 1.55;
+}
+
+:global(html[data-theme="light"]) .description {
+  /* Same 78% mix ratio as the Dark Mode rule above, mirrored the same way
+     .category is. */
+  color: color-mix(in srgb, var(--color-fg) 78%, transparent);
 }
 
 @media (max-width: 640px) {
