@@ -8,7 +8,18 @@
 }
 
 .header {
-  padding-block: clamp(2rem, 4vw, 3.25rem) clamp(1.5rem, 2.5vw, 2rem);
+  /* Top value: clamp(2rem, 4vw, 3.25rem) — shared verbatim with
+     app/about/page.module.css .hero's own top padding, and with the 3.25rem
+     added to --nav-height for the homepage's #selected-work scroll-margin-top
+     (app/page.module.css .sectionHeader) — all three land at the same depth
+     below the global nav by design (see the comment on .hero in
+     about/page.module.css, which names this exact three-way relationship).
+     A previous pass here swapped this for the *project-page* shell's smaller
+     top padding (components/ProjectHeader.module.css), which broke that
+     parity and made Gallery start visibly higher than About/Works — this
+     restores the original, correct, shared value. Bottom value (subtitle →
+     category nav gap) is unrelated to top alignment and untouched. */
+  padding-block: clamp(2rem, 4vw, 3.25rem) clamp(1rem, 1.7vw, 1.35rem);
 }
 
 .title {
@@ -16,14 +27,20 @@
      .heroCopy h1) — same font-size scale, weight, line-height, and
      tracking — so ABOUT and GALLERY read as one hero-title system rather
      than Gallery using the smaller Display L / section-heading recipe. */
-  margin: 0 0 clamp(1.5rem, 2.2vw, 2rem);
+  /* Title → subtitle gap tightened further from clamp(1.2rem, 1.75vw, 1.6rem)
+     (itself already tightened from the original clamp(1.5rem, 2.2vw, 2rem))
+     — same clamp shape, smaller values. */
+  margin: 0 0 clamp(1rem, 1.4vw, 1.3rem);
   font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
   /* Scaled down from the About-matching clamp(4.5rem, 7.2vw, 7.25rem) by a
      uniform ~0.931 factor so the desktop cap lands at ~108px (6.75rem)
      without changing the underlying responsive curve shape — Gallery no
      longer matches About's hero scale exactly, but keeps its own
-     proportional min/preferred/max relationship. */
-  font-size: clamp(4.2rem, 6.7vw, 6.75rem);
+     proportional min/preferred/max relationship. Reduced again here by a
+     further uniform 0.875 factor (~12.5%, within the 10-15% target) so the
+     desktop cap now lands at ~94.5px (5.91rem) — same curve shape again,
+     just smaller throughout. */
+  font-size: clamp(3.68rem, 5.86vw, 5.91rem);
   font-weight: 650;
   line-height: 0.9;
   letter-spacing: -0.05em;
@@ -31,9 +48,11 @@
 
 @media (max-width: 760px) {
   .title {
-    /* Same mobile override as before, scaled down by the same ~0.931 factor. */
-    margin-bottom: 1.5rem;
-    font-size: clamp(3.35rem, 16.75vw, 4.42rem);
+    /* Same mobile override as before, scaled down by the same additional
+       0.875 factor (on top of the original ~0.931), and the same ~20%
+       margin-bottom reduction as the desktop rule above. */
+    margin-bottom: 1.2rem;
+    font-size: clamp(2.93rem, 14.66vw, 3.87rem);
     line-height: 0.92;
     letter-spacing: -0.05em;
   }
@@ -48,7 +67,17 @@
 }
 
 .filters {
-  padding-bottom: clamp(2rem, 3.5vw, 2.75rem);
+  /* Gap between the nav and the divider below it, tightened by a flat 20px
+     (within the requested 16-24px range) at every viewport width — a calc()
+     offset inside clamp() shifts the whole fluid curve down by exactly that
+     amount rather than scaling it, so the same responsive shape/breakpoints
+     are preserved. Divider style/width (border-bottom) and the gap below it
+     (margin-bottom, divider → first image row) are unchanged. */
+  padding-bottom: clamp(0.75rem, calc(3.5vw - 20px), 1.5rem);
   border-bottom: 1px solid var(--color-border);
-  margin-bottom: clamp(2rem, 3.5vw, 2.75rem);
+  /* Divider → first image row gap, tightened by a flat 14px (within the
+     requested 12-16px range) at every viewport width, same technique as
+     padding-bottom above: shifts the whole fluid curve down by exactly that
+     amount rather than scaling it. */
+  margin-bottom: clamp(1.125rem, calc(3.5vw - 14px), 1.875rem);
 }

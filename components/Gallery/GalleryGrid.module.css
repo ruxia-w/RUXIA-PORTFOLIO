@@ -5,11 +5,17 @@
 .rows {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  /* Matches GALLERY_PAGE_GAP in GalleryGrid.tsx exactly — that value is also
+     what's fed into computeJustifiedRows, so the assumed and rendered gap
+     must stay identical or rows stop summing to exactly 100% width. */
+  gap: 6px;
 }
 
 .row {
   display: flex;
   flex-wrap: nowrap;
-  gap: 8px;
+  /* Matches GALLERY_PAGE_GAP in GalleryGrid.tsx exactly — that value is also
+     what's fed into computeJustifiedRows, so the assumed and rendered gap
+     must stay identical or rows stop summing to exactly 100% width. */
+  gap: 6px;
 }
