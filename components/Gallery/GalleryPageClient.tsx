@@ -64,7 +64,7 @@ export function GalleryPageClient({ items }: GalleryPageClientProps) {
         <GalleryFilters value={filter} onChange={handleFilterChange} availableCategories={availableCategories} />
       </div>
 
-      <GalleryGrid items={visibleItems} onOpen={setActiveIndex} />
+      <GalleryGrid items={visibleItems} onOpen={setActiveIndex} isDiscover={filter === "discover"} />
 
       <GalleryViewer item={activeItem} onClose={() => setActiveIndex(null)} />
 

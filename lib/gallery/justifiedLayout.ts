@@ -1,12 +1,6 @@
 /** Single source of truth for gap and target row heights, shared by layout math and CSS. */
 export const GALLERY_GAP = 8;
 export const GALLERY_TARGET_HEIGHT_DESKTOP = 340;
-export const GALLERY_TARGET_HEIGHT_TABLET = 260;
-export const GALLERY_TARGET_HEIGHT_MOBILE = 170;
-/** Below this measured container width, fall back to a simple natural-width,
- * same-height, uncropped flex-wrap instead of the justified algorithm. */
-export const GALLERY_MOBILE_MAX_CONTAINER_WIDTH = 560;
-export const GALLERY_TABLET_MAX_CONTAINER_WIDTH = 820;
 
 export type JustifiedRow<T> = {
   height: number;

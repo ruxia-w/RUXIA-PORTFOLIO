@@ -1,26 +1,26 @@
 "use client";
 
-import Image from "next/image";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { GalleryItem } from "@/lib/gallery/types";
 import { GalleryTile } from "./GalleryTile";
-import {
-  computeJustifiedRows,
-  GALLERY_GAP,
-  GALLERY_MOBILE_MAX_CONTAINER_WIDTH,
-  GALLERY_TABLET_MAX_CONTAINER_WIDTH,
-  GALLERY_TARGET_HEIGHT_DESKTOP,
-  GALLERY_TARGET_HEIGHT_MOBILE,
-  GALLERY_TARGET_HEIGHT_TABLET,
-} from "@/lib/gallery/justifiedLayout";
+import { computeJustifiedRows, GALLERY_GAP, GALLERY_TARGET_HEIGHT_DESKTOP } from "@/lib/gallery/justifiedLayout";
 import styles from "./GalleryGrid.module.css";
 
 type GalleryGridProps = {
   items: GalleryItem[];
   onOpen: (index: number) => void;
+  /** True while the Discover filter is active — Motion items autoplay in place instead of requiring hover. */
+  isDiscover?: boolean;
 };
 
-export function GalleryGrid({ items, onOpen }: GalleryGridProps) {
+// Only used until the real container width is measured (or on the server,
+// where there's no viewport to measure at all) — an arbitrary desktop-sized
+// stand-in so computeJustifiedRows always has a positive width to work with
+// and every item is always present in the DOM, at every viewport, from the
+// very first render.
+const FALLBACK_CONTAINER_WIDTH = 1440;
+
+export function GalleryGrid({ items, onOpen, isDiscover }: GalleryGridProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
 
@@ -38,42 +38,16 @@ export function GalleryGrid({ items, onOpen }: GalleryGridProps) {
     return () => observer.disconnect();
   }, []);
 
-  const isMobile = containerWidth > 0 && containerWidth < GALLERY_MOBILE_MAX_CONTAINER_WIDTH;
-  const targetHeight =
-    containerWidth < GALLERY_TABLET_MAX_CONTAINER_WIDTH ? GALLERY_TARGET_HEIGHT_TABLET : GALLERY_TARGET_HEIGHT_DESKTOP;
-
+  // Always the same rows/tiles structure, at every viewport width — no JS
+  // branching between different DOM trees, so items are never dropped. Each
+  // row's tiles are sized by computeJustifiedRows to sum to exactly `width`,
+  // so the composition (mixed tile widths, row grouping, image order) simply
+  // scales down together as the window narrows rather than reflowing into a
+  // different column layout.
   const rows = useMemo(() => {
-    if (isMobile || containerWidth === 0) return [];
-    return computeJustifiedRows(items, containerWidth, targetHeight, GALLERY_GAP);
-  }, [items, containerWidth, targetHeight, isMobile]);
-
-  if (containerWidth === 0) {
-    return <div ref={containerRef} className={styles.wrap} />;
-  }
-
-  if (isMobile) {
-    return (
-      <div ref={containerRef} className={styles.wrap}>
-        <ul className={styles.mobileGrid}>
-          {items.map((item, index) => (
-            <li key={item.id} className={styles.mobileItem}>
-              <button type="button" className={styles.mobileTile} onClick={() => onOpen(index)} aria-label={`Open ${item.title}`}>
-                <Image
-                  src={item.thumbnail}
-                  alt=""
-                  width={item.thumbnailWidth}
-                  height={item.thumbnailHeight}
-                  sizes="90vw"
-                  className={styles.mobileImage}
-                  style={{ height: GALLERY_TARGET_HEIGHT_MOBILE }}
-                />
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
+    const width = containerWidth > 0 ? containerWidth : FALLBACK_CONTAINER_WIDTH;
+    return computeJustifiedRows(items, width, GALLERY_TARGET_HEIGHT_DESKTOP, GALLERY_GAP);
+  }, [items, containerWidth]);
 
   return (
     <div ref={containerRef} className={styles.wrap}>
@@ -82,7 +56,16 @@ export function GalleryGrid({ items, onOpen }: GalleryGridProps) {
           <div key={rowIndex} className={styles.row} style={{ height: row.height }}>
             {row.items.map(({ item, width }) => {
               const index = items.indexOf(item);
-              return <GalleryTile key={item.id} item={item} width={width} height={row.height} onOpen={() => onOpen(index)} />;
+              return (
+                <GalleryTile
+                  key={item.id}
+                  item={item}
+                  width={width}
+                  height={row.height}
+                  onOpen={() => onOpen(index)}
+                  autoplayInView={isDiscover}
+                />
+              );
             })}
           </div>
         ))}

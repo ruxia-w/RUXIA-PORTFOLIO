@@ -659,6 +659,133 @@
   line-height: 1.5;
 }
 
+/* Hover micro-interactions — cards are informational, not links, so this is
+   :hover-only (no focus state to add) and scoped entirely to devices with a
+   real hover+fine pointer, so touch devices render exactly the rules above
+   with zero difference (no sticky hover, no resting-state change either). */
+@media (hover: hover) and (pointer: fine) {
+  .capabilityCard {
+    transition:
+      transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .capabilityCard:hover {
+    transform: translateY(-5px);
+    border-color: color-mix(in srgb, var(--color-fg) 32%, var(--color-border));
+    box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--color-fg) 22%, transparent);
+  }
+
+  .capabilityCardHead {
+    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .capabilityCard:hover .capabilityCardHead {
+    transform: translateY(-2px);
+  }
+
+  .capabilitySkills {
+    opacity: 0.85;
+    transition: opacity 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .capabilityCard:hover .capabilitySkills {
+    opacity: 1;
+  }
+
+  /* 01 Product & UX — the panel's internal divider line eases sideways. */
+  .iconLayoutDivider {
+    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .capabilityCard:hover .iconLayoutDivider {
+    transform: translateX(1.5px);
+  }
+
+  /* 02 Systems & Experience — nodes ease outward with a slight stagger
+     between them, reading as a restrained sequential pulse. */
+  .iconNetworkNodeA,
+  .iconNetworkNodeB,
+  .iconNetworkNodeC {
+    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .capabilityCard:hover .iconNetworkNodeA {
+    transform: translate(-1.5px, -1.5px);
+  }
+
+  .capabilityCard:hover .iconNetworkNodeB {
+    transition-delay: 40ms;
+    transform: translate(1.5px, -1.5px);
+  }
+
+  .capabilityCard:hover .iconNetworkNodeC {
+    transition-delay: 80ms;
+    transform: translateY(2px);
+  }
+
+  /* 03 Leadership & Delivery — the two figures ease slightly toward each
+     other/the icon's center, reading as alignment. */
+  .iconUsersLeft,
+  .iconUsersRight {
+    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .capabilityCard:hover .iconUsersLeft {
+    transform: translateX(0.75px);
+  }
+
+  .capabilityCard:hover .iconUsersRight {
+    transform: translateX(-1.25px);
+  }
+
+  /* 04 Prototyping & Build — the < > brackets ease slightly outward. */
+  .iconCodeLeft,
+  .iconCodeRight {
+    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .capabilityCard:hover .iconCodeLeft {
+    transform: translateX(-1.5px);
+  }
+
+  .capabilityCard:hover .iconCodeRight {
+    transform: translateX(1.5px);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
+  /* Border/shadow/opacity stay (not motion) — only the transform-based
+     movement (card lift, icon-group lift, per-icon micro-animation) is
+     stripped out. */
+  .capabilityCard,
+  .capabilityCardHead,
+  .iconLayoutDivider,
+  .iconNetworkNodeA,
+  .iconNetworkNodeB,
+  .iconNetworkNodeC,
+  .iconUsersLeft,
+  .iconUsersRight,
+  .iconCodeLeft,
+  .iconCodeRight {
+    transition: none;
+  }
+
+  .capabilityCard:hover,
+  .capabilityCard:hover .capabilityCardHead,
+  .capabilityCard:hover .iconLayoutDivider,
+  .capabilityCard:hover .iconNetworkNodeA,
+  .capabilityCard:hover .iconNetworkNodeB,
+  .capabilityCard:hover .iconNetworkNodeC,
+  .capabilityCard:hover .iconUsersLeft,
+  .capabilityCard:hover .iconUsersRight,
+  .capabilityCard:hover .iconCodeLeft,
+  .capabilityCard:hover .iconCodeRight {
+    transform: none;
+  }
+}
+
 /* Compact horizontal editorial footer/contact block — statement, links, and
    the open-to-opportunities note read as one row instead of a second
    homepage hero. No "Contact" eyebrow label: the h2 alone (restyled to the

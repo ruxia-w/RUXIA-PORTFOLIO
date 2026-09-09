@@ -88,17 +88,16 @@ export default function AboutPage() {
           </p>
           <p className={styles.heroBody}>
             I&apos;m a Product and Experience Designer based in New York, working
-            across digital products, connected experiences, and emerging
-            technologies.
+            across digital products, AI-assisted systems, and connected
+            experiences.
           </p>
           <p className={styles.heroBody}>
             My background in industrial design shapes how I approach product
             problems — with an understanding of systems, physical interaction,
-            real-world constraints, and how ideas move from concept toward
-            implementation. Today, I bring that perspective into digital
-            product design, combining product thinking, interaction design,
-            visual craft, and prototyping to make complex experiences feel
-            clear and considered.
+            real-world constraints, and how ideas move from concept to
+            implementation. I bring that perspective into digital product
+            design through product thinking, interaction design, visual
+            craft, and prototyping.
           </p>
           <div className={styles.heroContactLinks}>
             <a href="mailto:ruxiadesign@gmail.com" className={styles.heroLink}>
@@ -119,32 +118,31 @@ export default function AboutPage() {
       <section className={styles.background} aria-labelledby="background-title">
         <p className={styles.sectionIndex}>01 / Background</p>
         <div className={styles.backgroundIntro}>
-          <h2 id="background-title" className={styles.syncedHeading}>Professional background.</h2>
+          <h2 id="background-title" className={styles.syncedHeading}>Professional Background</h2>
           <div>
             <div className={styles.backgroundText}>
               <div>
                 <p>
-                  Before expanding my practice into digital product and
-                  experience design, I built a strong foundation in commercial
-                  product development, working across the full process from
-                  early concepts and prototyping through implementation and
-                  production.
+                  My professional foundation is in commercial product
+                  development, working across the full process from early
+                  concepts and prototyping through refinement, implementation,
+                  and production.
                 </p>
                 <p>
-                  Over the past five years, I&apos;ve also taken on increasing
-                  design leadership — guiding design work, supporting teams
-                  through critique and iteration, and collaborating across
-                  product, engineering, marketing, production, and other
-                  disciplines. These experiences taught me to balance user
-                  needs, business goals, technical feasibility, and execution
-                  while building alignment around design decisions.
+                  Over the past five years, I&apos;ve collaborated across
+                  product, engineering, marketing, and manufacturing while
+                  taking on increasing design leadership responsibilities —
+                  guiding design direction, reviewing work, supporting
+                  designers, and helping teams maintain consistency and
+                  quality across projects.
                 </p>
               </div>
               <p>
-                Today, I bring that perspective into digital product and
-                experience design — combining systems thinking, cross-functional
-                collaboration, and hands-on craft to move complex ideas toward
-                clear, viable experiences.
+                That experience continues to shape how I work as a product
+                designer today. I bring a systems-oriented mindset, strong
+                visual craft, an understanding of implementation constraints,
+                and a practical approach to collaboration — turning complex
+                problems into clear, thoughtful, and viable experiences.
               </p>
             </div>
           </div>

@@ -20,8 +20,8 @@ const projects = [
   {
     number: "01",
     title: "AURIC SIGNAL",
-    tagline: "AI Portfolio Intelligence",
-    disciplines: "Product Strategy · UX/UI · AI Experience",
+    tagline: "AI-Assisted Investment Decision Support",
+    disciplines: "Product Design · UX/UI · Prototyping",
     projectType: "Independent Project · 2026",
     href: "/work/auric-signal",
     image: auricSignalProject.hero!.src,
@@ -34,8 +34,8 @@ const projects = [
   {
     number: "02",
     title: "SOURCEFOLD",
-    tagline: "AI-Assisted Global Content Operations",
-    disciplines: "Enterprise UX · AI Workflows · Systems Design",
+    tagline: "AI-Assisted Content Operations Platform",
+    disciplines: "Enterprise UX · Workflow Systems · AI",
     projectType: "Independent Project · 2026",
     href: "/work/sourcefold",
     image: sourcefoldProject.hero!.src,
@@ -48,8 +48,8 @@ const projects = [
   {
     number: "03",
     title: "TRACE",
-    tagline: "Visible Permission System",
-    disciplines: "Experience Design · Systems Thinking · Physical–Digital",
+    tagline: "Connected Access & Identity Experience",
+    disciplines: "Service Design · UX/UI · Connected Systems",
     projectType: "Independent Project · 2026",
     href: "/work/trace",
     image: traceProject.hero!.src,
@@ -62,8 +62,8 @@ const projects = [
   {
     number: "04",
     title: "SMART PUPPY",
-    tagline: "Award-Winning Robotic Companion",
-    disciplines: "Industrial Design · UX/UI · Connected Experience",
+    tagline: "Connected Robotic Companion Experience",
+    disciplines: "Connected Experience · UX/UI · Industrial Design",
     projectType: "Award-Winning Independent Project · 2021",
     awards: "IDA Silver · EPDA Honorable Mention · Rookie Awards Highly Commended",
     href: "/work/smart-puppy",
@@ -77,8 +77,8 @@ const projects = [
   {
     number: "05",
     title: "PROFESSIONAL EXPERIENCE",
-    tagline: "Commercial Product Development",
-    disciplines: "Product Design · Engineering Collaboration · Shipped Products",
+    tagline: "Commercial Product Development & Design Leadership",
+    disciplines: "Design Leadership · Engineering Collaboration · Shipped Products",
     projectType: "Professional Work · 2021–2026",
     ctaLabel: "View work",
     href: "/work/professional-experience",
@@ -97,7 +97,7 @@ function IconLayout({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <rect x="3" y="3" width="18" height="18" rx="2" />
-      <line x1="9" y1="3" x2="9" y2="21" />
+      <line className={styles.iconLayoutDivider} x1="9" y1="3" x2="9" y2="21" />
     </svg>
   );
 }
@@ -105,9 +105,9 @@ function IconLayout({ className }: { className?: string }) {
 function IconNetwork({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="6" cy="6" r="2.4" />
-      <circle cx="18" cy="6" r="2.4" />
-      <circle cx="12" cy="18" r="2.4" />
+      <circle className={styles.iconNetworkNodeA} cx="6" cy="6" r="2.4" />
+      <circle className={styles.iconNetworkNodeB} cx="18" cy="6" r="2.4" />
+      <circle className={styles.iconNetworkNodeC} cx="12" cy="18" r="2.4" />
       <line x1="8.1" y1="7.3" x2="10.3" y2="16" />
       <line x1="15.9" y1="7.3" x2="13.7" y2="16" />
       <line x1="8.4" y1="6" x2="15.6" y2="6" />
@@ -118,10 +118,14 @@ function IconNetwork({ className }: { className?: string }) {
 function IconUsers({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="9" cy="8" r="3" />
-      <path d="M3.5 19c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5" />
-      <circle cx="17.5" cy="7.5" r="2.3" />
-      <path d="M14.9 13.3c2.7.3 4.6 2.3 4.6 5.2" />
+      <g className={styles.iconUsersLeft}>
+        <circle cx="9" cy="8" r="3" />
+        <path d="M3.5 19c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5" />
+      </g>
+      <g className={styles.iconUsersRight}>
+        <circle cx="17.5" cy="7.5" r="2.3" />
+        <path d="M14.9 13.3c2.7.3 4.6 2.3 4.6 5.2" />
+      </g>
     </svg>
   );
 }
@@ -129,8 +133,8 @@ function IconUsers({ className }: { className?: string }) {
 function IconCode({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <polyline points="8 6 3 12 8 18" />
-      <polyline points="16 6 21 12 16 18" />
+      <polyline className={styles.iconCodeLeft} points="8 6 3 12 8 18" />
+      <polyline className={styles.iconCodeRight} points="16 6 21 12 16 18" />
     </svg>
   );
 }
@@ -206,24 +210,24 @@ const explorationRows: HomeGalleryImage[][] = [
       height: 1200,
     },
     {
-      src: "/gallery/Bike.png",
-      alt: "Runway road bike frame and seatpost detail showing an integrated LED taillight.",
-      width: 1086,
-      height: 1448,
+      src: "/gallery/airport-operations-dashboard.png",
+      alt: "Airport terminal operations dashboard with real-time gate, flight, passenger flow, and ground service monitoring",
+      width: 5670,
+      height: 4267,
     },
-    {
-      src: "/gallery/fitness dashboard.png",
-      alt: "MotionPulse dashboard showing muscle load, performance readiness, and recovery balance on a tablet.",
-      width: 3312,
-      height: 2480,
-    },
-  ],
-  [
     {
       src: "/gallery/headphone.png",
       alt: "Over-ear headphones with a brushed metal headband and contrasting cushion lining.",
       width: 1122,
       height: 1402,
+    },
+  ],
+  [
+    {
+      src: "/gallery/Bike.png",
+      alt: "Runway road bike frame and seatpost detail showing an integrated LED taillight.",
+      width: 1086,
+      height: 1448,
     },
     {
       src: "/gallery/ChatGPT Image Aug 22 2026 at 10_30_07 PM (3).png",
@@ -241,10 +245,10 @@ const explorationRows: HomeGalleryImage[][] = [
   ],
   [
     {
-      src: "/gallery/ChatGPT Image Aug 22 2026 at 10_30_06 PM (2).png",
-      alt: "LeaseFlow composition with an oversized wordmark behind the search, overview, and listing screens.",
-      width: 1448,
-      height: 1086,
+      src: "/gallery/fitness dashboard.png",
+      alt: "MotionPulse dashboard showing muscle load, performance readiness, and recovery balance on a tablet.",
+      width: 3312,
+      height: 2480,
       widthGroup: "row3-left",
       matchGroupWidthTo: ["/gallery/headphone.png", "/gallery/ChatGPT Image Aug 22 2026 at 10_30_07 PM (3).png"],
     },
@@ -278,14 +282,14 @@ export default function HomePage() {
           </a>
           <div className={styles.heroBottomContent}>
             <p className={styles.heroIntro}>
-              New York–based product and experience designer bringing 5+ years
-              of commercial product development experience to digital products,
-              AI-assisted experiences, and connected physical–digital systems.
+              New York–based product designer bringing 5+ years of commercial
+              design experience to digital products, AI-assisted systems, and
+              connected physical–digital experiences.
             </p>
             <div className={styles.heroCapabilities}>
+              <p className={styles.heroCapability}>Product Design</p>
+              <p className={styles.heroCapability}>AI & Systems</p>
               <p className={styles.heroCapability}>Connected Experiences</p>
-              <p className={styles.heroCapability}>Physical Product Design</p>
-              <p className={styles.heroCapability}>Design Leadership</p>
             </div>
           </div>
         </div>

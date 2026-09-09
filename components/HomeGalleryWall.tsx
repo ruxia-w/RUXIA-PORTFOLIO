@@ -3,16 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import {
-  computeFixedRow,
-  computeRowAtHeight,
-  GALLERY_GAP,
-  GALLERY_MOBILE_MAX_CONTAINER_WIDTH,
-  GALLERY_TABLET_MAX_CONTAINER_WIDTH,
-  GALLERY_TARGET_HEIGHT_DESKTOP,
-  GALLERY_TARGET_HEIGHT_MOBILE,
-  GALLERY_TARGET_HEIGHT_TABLET,
-} from "@/lib/gallery/justifiedLayout";
+import { computeFixedRow, computeRowAtHeight, GALLERY_TARGET_HEIGHT_DESKTOP } from "@/lib/gallery/justifiedLayout";
 import styles from "./HomeGalleryWall.module.css";
 
 export type HomeGalleryImage = {
@@ -63,11 +54,25 @@ function toEntry(item: HomeGalleryImage): Entry {
 // homepage usage, not the full Gallery page (which has its own layout code).
 const MIN_CTA_WIDTH = 220;
 
-function lastRowHeight(entries: Entry[], containerWidth: number, targetHeight: number): number {
+function lastRowHeight(entries: Entry[], containerWidth: number, targetHeight: number, gap: number): number {
   const sumRatios = entries.reduce((sum, e) => sum + e.thumbnailWidth / e.thumbnailHeight, 0);
-  const gapTotal = GALLERY_GAP * entries.length; // gaps between real images + one gap before the CTA
+  const gapTotal = gap * entries.length; // gaps between real images + one gap before the CTA
   const maxHeightForCta = (containerWidth - gapTotal - MIN_CTA_WIDTH) / sumRatios;
   return Math.round(Math.min(targetHeight, Math.max(maxHeightForCta, 1)));
+}
+
+// Same row composition (3 / 3 / 4-with-CTA) at every width — the gap just
+// scales down smoothly as the row narrows, matching the same
+// clamp(4px, 0.8vw, 12px) intent as the CSS everywhere else, computed here
+// (from the same width fed into the row math below) so the value used to lay
+// out each row's pixel widths is always exactly the gap actually rendered —
+// otherwise a mismatch between the two would stop rows from filling 100%.
+const GAP_MIN = 4;
+const GAP_MAX = 12;
+const GAP_VW_FACTOR = 0.008; // 0.8vw
+
+function computeGap(width: number): number {
+  return Math.round(Math.min(GAP_MAX, Math.max(GAP_MIN, width * GAP_VW_FACTOR)));
 }
 
 /**
@@ -127,7 +132,11 @@ function HomeGalleryTile({ image, width, height }: { image: HomeGalleryImage; wi
 
   return (
     <div ref={tileRef} className={styles.tile} style={{ width, height }} data-playing={playing || undefined}>
-      <Image src={image.src} alt={image.alt} fill sizes={`${width}px`} className={styles.image} />
+      {/* Not `fill`: .image is normal-flow (width: 100%, height: auto) so it
+          scales with the tile's own computed width at every viewport without
+          ever cropping — `fill` requires absolute positioning, which this
+          layout intentionally doesn't use for the image itself. */}
+      <Image src={image.src} alt={image.alt} width={width} height={height} sizes={`${width}px`} className={styles.image} />
       {image.video ? (
         <>
           <video
@@ -181,14 +190,22 @@ export function HomeGalleryWall({ rows: rowGroups, cta }: { rows: HomeGalleryIma
     return () => observer.disconnect();
   }, []);
 
-  const isMobile = containerWidth > 0 && containerWidth < GALLERY_MOBILE_MAX_CONTAINER_WIDTH;
-  const targetHeight =
-    containerWidth < GALLERY_TABLET_MAX_CONTAINER_WIDTH ? GALLERY_TARGET_HEIGHT_TABLET : GALLERY_TARGET_HEIGHT_DESKTOP;
+  // Only used until the real container width is measured (or on the server,
+  // where there's no viewport to measure at all) — an arbitrary desktop-sized
+  // stand-in so every row/tile computation below always has a positive width
+  // to work with, and every image is always present in the DOM at every
+  // viewport from the very first render.
+  const FALLBACK_CONTAINER_WIDTH = 1440;
+  const width = containerWidth > 0 ? containerWidth : FALLBACK_CONTAINER_WIDTH;
+  const gap = computeGap(width);
 
-  const flatItems = useMemo(() => rowGroups.flat(), [rowGroups]);
-
-  const desktopRows = useMemo(() => {
-    if (isMobile || containerWidth === 0) return [];
+  // Always the same 3/3/4(+CTA) row structure, at every viewport width — no
+  // column count ever changes, nothing wraps into a different row, and no
+  // items are added, removed, or reordered. Each row's tiles are sized (via
+  // computeFixedRow / computeRowAtHeight below) to sum to exactly `width`, so
+  // the composition simply scales down together as the window narrows,
+  // preserving every tile's proportion relative to its row.
+  const rows = useMemo(() => {
     const rows: {
       height: number; // single shared height for every tile in the row, including the CTA
       items: Array<{ item: Entry; width: number; height: number }>;
@@ -204,13 +221,13 @@ export function HomeGalleryWall({ rows: rowGroups, cta }: { rows: HomeGalleryIma
         // shared target height only if this is the sole row. maxHeightForCta
         // (inside lastRowHeight) still applies on top, so the CTA's minimum
         // width is never sacrificed to match a very tall previous row.
-        const matchHeight = rows.length > 0 ? rows[rows.length - 1].height : targetHeight;
-        const height = lastRowHeight(entries, containerWidth, matchHeight);
+        const matchHeight = rows.length > 0 ? rows[rows.length - 1].height : GALLERY_TARGET_HEIGHT_DESKTOP;
+        const height = lastRowHeight(entries, width, matchHeight, gap);
         const items = computeRowAtHeight(entries, height).map((entryItem) => ({ ...entryItem, height }));
         rows.push({ height, items, hasCta: true });
         return;
       }
-      const row = computeFixedRow(entries, containerWidth, GALLERY_GAP);
+      const row = computeFixedRow(entries, width, gap);
       const items = row.items.map((entryItem) => ({ ...entryItem, height: row.height }));
       rows.push({ height: row.height, items, hasCta: false });
     });
@@ -265,52 +282,13 @@ export function HomeGalleryWall({ rows: rowGroups, cta }: { rows: HomeGalleryIma
     });
 
     return rows;
-  }, [rowGroups, containerWidth, targetHeight, isMobile]);
-
-  if (containerWidth === 0) {
-    return <div ref={containerRef} className={styles.wrap} />;
-  }
-
-  if (isMobile) {
-    const mobileCtaHeight = GALLERY_TARGET_HEIGHT_MOBILE;
-    return (
-      <div ref={containerRef} className={styles.wrap}>
-        <ul className={styles.mobileGrid}>
-          {flatItems.map((item) => (
-            <li key={item.src} className={styles.mobileItem}>
-              <Image
-                src={item.src}
-                alt={item.alt}
-                width={item.width}
-                height={item.height}
-                sizes="90vw"
-                className={styles.mobileImage}
-                style={{ height: mobileCtaHeight }}
-              />
-            </li>
-          ))}
-          <li className={styles.mobileItem}>
-            <Link
-              href={cta.href}
-              className={styles.ctaTile}
-              style={{ width: mobileCtaHeight, height: mobileCtaHeight, flex: "0 0 auto" }}
-            >
-              <span>{cta.label}</span>
-              <span aria-hidden="true" className={cta.arrowClassName}>
-                ↗
-              </span>
-            </Link>
-          </li>
-        </ul>
-      </div>
-    );
-  }
+  }, [rowGroups, width, gap]);
 
   return (
     <div ref={containerRef} className={styles.wrap}>
-      <div className={styles.rows}>
-        {desktopRows.map((row, rowIndex) => (
-          <div key={rowIndex} className={styles.row} style={{ height: row.height }}>
+      <div className={styles.rows} style={{ gap }}>
+        {rows.map((row, rowIndex) => (
+          <div key={rowIndex} className={styles.row} style={{ height: row.height, gap }}>
             {row.items.map(({ item, width, height }) => (
               <HomeGalleryTile key={item.key} image={item.image} width={width} height={height} />
             ))}
@@ -321,9 +299,11 @@ export function HomeGalleryWall({ rows: rowGroups, cta }: { rows: HomeGalleryIma
                 style={{ flex: "1 1 0%", height: row.height }}
                 aria-label="View full gallery"
               >
-                <span>{cta.label}</span>
-                <span aria-hidden="true" className={cta.arrowClassName}>
-                  ↗
+                <span className={styles.ctaLabel}>
+                  <span>{cta.label}</span>
+                  <span aria-hidden="true" className={cta.arrowClassName}>
+                    ↗
+                  </span>
                 </span>
               </Link>
             ) : null}

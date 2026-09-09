@@ -1,6 +1,7 @@
 .tile {
   position: relative;
   display: block;
+  min-width: 0;
   padding: 0;
   background: transparent;
   border: 0;

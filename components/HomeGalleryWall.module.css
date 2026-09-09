@@ -10,23 +10,39 @@
 
 .row {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 8px;
   /* align-items defaults to stretch, which has no visible effect here since
      every tile already renders at an explicit height — center only matters
      for a row containing a matchWidthTo tile whose own height differs from
      its siblings', so it sits centered against them rather than clipped or
-     top-aligned. No-op for every other row, where all tile heights match. */
+     top-aligned. No-op for every other row, where all tile heights match.
+     flex-wrap: nowrap (the default, stated explicitly) plus min-width: 0 on
+     .tile below are what keep this row at exactly 3 (or 4, with the CTA)
+     items side by side at every width — every tile's width is precomputed
+     in HomeGalleryWall.tsx to sum to exactly 100% of the row, scaling down
+     together rather than reflowing into columns. */
 }
 
 .tile {
   position: relative;
+  min-width: 0;
   overflow: hidden;
   background: var(--color-surface-soft);
 }
 
 .image {
-  object-fit: cover;
+  /* Normal flow, not next/image's `fill` — width is the tile's own real
+     computed width (set inline in HomeGalleryWall.tsx, scaling proportionally
+     at every viewport), height: auto lets the image's own aspect ratio (which
+     that computed width already preserves) determine the rendered height, so
+     nothing is ever cropped or stretched at any width. */
+  width: 100%;
+  max-width: none;
+  height: auto;
+  display: block;
+  object-fit: contain;
   transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -61,11 +77,15 @@
 }
 
 .preview {
+  /* Stays absolutely positioned at every width — it overlays the image in
+     place on hover/autoplay, and .tile's height is always a definite inline
+     pixel value (from HomeGalleryWall.tsx's row math) for inset: 0 to anchor
+     against. object-fit: contain (not cover) so it's never cropped either. */
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   opacity: 0;
   pointer-events: none;
 }
@@ -78,39 +98,6 @@
   opacity: 0;
 }
 
-/* Mobile fallback: natural-width, same-height, uncropped flex-wrap — matches
-   the full Gallery page's own mobile behavior below GALLERY_MOBILE_MAX_CONTAINER_WIDTH. */
-.mobileGrid {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.mobileItem {
-  /* flex-shrink 1 (not 0) + min-width 0 (overriding the flex default
-     min-width:auto content floor): lets the wrap algorithm shrink a tile
-     whose natural width at the fixed target height would otherwise exceed
-     the viewport, instead of overflowing the page horizontally.
-     object-fit: contain on .mobileImage means a shrunk tile letterboxes
-     rather than cropping/stretching. Matches components/Gallery/
-     GalleryGrid.module.css's identical mobile grid pattern. */
-  flex: 0 1 auto;
-  min-width: 0;
-  max-width: 100%;
-  line-height: 0;
-}
-
-.mobileImage {
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  display: block;
-}
-
 /* Trailing CTA tile: same footprint as an image tile, but a themed link
    instead of a photo — reuses the site's existing surface/border/fg tokens
    so it flips correctly with light/dark mode, matching the restrained
@@ -118,6 +105,7 @@
 .ctaTile {
   display: flex;
   flex: 0 0 auto;
+  min-width: 0;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
@@ -136,13 +124,27 @@
   background: var(--color-surface);
 }
 
+/* Label + arrow wrapper: an underline matching the site's other case-study
+   links (app/page.module.css .textLink/.caseLink) — width: fit-content so
+   the line spans exactly the label + arrow, not the whole card, and these
+   three properties are copied verbatim from that shared rule rather than
+   imported across modules (which would also pull in that class's unrelated
+   positional margin/padding, tuned for its own different flex container). */
+.ctaLabel {
+  width: fit-content;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
 /* The arrow reuses the page's own .linkArrow class (passed in via
    cta.arrowClassName), which already supplies display: inline-block and its
    own transition — this rule only needs to set the hover-target transform,
    so the motion matches the other arrow links on the page exactly instead
-   of drifting to a local timing. */
-.ctaTile:hover span:last-child,
-.ctaTile:focus-visible span:last-child {
+   of drifting to a local timing. Targeted by [aria-hidden="true"] (unique to
+   the arrow here) rather than :last-child, since the label + arrow are now
+   both wrapped in .ctaLabel and :last-child would also match that wrapper. */
+.ctaTile:hover [aria-hidden="true"],
+.ctaTile:focus-visible [aria-hidden="true"] {
   transform: translate(2px, -2px);
 }
 

@@ -701,6 +701,70 @@ export const galleryItems: GalleryItem[] = [
     thumbnailHeight: 574,
     media: [{ src: asset("table.png"), alt: "A wooden side table with a ceramic vase and an open book resting on top." }],
   },
+  {
+    id: "airport-operations-dashboard",
+    title: "SKYWAY Airport Operations Dashboard",
+    category: "product-design",
+    description:
+      "A SKYWAY airport operations dashboard concept combining a live 3D terminal map, gate status, turnaround tracking, and passenger-flow monitoring.",
+    thumbnail: asset("airport-operations-dashboard.png"),
+    thumbnailWidth: 5670,
+    thumbnailHeight: 4267,
+    media: [
+      {
+        src: asset("airport-operations-dashboard.png"),
+        alt: "Airport terminal operations dashboard with real-time gate, flight, passenger flow, and ground service monitoring",
+      },
+    ],
+  },
+  {
+    id: "pulsecare-health-app",
+    title: "PulseCare Health App",
+    category: "product-design",
+    description:
+      "A PulseCare health insurance app concept covering plan coverage, a digital insurance card, claims, and everyday care management.",
+    thumbnail: asset("pulsecare-health-app.png"),
+    thumbnailWidth: 1448,
+    thumbnailHeight: 1086,
+    media: [
+      {
+        src: asset("pulsecare-health-app.png"),
+        alt: "PulseCare health insurance mobile app showing plan coverage, claims, benefits, and care management",
+      },
+    ],
+  },
+  {
+    id: "gateflow-airport-navigation",
+    title: "GateFlow Airport Navigation",
+    category: "product-design",
+    description:
+      "A GateFlow airport wayfinding concept combining an interactive terminal map, real-time gate directions, and terminal occupancy insight.",
+    thumbnail: asset("gateflow-airport-navigation.png"),
+    thumbnailWidth: 1448,
+    thumbnailHeight: 1086,
+    media: [
+      {
+        src: asset("gateflow-airport-navigation.png"),
+        alt: "GateFlow airport navigation app with interactive terminal map, gate directions, and passenger wayfinding",
+      },
+    ],
+  },
+  {
+    id: "skyway-airport-navigation",
+    title: "SKYWAY Airport Navigation",
+    category: "product-design",
+    description:
+      "A SKYWAY passenger companion concept pairing live flight status with turn-by-turn indoor terminal navigation to the gate.",
+    thumbnail: asset("skyway-airport-navigation.png"),
+    thumbnailWidth: 1365,
+    thumbnailHeight: 1024,
+    media: [
+      {
+        src: asset("skyway-airport-navigation.png"),
+        alt: "Airport passenger navigation app showing upcoming flight information and indoor terminal wayfinding",
+      },
+    ],
+  },
 ];
 
 export const galleryCategoryLabels: Record<"discover" | GalleryItem["category"], string> = {
