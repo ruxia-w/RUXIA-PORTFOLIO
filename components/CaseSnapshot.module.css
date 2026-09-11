@@ -18,10 +18,16 @@
    slightly tighter top padding so the single divider -> heading transition
    feels intentional rather than accidentally roomy. */
 .wrapNoTopDivider {
-  /* ~38% less than the default --space-4 (1rem) — the divider above should
-     read as connected to this section, not separated by a large empty
-     zone. */
-  padding-top: 0.625rem;
+  /* ProjectHeader's own header padding-bottom (clamp(2.25rem, 3.5vw, 3.25rem),
+     ~36-52px) already provides the space between the metadata divider and
+     this section — that shared value isn't ours to touch here, so this is
+     left at 0 rather than adding more on top of it, landing the combined
+     divider -> "CASE SNAPSHOT" gap at roughly the intended ~48px instead of
+     stacking an extra, disconnected-feeling gap on top. */
+  padding-top: 0;
+  /* Summary content -> bottom divider: matches the ~48px target below,
+     instead of the base .wrap's smaller --space-6 (24px). */
+  padding-bottom: 3rem;
   border-top: none;
 }
 
@@ -41,7 +47,11 @@
    (h2's 1.75rem+/650). Also a smaller margin-bottom, tightening the gap
    before the first row for a more compact, connected feel. */
 .wrapNoTopDivider .eyebrow {
-  margin-bottom: 0.875rem;
+  /* CASE SNAPSHOT -> summary content: the requested ~24px (var(--space-6)),
+     up from the previous 0.875rem (14px) — the label now reads as a
+     distinct editorial label above the content rather than sitting tight
+     against it. */
+  margin-bottom: var(--space-6);
   font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.05em;

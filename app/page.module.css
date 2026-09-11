@@ -335,19 +335,6 @@
   border-bottom: 1px solid var(--color-border);
 }
 
-/* Wide desktop only: the base 0.29fr text column above is narrow enough
-   that "AURIC SIGNAL" and "SMART PUPPY" wrap to two lines even at full
-   viewport width. A modest, responsive increase to the title column's
-   share gives those titles enough room to stay on one line at wide
-   viewports, while medium desktop keeps the base ratio above (wrapping
-   there is expected/acceptable) and the image column keeps the vast
-   majority of the row. */
-@media (min-width: 1200px) {
-  .project {
-    grid-template-columns: minmax(16rem, 0.34fr) minmax(0, 1fr);
-  }
-}
-
 /* The last project's border-bottom would otherwise sit as a line inside the
    Selected Work -> Capabilities whitespace (see .work above) — removed here
    only, so project-to-project dividers above it are unaffected. */
@@ -396,15 +383,6 @@
   margin-bottom: clamp(2rem, 3.2vw, 3rem);
 }
 
-/* SOURCEFOLD card only — the subtitle -> metadata gap above reads roughly
-   32-48px at typical widths; tightened here to ~16-24px (a ~24-32px
-   reduction) so the subtitle and "INDEPENDENT PROJECT · 2026" feel like one
-   continuous information hierarchy instead of two separated groups. Every
-   other project card keeps the original clamp above. */
-.projectSourcefold .projectIdentity {
-  margin-bottom: clamp(1rem, 1.8vw, 1.5rem);
-}
-
 .project h3 {
   /* Project Name (AURIC SIGNAL, TRACE, SMART PUPPY, PROFESSIONAL EXPERIENCE
      — this one selector covers all four). font-size/line-height stay at
@@ -427,14 +405,6 @@
   font-weight: 650;
   line-height: 1;
   letter-spacing: -0.032em;
-}
-
-/* SOURCEFOLD card only — a subtle ~6% scale-down (within the requested
-   5-8% range) so the title reads slightly less dominant against the
-   project number and the image beside it. Every other project card keeps
-   the original scale above. */
-.projectSourcefold h3 {
-  font-size: clamp(1.55rem, 2.65vw, 2.65rem);
 }
 
 .projectTagline {
