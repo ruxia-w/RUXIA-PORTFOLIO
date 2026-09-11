@@ -19,7 +19,18 @@ export type MediaAsset = {
 export type MediaLayout = "narrow" | "medium" | "wide" | "full";
 
 export type ContentBlock =
-  | { type: "richText"; heading?: string; body: string }
+  | {
+      type: "richText";
+      heading?: string;
+      /** "quiet": renders the heading smaller and muted — Level 3 weight —
+       * for a subsection that's supporting/craft evidence rather than a
+       * product-thinking moment (e.g. a light/dark-mode comparison sitting
+       * right after a cross-device one, or a "what's next" subsection after
+       * the main outcome). Omit for the default h3 weight every other
+       * richText heading already uses. */
+      headingStyle?: "quiet";
+      body: string;
+    }
   | { type: "media"; media: MediaAsset; layout?: MediaLayout }
   | {
       type: "mediaGroup";
@@ -35,6 +46,25 @@ export type ContentBlock =
       variant?: "screens" | "screensFill" | "equalHeight";
     }
   | { type: "callout"; title: string; body: string }
+  | {
+      /** A single chapter-level product-thinking moment — an already-stated
+       * decision or principle promoted to large, editorial type so it reads
+       * while scanning rather than while reading closely. Not a marketing
+       * slogan: `eyebrow` names it precisely ("Design Decision — 01",
+       * "Design Principle"), `lines` are the statement itself (each array
+       * item is its own line break), and `supporting` is an optional plain
+       * paragraph underneath. Reuses the existing --font-display family and
+       * black/white/gray palette — no card, no background, no graphic. */
+      type: "editorialStatement";
+      eyebrow: string;
+      lines: string[];
+      supporting?: string;
+      /** "compact": a smaller type scale that reads as strong but does not
+       * compete with a Level 1 chapter heading — for statements that sit
+       * inside a dense narrative section rather than standing alone as the
+       * case's single core principle. Omit for the default (larger) scale. */
+      scale?: "compact";
+    }
   | {
       type: "comparison";
       /** "wideFirst" gives the first item more width (~60/40) for an asymmetric two-up, e.g. a closing statement beside a compact list. Omit for the default equal-width columns. */
@@ -337,6 +367,13 @@ export type CaseStudySection = {
   id: string;
   label: string;
   heading: string;
+  /** "secondary": renders the section's h2 at the same visual scale as a
+   * richText h3 (Level 2 "product-thinking" weight) instead of full chapter
+   * weight — for a section whose heading reads more like a stated principle
+   * than a story chapter (e.g. SOURCEFOLD's Strategy/System Architecture).
+   * Omit for the default, unchanged chapter-level weight every other
+   * section (and every other case study) already uses. */
+  headingEmphasis?: "secondary";
   intro?: string;
   blocks: ContentBlock[];
 };
@@ -371,6 +408,27 @@ export type CaseStudyProject = {
     label: string;
     details?: string[];
     aspectRatio?: string;
+  };
+  /** Optional "CASE SNAPSHOT" summary rendered between the hero/metadata
+   * header and the sidebar+article body. Deliberately kept outside
+   * `sections` so it never appears in the sidebar/scroll-spy nav — it's a
+   * scannable summary of the case, not a chapter of it. Each group's `body`
+   * is a single line; `supporting` is an optional second line (used for a
+   * "Key decision" group's short elaboration). */
+  caseSnapshot?: {
+    groups: Array<{ label: string; body: string; supporting?: string }>;
+    /** true: omit this block's own top divider — for a project whose
+     * ProjectHeader metadata row already ends in a border-bottom directly
+     * above it, where the default (both a top and bottom border) would
+     * otherwise render as two adjacent divider lines. Omit (false) to keep
+     * the default top+bottom border-block. */
+    hideTopDivider?: boolean;
+    /** "grid2x2": a fixed two-column, two-row editorial grid (generous
+     * column gap, moderate row gap, no dividers between items) instead of
+     * the default auto-fit row — for a project with exactly four groups
+     * where a single dense row reads as a data table rather than a case
+     * summary. Omit for the default layout. */
+    layout?: "grid2x2";
   };
   sections: CaseStudySection[];
 };

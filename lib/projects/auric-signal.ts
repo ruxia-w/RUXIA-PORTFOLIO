@@ -138,9 +138,10 @@ export const auricSignalSections: CaseStudySection[] = [
         ],
       },
       {
-        type: "callout",
-        title: "Human control",
-        body: "AURIC supports interpretation and exploration; the user retains control over the final decision.",
+        type: "editorialStatement",
+        eyebrow: "Design principle",
+        lines: ["EXPLAIN,", "DON'T PRESCRIBE."],
+        supporting: "AI can organize context, evidence, and possibilities. The final judgment stays with the user.",
       },
     ],
   },
@@ -441,6 +442,30 @@ export const auricSignalProject: CaseStudyProject = {
   status: "Independent concept project",
   breadcrumb: ["Work", "Product Design", "AURIC SIGNAL"],
   links: [{ label: "Explore the Interactive Prototype", url: PROTOTYPE, type: "prototype" }],
+  caseSnapshot: {
+    groups: [
+      {
+        label: "Problem",
+        body: "Investors can see portfolio changes without always knowing which changes deserve attention or why they matter.",
+      },
+      {
+        label: "Research",
+        body: "3 exploratory interviews",
+      },
+      {
+        label: "Core principle",
+        body: "Explain, don't prescribe.",
+      },
+      {
+        label: "Validation",
+        body: "3 moderated usability sessions",
+      },
+      {
+        label: "Key iteration",
+        body: "Moved evidence closer to AI explanations and reframed scenarios as estimates rather than predictions.",
+      },
+    ],
+  },
   // Same light/dark hero pair as the Home page's project card for this
   // project (see app/page.tsx's `projects` array, which now imports these
   // exact src/width/height values) — one shared asset definition instead of

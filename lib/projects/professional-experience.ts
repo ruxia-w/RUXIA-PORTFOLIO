@@ -40,6 +40,20 @@ export const professionalExperienceSections: CaseStudySection[] = [
         ],
       },
       {
+        type: "stateFlow",
+        ariaLabel: "Real-world execution: concept through retail",
+        steps: [
+          { title: "Concept", connectorAfter: "→" },
+          { title: "CAD / CMF", connectorAfter: "→" },
+          { title: "Engineering", connectorAfter: "→" },
+          { title: "DFM", connectorAfter: "→" },
+          { title: "Tooling", connectorAfter: "→" },
+          { title: "Sampling", connectorAfter: "→" },
+          { title: "Production", connectorAfter: "→" },
+          { title: "Retail" },
+        ],
+      },
+      {
         type: "mediaGroup",
         labels: ["FitRx Adjustable Dumbbells", "IonVac SmartClean", "SLF Foot Massager", "SLF Ionic Dry Brush"],
         media: [

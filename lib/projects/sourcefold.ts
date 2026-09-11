@@ -11,24 +11,13 @@ const sourcefoldScreen = (file: string, alt: string): MediaAsset => ({
 
 export const sourcefoldSections: CaseStudySection[] = [
   {
-    id: "overview",
-    label: "Overview",
-    heading: "A global content operations system for managing change across markets.",
-    blocks: [
-      {
-        type: "richText",
-        body: "SOURCEFOLD explores how global content teams can adapt, review, and publish one source across multiple markets without losing visibility into ownership, version history, or human decisions.\n\nThe concept focuses on the operational moments that become difficult at scale: when AI should pause for review, how local edits survive source updates, and how markets can move independently without fragmenting global oversight.",
-      },
-    ],
-  },
-  {
     id: "challenge",
     label: "Challenge",
     heading: "Global content gets complicated quickly.",
     blocks: [
       {
         type: "richText",
-        body: "A single campaign can become dozens of market-specific versions across languages, reviewers, accessibility requirements, channels, and publishing states.\n\nThe challenge is not simply generating localized content. It is maintaining control as that content changes across a distributed workflow.",
+        body: "Complexity appears when ownership, local edits, review requirements, and publishing states begin to diverge across markets.\n\nThe challenge is maintaining control as those differences move through a distributed workflow.",
       },
       {
         type: "cardSet",
@@ -78,6 +67,7 @@ export const sourcefoldSections: CaseStudySection[] = [
     id: "strategy",
     label: "Strategy",
     heading: "Manage exceptions, not every variation.",
+    headingEmphasis: "secondary",
     blocks: [
       {
         type: "richText",
@@ -116,6 +106,7 @@ export const sourcefoldSections: CaseStudySection[] = [
     id: "system-architecture",
     label: "System Architecture",
     heading: "A content model designed for change.",
+    headingEmphasis: "secondary",
     blocks: [
       {
         type: "richText",
@@ -169,23 +160,6 @@ export const sourcefoldSections: CaseStudySection[] = [
         ],
       },
 
-      // — Journey Strip — a fast, light overview of the end-to-end
-      // sequence before the detailed subsections below walk through each
-      // moment individually.
-      {
-        type: "stateFlow",
-        ariaLabel: "Orbit Launch end-to-end journey",
-        steps: [
-          { title: "Create", body: "Source campaign", connectorAfter: "→" },
-          { title: "Select Markets", body: "US · Japan · France · Brazil", connectorAfter: "→" },
-          { title: "Adapt", body: "AI-assisted variants", connectorAfter: "→" },
-          { title: "Review", body: "Human judgment", connectorAfter: "→" },
-          { title: "Resolve", body: "Source / version changes", connectorAfter: "→" },
-          { title: "Preview", body: "Market + device context", connectorAfter: "→" },
-          { title: "Publish", body: "Ready markets" },
-        ],
-      },
-
       // — Global Workspace —
       {
         type: "richText",
@@ -209,9 +183,10 @@ export const sourcefoldSections: CaseStudySection[] = [
         ),
       },
       {
-        type: "callout",
-        title: "Design decision",
-        body: "Normal states recede. Exceptions surface.",
+        type: "editorialStatement",
+        eyebrow: "Design decision — 01",
+        lines: ["Normal states recede.", "Exceptions surface."],
+        scale: "compact",
       },
 
       // — AI Review —
@@ -252,9 +227,10 @@ export const sourcefoldSections: CaseStudySection[] = [
         ],
       },
       {
-        type: "callout",
-        title: "Design decision",
-        body: "AI proposes. Humans decide. The system preserves the decision.",
+        type: "editorialStatement",
+        eyebrow: "Design decision — 02",
+        lines: ["AI proposes.", "Humans decide.", "The system preserves the decision."],
+        scale: "compact",
       },
 
       // — Source Change Impact —
@@ -306,9 +282,10 @@ export const sourcefoldSections: CaseStudySection[] = [
         body: "This approved local edit will not be overwritten automatically.",
       },
       {
-        type: "callout",
-        title: "Design decision",
-        body: "Affected does not automatically mean actionable.",
+        type: "editorialStatement",
+        eyebrow: "Design decision — 03",
+        lines: ["Affected does not automatically mean actionable."],
+        scale: "compact",
       },
 
       // — Version Resolution —
@@ -354,9 +331,11 @@ export const sourcefoldSections: CaseStudySection[] = [
         ],
       },
       {
-        type: "callout",
-        title: "Design decision",
-        body: "Local divergence can be intentional. The system should record it, not erase it.",
+        type: "editorialStatement",
+        eyebrow: "Design decision — 04",
+        lines: ["Local divergence can be intentional."],
+        supporting: "The system should record it, not erase it.",
+        scale: "compact",
       },
 
       // — Publishing Readiness —
@@ -387,7 +366,20 @@ export const sourcefoldSections: CaseStudySection[] = [
       {
         type: "richText",
         heading: "One system, different responsibilities.",
-        body: "SOURCEFOLD uses a shared content model, but the interface exposes different levels of complexity depending on the user's responsibility.\n\nA content manager needs global readiness and ownership.\n\nA market reviewer needs assigned decisions and supporting evidence.\n\nA program owner needs launch risk and unresolved dependencies.\n\nThe underlying system stays shared while each role sees only the information required to act.",
+        body: "SOURCEFOLD uses a shared content model, but the interface exposes different levels of complexity depending on the user's responsibility.",
+      },
+      {
+        type: "relationship",
+        ariaLabel: "SOURCEFOLD roles and their operational focus",
+        items: [
+          { eyebrow: "Content Manager", title: "Global readiness · ownership" },
+          { eyebrow: "Market Reviewer", title: "Assigned decisions · supporting evidence" },
+          { eyebrow: "Program Owner", title: "Launch risk · unresolved dependencies" },
+        ],
+      },
+      {
+        type: "richText",
+        body: "One shared model, different levels of operational detail.",
       },
       {
         type: "mediaGroup",
@@ -422,6 +414,7 @@ export const sourcefoldSections: CaseStudySection[] = [
       {
         type: "richText",
         heading: "One hierarchy, two visual environments.",
+        headingStyle: "quiet",
         body: "The interface adapts to light and dark environments while preserving the same hierarchy, operational states, and interaction patterns.",
       },
       {
@@ -455,9 +448,9 @@ export const sourcefoldSections: CaseStudySection[] = [
     ],
   },
   {
-    id: "testing",
-    label: "Testing",
-    heading: "Testing the system model, not visual preference.",
+    id: "evaluation",
+    label: "Evaluation",
+    heading: "Evaluating the system model, not visual preference.",
     blocks: [
       {
         type: "richText",
@@ -535,7 +528,7 @@ export const sourcefoldSections: CaseStudySection[] = [
       },
       {
         type: "callout",
-        title: "Testing status",
+        title: "Evaluation status",
         body: "These screens define the prototype scenarios and evaluation focus. Findings, evidence, and before/after results will be added only after real testing sessions; none of the visuals above represent completed study results.",
       },
     ],
@@ -585,7 +578,8 @@ export const sourcefoldSections: CaseStudySection[] = [
     blocks: [
       {
         type: "richText",
-        body: "SOURCEFOLD explores how AI-assisted content workflows can scale without hiding the human decisions that make global content trustworthy.",
+        heading: "Design outcome",
+        body: "SOURCEFOLD turns a fragmented localization workflow into an exception-driven operating model. Instead of asking teams to inspect every market, the system surfaces where judgment is required while preserving source relationships, local ownership, version history, and publishing state.",
       },
       {
         type: "richText",
@@ -600,6 +594,7 @@ export const sourcefoldSections: CaseStudySection[] = [
       {
         type: "richText",
         heading: "What I would explore next",
+        headingStyle: "quiet",
         body: "- Permissions and governance\n- Localization memory based on previous human decisions\n- Team-defined automation policies\n- Broader content types and channels",
       },
       {
@@ -622,6 +617,30 @@ export const sourcefoldProject: CaseStudyProject = {
   scope: ["Product Strategy", "Information Architecture", "Prototyping", "Evaluation Planning"],
   status: "Independent concept project",
   breadcrumb: ["Work", "Product Design", "SOURCEFOLD"],
+  caseSnapshot: {
+    hideTopDivider: true,
+    layout: "grid2x2",
+    groups: [
+      {
+        label: "Problem",
+        body: "Global teams lose clarity as one source becomes many market-specific states.",
+        supporting: "Ownership, review status, and version relationships become difficult to track.",
+      },
+      {
+        label: "Response",
+        body: "An AI-assisted content operations system centered on exceptions rather than duplicated workflows.",
+      },
+      {
+        label: "Key decision",
+        body: "Manage exceptions, not every variation.",
+        supporting: "Normal states stay quiet. Changes requiring human judgment rise to the surface.",
+      },
+      {
+        label: "Design outcome",
+        body: "Source relationships, ownership, review history, version context, and publishing state stay visible in one connected system.",
+      },
+    ],
+  },
   // Shared with the Home page's own project entry (see app/page.tsx, which
   // imports these exact src/width/height values) — one hero asset
   // definition instead of two independently-maintained copies, same

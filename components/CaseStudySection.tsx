@@ -43,7 +43,11 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
     case "richText":
       return (
         <div className={styles.richText}>
-          {block.heading ? <h3>{block.heading}</h3> : null}
+          {block.heading ? (
+            <h3 className={block.headingStyle === "quiet" ? styles.richTextHeadingQuiet : undefined}>
+              {block.heading}
+            </h3>
+          ) : null}
           <RichText body={block.body} />
         </div>
       );
@@ -112,6 +116,27 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
           <p>{block.body}</p>
         </aside>
       );
+
+    case "editorialStatement": {
+      const compact = block.scale === "compact";
+      return (
+        <div className={compact ? `${styles.editorialStatement} ${styles.editorialStatementCompact}` : styles.editorialStatement}>
+          <p className={styles.editorialStatementEyebrow}>{block.eyebrow}</p>
+          <p
+            className={
+              compact
+                ? `${styles.editorialStatementLines} ${styles.editorialStatementLinesCompact}`
+                : styles.editorialStatementLines
+            }
+          >
+            {block.lines.map((line, i) => (
+              <span key={i} className={styles.editorialStatementLine}>{line}</span>
+            ))}
+          </p>
+          {block.supporting ? <p className={styles.editorialStatementSupporting}>{block.supporting}</p> : null}
+        </div>
+      );
+    }
 
     case "comparison":
       return (
@@ -473,7 +498,16 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
 export function CaseStudySection({ section }: { section: CaseStudySectionData }) {
   return (
     <section id={section.id} className={styles.section} aria-labelledby={`${section.id}-heading`}>
-      <h2 id={`${section.id}-heading`} className={styles.heading}>{section.heading}</h2>
+      <h2
+        id={`${section.id}-heading`}
+        className={
+          section.headingEmphasis === "secondary"
+            ? `${styles.heading} ${styles.headingSecondary}`
+            : styles.heading
+        }
+      >
+        {section.heading}
+      </h2>
       {section.intro ? <p className={styles.intro}>{section.intro}</p> : null}
       <div className={styles.blocks}>
         {section.blocks.map((block, i) => <Block key={i} block={block} sectionId={section.id} />)}

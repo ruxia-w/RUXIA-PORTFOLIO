@@ -26,6 +26,16 @@
   font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Opt-in (section.headingEmphasis === "secondary"): renders this h2 at the
+   same size/tracking as a richText h3 (Level 2, "product-thinking" weight)
+   for a section whose heading reads as a stated principle rather than a
+   story chapter. Tag stays h2 (sidebar/anchor/heading-order all unchanged)
+   — only the visual scale changes, and only where a section opts in. */
+.headingSecondary {
+  font-size: clamp(1.25rem, 1.55vw, 1.5rem);
+  letter-spacing: -0.026em;
+}
+
 .intro,
 .richText {
   width: min(100%, 940px);
@@ -53,6 +63,17 @@
      needed restoring here. */
   margin: 0 0 var(--space-4);
   font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Opt-in (block.headingStyle === "quiet"): a smaller, muted heading for a
+   subsection that's supporting/craft evidence rather than a product-thinking
+   moment. Doesn't touch margin/font-family — those still come from the
+   ".richText :global(h3)" rule above, which applies concurrently. */
+.richTextHeadingQuiet {
+  font-size: 1rem;
+  font-weight: 550;
+  color: var(--color-muted);
+  letter-spacing: -0.008em;
 }
 
 .richText :global(ul),
@@ -283,6 +304,78 @@
   font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
   font-weight: 600;
   margin: 0 0 var(--space-2);
+}
+
+/* Chapter-level product-thinking moment (e.g. "Design Decision — 01",
+   "Design Principle") — an already-stated decision or principle promoted to
+   large type so it reads while scanning. No card, border, background, or
+   graphic: the type scale and generous whitespace are the entire treatment,
+   same black/white/gray palette and --font-display family as the rest of
+   the case study. */
+.editorialStatement {
+  width: min(100%, 940px);
+  max-width: 940px;
+  margin: 0;
+  padding-block: var(--space-2);
+}
+
+.editorialStatementEyebrow {
+  margin: 0 0 var(--space-4);
+  color: var(--color-muted);
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.editorialStatementLines {
+  margin: 0;
+  font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.editorialStatementLine {
+  display: block;
+}
+
+/* Opt-in (block.scale === "compact"): renders the statement at the exact
+   same typography as a subsection heading (.richText h3 + the global h3
+   rule) instead of the larger display treatment above — no separate font
+   style for Design Decisions, just the same Level 2 heading style the
+   product-thinking subsections around it already use. Only SOURCEFOLD's
+   Design Decision moments opt into this; the default scale above is
+   unchanged for every other project. */
+.editorialStatementLinesCompact {
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(1.25rem, 1.55vw, 1.5rem);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.026em;
+}
+
+/* Same opt-in: a Design Decision moment should read as connected to the
+   content immediately around it, not as an isolated poster — a smaller gap
+   both above the statement and above the block that follows it than the
+   default block-to-block rhythm (.blocks > :not(:first-child) above).
+   Scoped to .editorialStatementCompact only, so Auric's (non-compact)
+   Design Principle statement keeps its original spacing. */
+.blocks > .editorialStatementCompact:not(:first-child) {
+  margin-top: clamp(1.5rem, 2.75vw, 2.25rem);
+}
+
+.blocks > .editorialStatementCompact + * {
+  margin-top: clamp(1.5rem, 2.75vw, 2.25rem);
+}
+
+.editorialStatementSupporting {
+  width: min(100%, 640px);
+  margin: var(--space-4) 0 0;
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+  line-height: 1.55;
 }
 
 .comparison {

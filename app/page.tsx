@@ -19,23 +19,9 @@ import styles from "./page.module.css";
 const projects = [
   {
     number: "01",
-    title: "AURIC SIGNAL",
-    tagline: "AI-Assisted Investment Decision Support",
-    disciplines: "Product Design · UX/UI · Prototyping",
-    projectType: "Independent Project · 2026",
-    href: "/work/auric-signal",
-    image: auricSignalProject.hero!.src,
-    imageDark: auricSignalProject.heroDark?.src,
-    imageWidth: auricSignalProject.hero!.width,
-    imageHeight: auricSignalProject.hero!.height,
-    imageAlt:
-      "AURIC SIGNAL mobile interface surrounded by portfolio insights and decision-support modules.",
-  },
-  {
-    number: "02",
     title: "SOURCEFOLD",
-    tagline: "AI-Assisted Content Operations Platform",
-    disciplines: "Enterprise UX · Workflow Systems · AI",
+    tagline: "Managing global content changes without losing ownership, version history, or human control.",
+    disciplines: "Enterprise UX · AI Workflow · Systems Design",
     projectType: "Independent Project · 2026",
     href: "/work/sourcefold",
     image: sourcefoldProject.hero!.src,
@@ -46,10 +32,39 @@ const projects = [
       "SOURCEFOLD global content operations workspace shown in light and dark modes with human review, source-change impact, and publishing-readiness panels.",
   },
   {
+    number: "02",
+    title: "AURIC SIGNAL",
+    tagline: "Turning portfolio changes into explainable signals without handing judgment to AI.",
+    disciplines: "AI Product · Fintech · Research + Testing",
+    projectType: "Independent Project · 2026",
+    href: "/work/auric-signal",
+    image: auricSignalProject.hero!.src,
+    imageDark: auricSignalProject.heroDark?.src,
+    imageWidth: auricSignalProject.hero!.width,
+    imageHeight: auricSignalProject.hero!.height,
+    imageAlt:
+      "AURIC SIGNAL mobile interface surrounded by portfolio insights and decision-support modules.",
+  },
+  {
     number: "03",
+    title: "PROFESSIONAL EXPERIENCE",
+    tagline: "From concept and engineering collaboration to shipped products and design leadership.",
+    disciplines: "Commercial Products · Shipped · Design Leadership",
+    projectType: "Professional Work · 2021–2026",
+    ctaLabel: "View work",
+    href: "/work/professional-experience",
+    image: professionalExperienceProject.hero!.src,
+    imageDark: professionalExperienceProject.heroDark?.src,
+    imageWidth: professionalExperienceProject.hero!.width,
+    imageHeight: professionalExperienceProject.hero!.height,
+    imageAlt:
+      "A selection of commercial consumer products including a blender, adjustable dumbbells, robot vacuum, styling brush, and massage gun.",
+  },
+  {
+    number: "04",
     title: "TRACE",
-    tagline: "Connected Access & Identity Experience",
-    disciplines: "Service Design · UX/UI · Connected Systems",
+    tagline: "Connecting physical access, identity, activity, and recovery across one service ecosystem.",
+    disciplines: "Connected Experience · Service Design · UX/UI",
     projectType: "Independent Project · 2026",
     href: "/work/trace",
     image: traceProject.hero!.src,
@@ -60,10 +75,10 @@ const projects = [
       "TRACE credential and dock beside a mobile permission-control interface.",
   },
   {
-    number: "04",
+    number: "05",
     title: "SMART PUPPY",
-    tagline: "Connected Robotic Companion Experience",
-    disciplines: "Connected Experience · UX/UI · Industrial Design",
+    tagline: "Designing a robotic companion across behavior, motion, interaction, and manufacture.",
+    disciplines: "Connected Product · Industrial Design · Award-winning",
     projectType: "Award-Winning Independent Project · 2021",
     awards: "IDA Silver · EPDA Honorable Mention · Rookie Awards Highly Commended",
     href: "/work/smart-puppy",
@@ -73,21 +88,6 @@ const projects = [
     imageHeight: smartPuppyProject.hero!.height,
     imageAlt:
       "SMART PUPPY robotic companion beside its mobile app home interface.",
-  },
-  {
-    number: "05",
-    title: "PROFESSIONAL EXPERIENCE",
-    tagline: "Commercial Product Development & Design Leadership",
-    disciplines: "Design Leadership · Engineering Collaboration · Shipped Products",
-    projectType: "Professional Work · 2021–2026",
-    ctaLabel: "View work",
-    href: "/work/professional-experience",
-    image: professionalExperienceProject.hero!.src,
-    imageDark: professionalExperienceProject.heroDark?.src,
-    imageWidth: professionalExperienceProject.hero!.width,
-    imageHeight: professionalExperienceProject.hero!.height,
-    imageAlt:
-      "A selection of commercial consumer products including a blender, adjustable dumbbells, robot vacuum, styling brush, and massage gun.",
   },
 ] as const;
 
@@ -309,7 +309,10 @@ export default function HomePage() {
 
         <div className={styles.projectList}>
           {projects.map((project) => (
-            <article className={styles.project} key={project.title}>
+            <article
+              className={project.href === "/work/sourcefold" ? `${styles.project} ${styles.projectSourcefold}` : styles.project}
+              key={project.title}
+            >
               <div className={styles.projectInfo}>
                 <p className={styles.projectNumber}>{project.number}</p>
                 <div className={styles.projectIdentity}>
@@ -436,7 +439,7 @@ export default function HomePage() {
           <h2 id="contact-title">Let&apos;s create products people can understand, trust, and use.</h2>
           <div className={styles.contactInfo}>
             <p className={styles.contactAvailability}>
-              Open to product design, experience design, and design leadership / project coordination opportunities.
+              Open to product, experience, and connected systems design opportunities.
             </p>
             <div className={styles.contactLinks}>
               <a href="mailto:ruxiadesign@gmail.com">

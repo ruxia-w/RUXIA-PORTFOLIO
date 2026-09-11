@@ -1,6 +1,7 @@
 import { ProjectHeader } from "./ProjectHeader";
 import { ProjectPagination } from "./ProjectPagination";
 import { CaseStudySidebar } from "./CaseStudySidebar";
+import { CaseSnapshot } from "./CaseSnapshot";
 import { MobileContentsMenu } from "./MobileContentsMenu";
 import { CaseStudySection } from "./CaseStudySection";
 import { ReadingProgress } from "./ReadingProgress";
@@ -18,6 +19,7 @@ export function CaseStudyLayout({ project }: { project: CaseStudyProject }) {
       <InitialHashScroll />
       <ReadingProgress targetId={articleId} />
       <ProjectHeader project={project} />
+      {project.caseSnapshot ? <CaseSnapshot caseSnapshot={project.caseSnapshot} /> : null}
       <MobileContentsMenu sections={chapters} />
       <div className={styles.body}>
         <aside className={styles.sidebar}>
