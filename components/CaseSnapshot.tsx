@@ -8,9 +8,26 @@ export function CaseSnapshot({ caseSnapshot }: { caseSnapshot: NonNullable<CaseS
       aria-label="Case snapshot"
     >
       <p className={styles.eyebrow}>Case snapshot</p>
-      <dl className={caseSnapshot.layout === "grid2x2" ? `${styles.grid} ${styles.gridTwoByTwo}` : styles.grid}>
+      <dl
+        className={
+          caseSnapshot.layout === "grid2x2"
+            ? `${styles.grid} ${styles.gridTwoByTwo}`
+            : caseSnapshot.layout === "grid3x2"
+              ? `${styles.grid} ${styles.gridThreeTwo}`
+              : styles.grid
+        }
+      >
         {caseSnapshot.groups.map((group) => (
-          <div key={group.label} className={styles.item}>
+          <div
+            key={group.label}
+            className={
+              group.emphasis === "high"
+                ? `${styles.item} ${styles.itemHigh}`
+                : group.emphasis === "compact"
+                  ? `${styles.item} ${styles.itemCompact}`
+                  : styles.item
+            }
+          >
             <dt>{group.label}</dt>
             <dd>{group.body}</dd>
             {group.supporting ? <dd className={styles.supporting}>{group.supporting}</dd> : null}

@@ -416,7 +416,18 @@ export type CaseStudyProject = {
    * is a single line; `supporting` is an optional second line (used for a
    * "Key decision" group's short elaboration). */
   caseSnapshot?: {
-    groups: Array<{ label: string; body: string; supporting?: string }>;
+    groups: Array<{
+      label: string;
+      body: string;
+      supporting?: string;
+      /** "high": the single most important group (e.g. a core principle) —
+       * reads clearly stronger than the others, though still below a
+       * subsection heading. "compact": a short, fact-like value (e.g. a
+       * research/validation count) that should read as quickly as possible
+       * — smaller and quieter than the default. Omit for the default
+       * (medium) emphasis every other group uses. */
+      emphasis?: "high" | "compact";
+    }>;
     /** true: omit this block's own top divider — for a project whose
      * ProjectHeader metadata row already ends in a border-bottom directly
      * above it, where the default (both a top and bottom border) would
@@ -427,8 +438,12 @@ export type CaseStudyProject = {
      * column gap, moderate row gap, no dividers between items) instead of
      * the default auto-fit row — for a project with exactly four groups
      * where a single dense row reads as a data table rather than a case
-     * summary. Omit for the default layout. */
-    layout?: "grid2x2";
+     * summary. "grid3x2": a fixed three-column first row and a two-item
+     * second row (the second row's last item spans two columns) — for
+     * exactly five groups with uneven emphasis, so the shorter/quieter
+     * groups don't force a cramped fifth column. Omit for the default
+     * auto-fit layout. */
+    layout?: "grid2x2" | "grid3x2";
   };
   sections: CaseStudySection[];
 };

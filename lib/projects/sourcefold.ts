@@ -67,7 +67,6 @@ export const sourcefoldSections: CaseStudySection[] = [
     id: "strategy",
     label: "Strategy",
     heading: "Manage exceptions, not every variation.",
-    headingEmphasis: "secondary",
     blocks: [
       {
         type: "richText",
@@ -106,7 +105,6 @@ export const sourcefoldSections: CaseStudySection[] = [
     id: "system-architecture",
     label: "System Architecture",
     heading: "A content model designed for change.",
-    headingEmphasis: "secondary",
     blocks: [
       {
         type: "richText",

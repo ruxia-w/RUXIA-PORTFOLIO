@@ -40,7 +40,7 @@
   text-transform: uppercase;
 }
 
-/* Scoped to the same Sourcefold-only flag as .wrapNoTopDivider above — a
+/* Scoped to the same hideTopDivider flag as .wrapNoTopDivider above — a
    bit larger and heavier than the item labels below it (PROBLEM, RESPONSE,
    etc., still 0.6875rem/650) so "CASE SNAPSHOT" reads as clearly more
    prominent than them, while staying far below a major section heading
@@ -155,4 +155,54 @@
 .gridTwoByTwo .supporting {
   margin-top: 0.375rem;
   font-size: 0.75rem;
+}
+
+/* Opt-in (caseSnapshot.layout === "grid3x2"): a 3-column first row and a
+   2-item second row for exactly five groups with uneven emphasis (AURIC's
+   Problem/Research/Core Principle plus Validation/Key Iteration) — the
+   second row's last item spans the remaining two columns instead of
+   leaving a half-empty row, since it (Key Iteration) carries more text
+   than the compact item beside it. Only AURIC opts into this; Sourcefold's
+   four-group snapshot keeps its own grid2x2, untouched. */
+.gridThreeTwo {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: clamp(2.5rem, 4.5vw, 4rem);
+  row-gap: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.gridThreeTwo .item:nth-child(5) {
+  grid-column: span 2;
+}
+
+@media (max-width: 700px) {
+  .gridThreeTwo {
+    grid-template-columns: 1fr;
+  }
+
+  .gridThreeTwo .item:nth-child(5) {
+    grid-column: span 1;
+  }
+}
+
+/* Opt-in (group.emphasis === "high"): the single strongest item in a
+   snapshot with uneven emphasis — larger and bolder than the default
+   .item dd, but still below a subsection heading's own scale (h3's
+   1.25rem/650) so it reads as the most important snapshot statement
+   without impersonating an actual heading. */
+.itemHigh dd {
+  font-size: 1.1875rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+/* Opt-in (group.emphasis === "compact"): a short, fact-like value (e.g. a
+   research or validation count) meant to read at a glance — smaller,
+   lighter, and in the body face rather than the display face the default
+   and "high" levels use. */
+.itemCompact dd {
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  letter-spacing: normal;
 }

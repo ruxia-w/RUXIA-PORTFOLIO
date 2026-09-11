@@ -5,21 +5,6 @@ const PROTOTYPE = "https://auric-signal-insight.lovable.app/";
 
 export const auricSignalSections: CaseStudySection[] = [
   {
-    id: "overview",
-    label: "Overview",
-    heading: "Overview",
-    blocks: [
-      {
-        type: "richText",
-        body: "AURIC SIGNAL is an AI-assisted investment decision-support concept designed to help self-directed investors move from portfolio changes to clearer understanding. It brings together prioritized signals, contextual explanation, and scenario exploration so users can understand what changed, why it may matter, and what they may want to explore next — without handing the final judgment to AI.",
-      },
-      {
-        type: "auricDecisionSupportJourney",
-        layout: "wide",
-      },
-    ],
-  },
-  {
     id: "problem",
     label: "Problem",
     heading: "Knowing what changed is not the same as knowing what it means.",
@@ -41,7 +26,7 @@ export const auricSignalSections: CaseStudySection[] = [
     blocks: [
       {
         type: "richText",
-        body: "I looked at how people around me check their portfolios and make sense of market changes, through semi-structured conversations with three participants who had experience investing or trading crypto. This was a small, exploratory study intended to surface recurring themes and patterns — not to produce statistically validated findings.",
+        body: "I conducted three semi-structured interviews with people who had experience investing or trading crypto. The goal was to identify recurring decision patterns, not produce statistically validated findings.",
       },
       {
         type: "callout",
@@ -140,8 +125,9 @@ export const auricSignalSections: CaseStudySection[] = [
       {
         type: "editorialStatement",
         eyebrow: "Design principle",
-        lines: ["EXPLAIN,", "DON'T PRESCRIBE."],
+        lines: ["Explain, don't prescribe."],
         supporting: "AI can organize context, evidence, and possibilities. The final judgment stays with the user.",
+        scale: "compact",
       },
     ],
   },
@@ -172,15 +158,15 @@ export const auricSignalSections: CaseStudySection[] = [
         items: [
           {
             title: "01 — Dashboard-Led",
-            body: "Portfolio overview first. Strong context and a familiar financial-product mental model, though it risks recreating the information overload of traditional financial dashboards.",
+            body: "Familiar and context-rich, but risks recreating the information overload of traditional financial dashboards.",
           },
           {
             title: "02 — AI Brief-Led",
-            body: "Explanation first. Reduces information-processing burden and directly surfaces what may matter, but places too much trust and product dependency on a single AI layer.",
+            body: "Fast to interpret, but places too much trust and product dependency on a single AI layer.",
           },
           {
             title: "03 — Signal-Led",
-            body: "Attention, then explanation, then exploration. Creates a clearer bridge between portfolio monitoring and decision support.",
+            body: "Creates the clearest bridge from attention to explanation and scenario exploration.",
           },
         ],
       },
@@ -204,12 +190,12 @@ export const auricSignalSections: CaseStudySection[] = [
       {
         type: "richText",
         heading: "Flow 01 — Understand a Portfolio Change",
-        body: "**From signal to understanding**\n\nHome / Portfolio Context → Signal → Signal Detail → AI-Assisted Explanation → Evidence / Context → Portfolio Relevance → Understand / Exit\n\nNo action is a valid, fully supported outcome — AURIC does not push users toward a response.",
+        body: "Signal → Explanation → Evidence → Portfolio relevance → Understand / Exit\n\nNo action is a valid outcome.",
       },
       {
         type: "richText",
         heading: "Flow 02 — Evaluate a Possible Action",
-        body: "**From understanding to exploration**\n\nSignal / Insight → Explore Scenario → Adjust Possible Response → Preview Portfolio Impact → Compare Current vs. Proposed → Review → Decide / Exit\n\nAURIC supports scenario simulation and review. It does not execute trades or move assets.",
+        body: "Scenario → Impact → Compare → Review → Decide / Exit\n\nAURIC does not execute trades or move assets.",
       },
       {
         type: "auricCoreDecisionFlow",
@@ -230,7 +216,7 @@ export const auricSignalSections: CaseStudySection[] = [
       {
         type: "richText",
         heading: "Information Architecture",
-        body: "AURIC's architecture is organized around the user's decision journey — moving from portfolio context and prioritized signals into explanation, exploration, and review.\n\nSupporting navigation, including watchlist activity and account settings, sits alongside this path without interrupting it. AI-assisted explanation stays embedded in the broader workflow rather than becoming a separate chat destination.",
+        body: "AURIC's architecture is organized around the user's decision journey — moving from portfolio context and prioritized signals into explanation, exploration, and review.\n\nSupporting navigation, including watchlist activity and account settings, sits alongside this path without interrupting it. AI-assisted explanation stays embedded in the broader workflow rather than becoming a separate chat destination.\n\nThe primary navigation carries this across five top-level destinations — portfolio context and signals, explanation, holdings, tracked assets, and account settings.",
       },
       {
         type: "auricInformationArchitecture",
@@ -246,20 +232,6 @@ export const auricSignalSections: CaseStudySection[] = [
           { eyebrow: "Scenario Exploration", title: "Scenario · Compare · Impact" },
           { eyebrow: "Decision / Review", title: "Review · Save · Exit" },
         ],
-      },
-      {
-        type: "richText",
-        heading: "AI Assistance / Human Control Model",
-        body: "AI supports interpretation and scenario exploration, while evidence, confidence, and uncertainty remain visible. Final judgment stays with the user.",
-      },
-      {
-        type: "auricAiHumanControlModel",
-        layout: "wide",
-      },
-      {
-        type: "richText",
-        heading: "Primary Screens",
-        body: "The primary navigation is organized around five top-level destinations, carrying users from portfolio context and signals through explanation, tracking, and account controls.",
       },
       {
         type: "mediaGroup",
@@ -282,34 +254,43 @@ export const auricSignalSections: CaseStudySection[] = [
       },
       {
         type: "richText",
+        heading: "AI Assistance / Human Control Model",
+        body: "AI supports interpretation and scenario exploration, while evidence, confidence, and uncertainty remain visible. Final judgment stays with the user.",
+      },
+      {
+        type: "auricAiHumanControlModel",
+        layout: "wide",
+      },
+      {
+        type: "richText",
         heading: "Key Product Experiences",
         body: "Four key experiences carry the decision-support journey from a prioritized signal into explanation, simulation, and a non-executing response.",
       },
       {
         type: "feature",
         title: "Prioritized Signals",
-        body: "**What deserves my attention?**\n\nAURIC prioritizes meaningful portfolio changes instead of presenting every movement with equal weight. A single health score brings performance, allocation, and risk together, so users can see overall condition before diving into individual metrics.\n\nThe deeper view explains where that score comes from — diversification, concentration, volatility, and liquidity — connecting those factors back to allocation and performance so users can move from a high-level signal into the specific conditions that may need attention.",
+        body: "**What deserves my attention?**\n\nAURIC prioritizes meaningful portfolio changes over presenting every movement with equal weight. A single health score brings performance, allocation, and risk together, so users see overall condition before individual metrics.\n\nThe deeper view traces that score to its drivers — diversification, concentration, volatility, and liquidity — connecting them back to allocation and performance.",
         focus: ["Prioritize meaningful signals over equal-weight data", "Make contributing risk factors visible", "Connect health, allocation, and performance"],
         media: { src: `${BASE}/auric-portfolio-health-fullpage.png`, width: 1170, height: 4941, alt: "Full Portfolio Health screen with score, contributing factors, risk, allocation, and performance." },
       },
       {
         type: "feature",
         title: "Explainable AI",
-        body: "**Why does this matter?**\n\nI treated AI as an explanation layer rather than a source of automatic recommendations. When AURIC surfaces a portfolio signal, the experience first explains what changed and why it may have happened, then lets users inspect the drivers and supporting evidence behind that interpretation.\n\nConfidence and evidence are intentionally visible instead of hidden behind a single AI-generated answer. The experience also separates the market explanation from its impact on the user's own portfolio, helping users understand both the broader context and why the signal may matter to them personally.",
+        body: "**Why does this matter?**\n\nAI acts as an explanation layer, not a source of automatic recommendations. When AURIC surfaces a signal, it first explains what changed and why, then lets users inspect the drivers and evidence behind that interpretation.\n\nConfidence and evidence stay visible rather than hidden behind a single AI-generated answer, and market explanation is kept separate from personal portfolio impact.",
         focus: ["Explain the change before suggesting a response", "Make evidence and confidence visible", "Connect market context to personal impact"],
         media: { src: `${BASE}/auric-ai-explanation-fullpage.png`, width: 1170, height: 6342, alt: "Full AI explanation screen showing what changed, drivers, evidence, portfolio impact, and considerations." },
       },
       {
         type: "feature",
         title: "Scenario Exploration",
-        body: "**What could happen if I respond?**\n\nScenario Simulation gives users a way to explore a possible market change before deciding how they might respond. Rather than presenting the result as a prediction, the interface frames it as an estimate based on the portfolio's current composition and the assumptions selected by the user.\n\nThe simulation shows how a scenario could affect portfolio value, health, risk exposure, individual holdings, and allocation. I also kept the reasoning behind the interpretation accessible so users can understand why AURIC is highlighting a particular risk instead of relying on the result as a black box.",
+        body: "**What could happen if I respond?**\n\nScenario Simulation lets users explore a possible market change before deciding how to respond. Rather than a prediction, the interface frames the result as an estimate based on the portfolio's current composition and the user's assumptions.\n\nThe simulation shows how a scenario could affect value, health, risk exposure, holdings, and allocation, with the underlying reasoning kept accessible rather than treated as a black box.",
         focus: ["Frame outcomes as estimates, not predictions", "Show portfolio-wide consequences of a scenario", "Keep AI reasoning available for deeper inspection"],
         media: { src: `${BASE}/auric-scenario-simulation-fullpage.png`, width: 1170, height: 5952, alt: "Full scenario simulation screen estimating the portfolio impact of a Bitcoin decline." },
       },
       {
         type: "feature",
         title: "Compare Before Deciding",
-        body: "**What changes before I make a judgment?**\n\nThis view extends the scenario experience from understanding risk into exploring a possible response. The preview compares the current allocation with a suggested alternative and explains how the change relates to the user's concentration risk, risk preference, and longer-term goals.\n\nI intentionally separated exploring a strategy from executing an action. Users can review the proposed allocation, inspect its potential impact, and save the strategy without placing a trade or moving any assets. AURIC keeps the current and proposed states visible side by side so consequences stay clear before the user decides.",
+        body: "**What changes before I make a judgment?**\n\nThis view extends the scenario experience into exploring a possible response — comparing current allocation with a suggested alternative, and explaining how the change relates to concentration risk, risk preference, and longer-term goals.\n\nExploring a strategy stays separate from executing one: users can review, inspect impact, and save a proposal without placing a trade. Current and proposed states stay visible side by side so consequences remain clear.",
         focus: ["Compare current and suggested allocation clearly", "Explain why the proposed change may be relevant", "Separate decision support from trade execution"],
         media: { src: `${BASE}/auric-rebalancing-fullpage.png`, width: 1170, height: 3789, alt: "Full rebalancing preview comparing current and suggested allocation without executing a trade." },
       },
@@ -400,7 +381,7 @@ export const auricSignalSections: CaseStudySection[] = [
     blocks: [
       {
         type: "richText",
-        body: "AURIC evolved into a responsive decision-support experience that connects portfolio monitoring, AI-assisted explanation, scenario exploration, and review within one coherent journey. Rather than positioning AI as an automated decision-maker, the final concept uses it selectively to support interpretation while keeping evidence, uncertainty, and user control visible throughout the experience.",
+        body: "AURIC connects portfolio monitoring, explainable AI, and scenario exploration into one decision-support journey. AI supports interpretation while evidence, uncertainty, and final judgment remain visible to the user.",
       },
       {
         type: "richText",
@@ -443,6 +424,8 @@ export const auricSignalProject: CaseStudyProject = {
   breadcrumb: ["Work", "Product Design", "AURIC SIGNAL"],
   links: [{ label: "Explore the Interactive Prototype", url: PROTOTYPE, type: "prototype" }],
   caseSnapshot: {
+    hideTopDivider: true,
+    layout: "grid3x2",
     groups: [
       {
         label: "Problem",
@@ -451,14 +434,17 @@ export const auricSignalProject: CaseStudyProject = {
       {
         label: "Research",
         body: "3 exploratory interviews",
+        emphasis: "compact",
       },
       {
         label: "Core principle",
         body: "Explain, don't prescribe.",
+        emphasis: "high",
       },
       {
         label: "Validation",
         body: "3 moderated usability sessions",
+        emphasis: "compact",
       },
       {
         label: "Key iteration",

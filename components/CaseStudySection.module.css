@@ -32,7 +32,15 @@
    story chapter. Tag stays h2 (sidebar/anchor/heading-order all unchanged)
    — only the visual scale changes, and only where a section opts in. */
 .headingSecondary {
+  /* Matches the richText h3 subsection-heading metrics exactly (font-size,
+     letter-spacing already did; line-height was still inheriting the
+     global h2 value of 1.16 until now) so a "secondary" section heading and
+     a richText h3 heading read as the same typographic level throughout
+     Product Experience — font-family and font-weight already matched via
+     .heading's own family override and the shared 650 weight in both the
+     global h2 and h3 rules. */
   font-size: clamp(1.25rem, 1.55vw, 1.5rem);
+  line-height: 1.25;
   letter-spacing: -0.026em;
 }
 
@@ -764,7 +772,14 @@
 }
 
 .featureText h3 {
+  /* Restores the same "Avenir Next" family override every other h3-level
+     subsection heading already gets (.richText :global(h3), .blockHeading)
+     — this was previously inheriting the unrestored --font-display (Inter)
+     from the global h1-h4 rule, the one place a subsection heading didn't
+     match the others. Size/weight/line-height/letter-spacing already
+     matched via the shared global h3 rule. */
   margin: 0 0 var(--space-4);
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
 
 .focusLabel {
