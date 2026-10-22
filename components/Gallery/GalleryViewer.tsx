@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { galleryCategoryLabels } from "@/lib/gallery/projects";
 import type { GalleryItem } from "@/lib/gallery/types";
+import { CloseIcon, ChevronIcon } from "../LightboxIcons";
 import styles from "./GalleryViewer.module.css";
 
 type GalleryViewerProps = {
@@ -99,7 +100,7 @@ export function GalleryViewer({ item, onClose }: GalleryViewerProps) {
       {item && media ? (
         <div className={styles.content}>
           <button type="button" className={styles.close} onClick={onClose} aria-label="Close viewer">
-            ×
+            <CloseIcon />
           </button>
 
           <div className={styles.mediaWrap}>
@@ -137,7 +138,7 @@ export function GalleryViewer({ item, onClose }: GalleryViewerProps) {
                   onClick={() => setMediaIndex((i) => (i - 1 + mediaCount) % mediaCount)}
                   aria-label={`Previous image: ${item.title}`}
                 >
-                  ‹
+                  <ChevronIcon direction="left" />
                 </button>
                 <button
                   type="button"
@@ -145,7 +146,7 @@ export function GalleryViewer({ item, onClose }: GalleryViewerProps) {
                   onClick={() => setMediaIndex((i) => (i + 1) % mediaCount)}
                   aria-label={`Next image: ${item.title}`}
                 >
-                  ›
+                  <ChevronIcon direction="right" />
                 </button>
                 <p className={styles.position} aria-live="polite">
                   {mediaIndex + 1} / {mediaCount}

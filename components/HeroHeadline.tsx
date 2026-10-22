@@ -37,6 +37,28 @@ const REEL_COOLDOWN_MS = 320; // 250–400ms suggested minimum gap between new r
 const REEL_DIRECTIONS = ["up", "down", "left", "right"] as const;
 type ReelDirection = (typeof REEL_DIRECTIONS)[number];
 
+// --- Ambient (autonomous) letter animation ----------------------------
+// Reuses the exact same per-letter bump + reel-chance mechanics the
+// pointer-driven wave already uses (see bumpLetter()/tryStartReel() below)
+// across the entire headline — only the *selection* (a handful of
+// scattered random letters, not a contiguous range around one origin) and
+// the *duration* ever differ. No second animation system.
+const AMBIENT_LETTER_MIN = 2;
+const AMBIENT_LETTER_MAX = 4; // 2-4 letters per sequence, suggested
+const AMBIENT_DURATION_MS = 425; // 350-500ms suggested
+const AMBIENT_STAGGER_MS = 60; // gentle stagger between the scattered picks
+const AMBIENT_MIN_INTERVAL_MS = 2500; // 2.5-4s between sequences, suggested
+const AMBIENT_MAX_INTERVAL_MS = 4000;
+// How long the pointer must have been idle (anywhere over the Hero
+// section, not just "not currently mid-wave") before ambient animation is
+// allowed to run at all — this is what makes hover priority unconditional
+// rather than just a same-letter guard.
+const AMBIENT_IDLE_RESUME_MS = 1600;
+// If a scheduled ambient moment arrives while the pointer is still active,
+// retry soon after instead of waiting out a whole new 2.5-4s cycle, so
+// resumption still feels prompt once the interaction actually ends.
+const AMBIENT_RETRY_MS = 700;
+
 const isLetter = (char: string) => /[a-zA-Z]/.test(char);
 
 type LetterEntry = {
@@ -199,33 +221,40 @@ export function HeroHeadline() {
       startReel(entry);
     }
 
-    function triggerWave(origin: number) {
-      for (let offset = -WAVE_RANGE_RADIUS; offset <= WAVE_RANGE_RADIUS; offset += 1) {
+    // One letter's own bump (+ its chance of a trailing reel) — the single
+    // unit of motion both the pointer-driven wave and the ambient scatter
+    // below are built from, so there is exactly one place that ever
+    // animates a single character.
+    function bumpLetter(entry: LetterEntry, delay: number, durationMs: number) {
+      if (entry.waving) return;
+
+      entry.waving = true;
+      const waveAnim = entry.frameEl.animate(
+        [{ translate: "0 0" }, { translate: `0 ${-entry.waveAmplitudePx}px` }, { translate: "0 0" }],
+        { duration: durationMs, delay, easing: WAVE_EASING, fill: "none" },
+      );
+      waveAnim.finished
+        .then(() => {
+          entry.waving = false;
+        })
+        .catch(() => {
+          entry.waving = false;
+        });
+
+      // The reel "follows just behind the bump": eligibility is only
+      // (re-)checked once the bump has actually reached this character.
+      if (!entry.reeling) {
+        const reelTimer = window.setTimeout(() => tryStartReel(entry), delay);
+        pendingTimers.add(reelTimer);
+      }
+    }
+
+    function triggerWave(origin: number, radius: number = WAVE_RANGE_RADIUS, durationMs: number = WAVE_DURATION_MS) {
+      for (let offset = -radius; offset <= radius; offset += 1) {
         const entry = entries[origin + offset];
-        if (!entry || entry.waving) continue;
-
-        const distance = Math.abs(offset);
-        const delay = distance * WAVE_STAGGER_MS;
-
-        entry.waving = true;
-        const waveAnim = entry.frameEl.animate(
-          [{ translate: "0 0" }, { translate: `0 ${-entry.waveAmplitudePx}px` }, { translate: "0 0" }],
-          { duration: WAVE_DURATION_MS, delay, easing: WAVE_EASING, fill: "none" },
-        );
-        waveAnim.finished
-          .then(() => {
-            entry.waving = false;
-          })
-          .catch(() => {
-            entry.waving = false;
-          });
-
-        // The reel "follows just behind the wave": eligibility is only
-        // (re-)checked once the wave has actually reached this character.
-        if (!entry.reeling) {
-          const reelTimer = window.setTimeout(() => tryStartReel(entry), delay);
-          pendingTimers.add(reelTimer);
-        }
+        if (!entry) continue;
+        const delay = Math.abs(offset) * WAVE_STAGGER_MS;
+        bumpLetter(entry, delay, durationMs);
       }
     }
 
@@ -233,8 +262,15 @@ export function HeroHeadline() {
     let lastOrigin = -1;
     let lastTriggerTime = 0;
 
+    // Updated on every real pointer move over the Hero, independent of the
+    // wave's own throttle/same-origin checks below — this is the single
+    // signal the ambient scheduler checks to keep hover priority
+    // unconditional, not just "is this one letter currently mid-wave".
+    let lastPointerActivityTime = -Infinity;
+
     function handlePointerMove(event: PointerEvent) {
       const now = performance.now();
+      lastPointerActivityTime = now;
       if (now - lastTriggerTime < MIN_RETRIGGER_MS) return;
 
       let nearestIndex = -1;
@@ -273,17 +309,98 @@ export function HeroHeadline() {
       refreshPositions();
     }
 
+    // Starts true so the very first ambient cycle isn't blocked before the
+    // observer below has had a chance to report — the Hero is reasonably
+    // assumed visible at mount, matching how the pointer-driven wave above
+    // has never needed a visibility check of its own (it simply can't fire
+    // without a real pointermove, which can't happen on an off-screen
+    // section anyway).
+    let heroVisible = true;
+    let documentVisible = !document.hidden;
+    let ambientTimer: number | undefined;
+
+    function ambientEligible() {
+      return (
+        heroVisible &&
+        documentVisible &&
+        performance.now() - lastPointerActivityTime > AMBIENT_IDLE_RESUME_MS
+      );
+    }
+
+    function scheduleAmbient(delay: number) {
+      ambientTimer = window.setTimeout(runAmbientCycle, delay);
+    }
+
+    function randomAmbientInterval() {
+      return AMBIENT_MIN_INTERVAL_MS + Math.random() * (AMBIENT_MAX_INTERVAL_MS - AMBIENT_MIN_INTERVAL_MS);
+    }
+
+    function runAmbientCycle() {
+      if (!ambientEligible()) {
+        // Still mid-interaction (or tab/section hidden) right when this
+        // cycle was due — check back soon rather than waiting out a whole
+        // fresh 2.5-4s interval, so resuming still feels prompt.
+        scheduleAmbient(AMBIENT_RETRY_MS);
+        return;
+      }
+
+      // 2-4 scattered, independently-chosen letters across the *entire*
+      // headline (all three lines) — deliberately not a contiguous range
+      // around one origin (that's what the pointer-driven wave already
+      // is); a plain Set of distinct random indices is what keeps this
+      // read as "a few letters here and there" rather than one cluster.
+      const total = entries.length;
+      if (total > 0) {
+        const count = Math.min(
+          total,
+          AMBIENT_LETTER_MIN + Math.floor(Math.random() * (AMBIENT_LETTER_MAX - AMBIENT_LETTER_MIN + 1)),
+        );
+        const picked = new Set<number>();
+        let guard = 0;
+        while (picked.size < count && guard < count * 10) {
+          picked.add(Math.floor(Math.random() * total));
+          guard += 1;
+        }
+
+        let order = 0;
+        for (const index of picked) {
+          const entry = entries[index];
+          if (entry) bumpLetter(entry, order * AMBIENT_STAGGER_MS, AMBIENT_DURATION_MS);
+          order += 1;
+        }
+      }
+
+      scheduleAmbient(randomAmbientInterval());
+    }
+
+    function handleVisibilityChange() {
+      documentVisible = !document.hidden;
+    }
+
+    const heroViewportObserver = new IntersectionObserver(
+      ([entry]) => {
+        heroVisible = entry?.isIntersecting ?? true;
+      },
+      { threshold: 0 },
+    );
+    heroViewportObserver.observe(section);
+
     section.addEventListener("pointermove", handlePointerMove);
     section.addEventListener("pointerleave", handlePointerLeave);
     window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll, { passive: true });
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    scheduleAmbient(randomAmbientInterval());
 
     return () => {
       section.removeEventListener("pointermove", handlePointerMove);
       section.removeEventListener("pointerleave", handlePointerLeave);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      heroViewportObserver.disconnect();
       window.clearTimeout(resizeTimer);
+      window.clearTimeout(ambientTimer);
       for (const timer of pendingTimers) window.clearTimeout(timer);
       for (const entry of entries) {
         entry.frameEl.getAnimations().forEach((anim) => anim.cancel());

@@ -125,6 +125,13 @@
   width: fit-content;
   text-decoration: none;
   border-bottom: 1px solid currentColor;
+  /* border-bottom already reads currentColor, so animating `color` alone
+     carries the underline along with it automatically — explicitly listing
+     border-bottom-color too just makes that guaranteed/explicit rather than
+     relying on engines to re-resolve currentColor smoothly on their own.
+     250ms/--ease-premium matches .linkArrow's own hover transition just
+     below, so the arrow shift and the color change settle in sync. */
+  transition: color 250ms var(--ease-premium), border-bottom-color 250ms var(--ease-premium);
 }
 
 .textLink {
@@ -496,11 +503,27 @@
   .contactLinks a:hover .linkArrow {
     transform: translate(2px, -2px);
   }
+
+  /* Text + underline (border-bottom: currentColor, see above) to Cobalt
+     Blue on hover. No hover state on touch devices, matching every other
+     hover-only rule already in this file (e.g. .navLink, .capabilityCard);
+     keyboard focus below stays unconditional. */
+  .textLink:hover,
+  .caseLink:hover,
+  .contactLinks a:hover {
+    color: #315fd5;
+  }
 }
 
 .caseLink:focus-visible .linkArrow,
 .contactLinks a:focus-visible .linkArrow {
   transform: translate(2px, -2px);
+}
+
+.textLink:focus-visible,
+.caseLink:focus-visible,
+.contactLinks a:focus-visible {
+  color: #315fd5;
 }
 
 .projectMedia {
@@ -851,6 +874,7 @@
   text-decoration: none;
   border-bottom: 1px solid currentColor;
   white-space: nowrap;
+  transition: color 250ms var(--ease-premium), border-bottom-color 250ms var(--ease-premium);
 }
 
 @media (max-width: 900px) {
@@ -1031,6 +1055,128 @@
 
 @media (prefers-reduced-motion: reduce) {
   .projectMedia img {
+    transition: none;
+  }
+}
+
+/* --------------------------------------------------------------------
+   Scroll reveal — "Minimal, Structured, and Alive"
+
+   Every element below is driven by ScrollReveal (components/ScrollReveal.tsx),
+   a thin IntersectionObserver wrapper reusing the same one-time-reveal hook
+   already shared by every case-study diagram (components/useDiagramReveal.ts).
+   This file only ever decides *how* the reveal looks; ScrollReveal decides
+   *when* data-revealed flips. Opacity + transform only (never height/margin/
+   display), so nothing here can shift layout — the element occupies its
+   final box from first paint, just visually offset/faded until revealed.
+   Reuses the site's one existing motion easing (--ease-premium) rather than
+   a second curve. --------------------------------------------------------- */
+
+/* Section headings (Selected Work, Capabilities, Selected Explorations):
+   30px vertical offset, 750ms. */
+.sectionHeader h2,
+.sectionHeaderCompact h2,
+.capabilitiesHeader h2 {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 750ms var(--ease-premium), transform 750ms var(--ease-premium);
+}
+
+.sectionHeader[data-revealed="true"] h2,
+.sectionHeaderCompact[data-revealed="true"] h2,
+.capabilitiesHeader[data-revealed="true"] h2 {
+  opacity: 1;
+  transform: none;
+}
+
+/* Supporting copy directly under each of those headings: 18px offset,
+   650ms duration, and a light delay so it settles just behind the heading
+   rather than arriving in the same instant — one group (the heading) and
+   its immediate supporting line, never animated word-by-word. */
+.sectionHeadingSupporting,
+.sectionHeader > p:last-child,
+.sectionHeaderCompact > p:last-child,
+.capabilitiesSubtitle {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 650ms var(--ease-premium), transform 650ms var(--ease-premium);
+  transition-delay: 90ms;
+}
+
+.sectionHeader[data-revealed="true"] .sectionHeadingSupporting,
+.sectionHeader[data-revealed="true"] > p:last-child,
+.sectionHeaderCompact[data-revealed="true"] > p:last-child,
+.capabilitiesHeader[data-revealed="true"] .capabilitiesSubtitle {
+  opacity: 1;
+  transform: none;
+}
+
+/* Project image: scale(1.05) -> scale(1) + fade + a clip-path "frame
+   closing in" (inset(6%) -> inset(0%)), 950ms. All three live on
+   .projectMedia (the <a> wrapping the image), never on the <img> itself —
+   that's deliberately left untouched since .projectMedia:hover img already
+   owns its own, separate transform (the existing camera-push-in). Applying
+   this reveal one level up means the two effects compose instead of
+   colliding: the whole card settles into place once, independent of
+   whatever the cursor does to the image afterward on hover. clip-path (not
+   a background mask) is the lightest-weight way to add a "reveal" edge
+   here — .projectMedia already clips via overflow:hidden, so this never
+   introduces a new visible edge/border, just a second, slightly offset
+   clip that closes to match it. No `round` radius: .projectMedia has
+   square corners today, so this doesn't add one. */
+.projectMedia {
+  opacity: 0;
+  transform: scale(1.05);
+  clip-path: inset(6%);
+  transition:
+    opacity 950ms var(--ease-premium),
+    transform 950ms var(--ease-premium),
+    clip-path 950ms var(--ease-premium);
+}
+
+.project[data-revealed="true"] .projectMedia {
+  opacity: 1;
+  transform: scale(1);
+  clip-path: inset(0%);
+}
+
+/* Project description (the one-sentence tagline under each project title):
+   same 18px/650ms profile as the section supporting copy above, with a
+   small delay so it reads as settling just behind the image. Deliberately
+   not applied to the project number, title, or metadata labels — those stay
+   immediately readable, per "avoid animations that delay reading". */
+.projectTagline {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 650ms var(--ease-premium), transform 650ms var(--ease-premium);
+  transition-delay: 80ms;
+}
+
+.project[data-revealed="true"] .projectTagline {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The site-wide rule in app/globals.css already collapses every
+     transition to ~0ms, but that alone would still leave each element
+     sitting at its hidden starting opacity/offset until it happens to
+     scroll into view, then "snap" to visible with no animation — motion
+     removed, but content still gated behind scroll position. This instead
+     renders every reveal target at its final, fully visible resting state
+     immediately, independent of data-revealed/scroll position entirely. */
+  .sectionHeader h2,
+  .sectionHeaderCompact h2,
+  .capabilitiesHeader h2,
+  .sectionHeadingSupporting,
+  .sectionHeader > p:last-child,
+  .sectionHeaderCompact > p:last-child,
+  .capabilitiesSubtitle,
+  .projectMedia,
+  .projectTagline {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
     transition: none;
   }
 }

@@ -29,6 +29,7 @@ import { SmartPuppyBehaviorLoop } from "./SmartPuppyBehaviorLoop";
 import { SmartPuppyConnectedArchitecture } from "./SmartPuppyConnectedArchitecture";
 import { SmartPuppyRelationshipLoop } from "./SmartPuppyRelationshipLoop";
 import { SmartPuppyDigitalExperienceMap } from "./SmartPuppyDigitalExperienceMap";
+import { ScrollReveal } from "./ScrollReveal";
 import type { CaseStudySection as CaseStudySectionData, ContentBlock, MediaLayout } from "@/lib/types";
 import styles from "./CaseStudySection.module.css";
 
@@ -42,20 +43,21 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
   switch (block.type) {
     case "richText":
       return (
-        <div className={styles.richText}>
+        <ScrollReveal as="div" className={styles.richText}>
           {block.heading ? (
             <h3 className={block.headingStyle === "quiet" ? styles.richTextHeadingQuiet : undefined}>
               {block.heading}
             </h3>
           ) : null}
           <RichText body={block.body} />
-        </div>
+        </ScrollReveal>
       );
 
     case "media":
       return (
-        <div
-          className={mediaClass(block.layout)}
+        <ScrollReveal
+          as="div"
+          className={`${mediaClass(block.layout)} ${styles.imageReveal}`}
           style={
             block.media.maxDisplayWidth
               ? ({
@@ -66,18 +68,19 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
           }
         >
           <ResponsiveMedia media={block.media} dense={block.media.dense} />
-        </div>
+        </ScrollReveal>
       );
 
     case "mediaGroup":
       return (
-        <div
+        <ScrollReveal
+          as="div"
           className={
             block.variant === "screens" || block.variant === "screensFill"
-              ? `${styles.screenGroup} ${block.variant === "screensFill" ? styles.screenGroupFill : ""}`
+              ? `${styles.screenGroup} ${block.variant === "screensFill" ? styles.screenGroupFill : ""} ${styles.imageReveal}`
               : block.variant === "equalHeight"
-                ? styles.equalHeightGroup
-                : styles.mediaGroup
+                ? `${styles.equalHeightGroup} ${styles.imageReveal}`
+                : `${styles.mediaGroup} ${styles.imageReveal}`
           }
           style={
             block.variant === "equalHeight"
@@ -106,7 +109,7 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
               ) : null}
             </figure>
           ))}
-        </div>
+        </ScrollReveal>
       );
 
     case "callout":
@@ -317,7 +320,7 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
 
     case "placeholder":
       return (
-        <div className={mediaClass(block.layout)}>
+        <ScrollReveal as="div" className={`${mediaClass(block.layout)} ${styles.imageReveal}`}>
           <CaseStudyPlaceholder
             label={block.label}
             items={block.items}
@@ -326,7 +329,7 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
             caption={block.caption}
             details={block.details}
           />
-        </div>
+        </ScrollReveal>
       );
 
     case "sourcefoldOperationalStateDiagram":
@@ -497,7 +500,7 @@ function Block({ block, sectionId }: { block: ContentBlock; sectionId: string })
 
 export function CaseStudySection({ section }: { section: CaseStudySectionData }) {
   return (
-    <section id={section.id} className={styles.section} aria-labelledby={`${section.id}-heading`}>
+    <ScrollReveal as="section" id={section.id} className={styles.section} aria-labelledby={`${section.id}-heading`}>
       <h2
         id={`${section.id}-heading`}
         className={
@@ -512,6 +515,6 @@ export function CaseStudySection({ section }: { section: CaseStudySectionData })
       <div className={styles.blocks}>
         {section.blocks.map((block, i) => <Block key={i} block={block} sectionId={section.id} />)}
       </div>
-    </section>
+    </ScrollReveal>
   );
 }

@@ -1,0 +1,9 @@
+.letter {
+  /* inline-block only — no padding/width/margin of its own, so the single
+     character inside renders at exactly its normal inline metrics. This is
+     what lets .brand's own font-family/weight/size/letter-spacing (see
+     GlobalNavigation.module.css, untouched by this component) keep applying
+     identically; translate/color are the only properties ever animated on
+     this element, and neither affects layout. */
+  display: inline-block;
+}

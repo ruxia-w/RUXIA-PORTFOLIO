@@ -52,6 +52,7 @@
 .navLink {
   position: relative;
   font-weight: 500;
+  transition: color 250ms var(--ease-premium);
 }
 
 .navLink::after {
@@ -75,6 +76,12 @@
     transform: scaleX(1);
     transform-origin: left;
   }
+
+  /* Runs alongside the underline reveal above, not instead of it — same
+     250ms/--ease-premium timing as .navLink's own transition declaration. */
+  .navLink:hover {
+    color: #315fd5;
+  }
 }
 
 .navLink:focus-visible::after {
@@ -84,6 +91,23 @@
 
 .navLink:focus-visible {
   outline: none;
+  color: #315fd5;
+}
+
+/* #315FD5 computes to only ~3.5:1 against the dark-mode background
+   (#0b0b0b) — below WCAG AA's 4.5:1 minimum for text this size. Light
+   mode's own background keeps the exact requested hex (~5.4:1); dark mode
+   uses a lightened variant instead (~5.6:1). Higher specificity than the
+   rules above (an added attribute selector), so this wins in dark mode
+   regardless of source order. */
+:global(html[data-theme="dark"]) .navLink:focus-visible {
+  color: #5c85e6;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :global(html[data-theme="dark"]) .navLink:hover {
+    color: #5c85e6;
+  }
 }
 
 .navLinkDisabled {

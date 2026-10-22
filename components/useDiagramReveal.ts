@@ -14,8 +14,21 @@ import { useEffect, useRef, useState } from "react";
  * a hardcoded `false` keeps server and first-client-render output
  * identical; the reveal then only ever happens after mount, inside an
  * effect, which cannot cause a mismatch.
+ *
+ * `options.rootMargin` is optional and defaults to unset (the original,
+ * unchanged "0px" behavior every existing diagram call-site still gets,
+ * since none of them pass it) — added so a caller whose trigger element
+ * can sit near the bottom edge of a short/variable-height viewport (e.g. a
+ * homepage section just below a content-driven-height Hero) can require a
+ * little more of the viewport before counting as "intersecting", so the
+ * reveal plays as the user scrolls meaningfully toward it rather than
+ * finishing before they do. It never delays something already prominently
+ * in view at mount — the observer's first callback still fires immediately
+ * for that case, margin or not.
  */
-export function useDiagramReveal<T extends HTMLElement = HTMLDivElement>() {
+export function useDiagramReveal<T extends HTMLElement = HTMLDivElement>(options?: {
+  rootMargin?: string;
+}) {
   const [revealed, setRevealed] = useState(false);
   const ref = useRef<T>(null);
 
@@ -40,10 +53,15 @@ export function useDiagramReveal<T extends HTMLElement = HTMLDivElement>() {
           observer.disconnect();
         }
       },
-      { threshold: 0.15 },
+      { threshold: 0.15, rootMargin: options?.rootMargin },
     );
     observer.observe(el);
     return () => observer.disconnect();
+    // options is read once at mount, matching this hook's existing
+    // run-once-per-mount contract (deps intentionally stay empty, exactly
+    // as before this parameter existed) — a caller re-rendering with a
+    // fresh object literal each time must not re-trigger the whole setup.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { revealed, ref };

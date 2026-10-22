@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Anton, Inter } from "next/font/google";
 import { GlobalNavigation } from "@/components/GlobalNavigation";
+import { CustomCursor } from "@/components/CustomCursor";
 import "./globals.css";
 
 // Only two typefaces site-wide: Inter for everything except the Hero, Anton
@@ -110,6 +111,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main-content" className="skip-link">Skip to content</a>
         <GlobalNavigation />
         {children}
+        {/* Direct <body> child, mounted after everything else, so it sits
+            outside the sticky header's backdrop-filter stacking context —
+            see components/CustomCursor.module.css for why that matters. */}
+        <CustomCursor />
       </body>
     </html>
   );

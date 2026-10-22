@@ -964,3 +964,101 @@
     margin-top: 0.65rem;
   }
 }
+
+/* --------------------------------------------------------------------
+   Scroll reveal — "Minimal, Structured, and Alive"
+
+   Every element below is driven by ScrollReveal (components/ScrollReveal.tsx),
+   the same thin IntersectionObserver wrapper used for the homepage reveals,
+   itself reusing useDiagramReveal.ts — the hook every AURIC/Trace/SmartPuppy
+   diagram component already drives its OWN entrance with. Those bespoke
+   diagram components (and PhoneMediaViewer/FinalExperience's video/interactive
+   presentation) are deliberately NOT wrapped here: they already manage their
+   own reveal, and wrapping them again would be exactly the second, competing
+   animation system the brief asks to avoid. This file only covers the
+   section heading, its intro paragraph, each richText block, and each plain
+   image/placeholder block (.imageReveal — one added marker class, appended
+   alongside each block's own existing classes, rather than enumerating
+   .mediaBlock/.mediaWide/.mediaGroup/.screenGroup/.equalHeightGroup
+   separately for what is visually the same reveal everywhere).
+
+   Opacity + transform (+ clip-path for images) only — never height/margin/
+   display — so nothing here can shift layout. Reuses the site's one
+   existing motion easing (--ease-premium) rather than a second curve. */
+
+.heading,
+.headingSecondary {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms var(--ease-premium), transform 700ms var(--ease-premium);
+}
+
+.section[data-revealed="true"] .heading {
+  opacity: 1;
+  transform: none;
+}
+
+/* The section's own intro paragraph settles in just behind its heading. */
+.intro {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 500ms var(--ease-premium), transform 500ms var(--ease-premium);
+  transition-delay: 90ms;
+}
+
+.section[data-revealed="true"] .intro {
+  opacity: 1;
+  transform: none;
+}
+
+/* Each richText block triggers independently as the reader scrolls to it —
+   no added transition-delay: the natural scroll-driven sequence through a
+   long chapter is already the "stagger", without an extra artificial one on
+   top, and reading is never interrupted since a block already on screen at
+   mount reveals immediately rather than waiting. */
+.richText {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 500ms var(--ease-premium), transform 500ms var(--ease-premium);
+}
+
+.richText[data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+.imageReveal {
+  opacity: 0;
+  transform: scale(1.025);
+  clip-path: inset(6%);
+  transition:
+    opacity 800ms var(--ease-premium),
+    transform 800ms var(--ease-premium),
+    clip-path 800ms var(--ease-premium);
+}
+
+.imageReveal[data-revealed="true"] {
+  opacity: 1;
+  transform: scale(1);
+  clip-path: inset(0%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Same reasoning as the homepage's own reduced-motion override: the
+     site-wide rule in app/globals.css already collapses transitions to
+     ~0ms, but on its own that would still leave every block sitting at its
+     hidden starting state until scrolled into view, then snapping visible
+     with zero animation. This instead renders every reveal target at its
+     final, fully visible resting state immediately, independent of
+     data-revealed/scroll position entirely. */
+  .heading,
+  .headingSecondary,
+  .intro,
+  .richText,
+  .imageReveal {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+}

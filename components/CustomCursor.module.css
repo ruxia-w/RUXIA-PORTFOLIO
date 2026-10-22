@@ -1,0 +1,28 @@
+.canvas {
+  /* Direct <body> child (mounted in app/layout.tsx right after
+     <GlobalNavigation/>), not nested under the sticky header's
+     backdrop-filter — that filter creates its own stacking context, which
+     would otherwise cap any z-index set here at a much lower effective
+     layer. Fixed + full-viewport so canvas pixel coordinates always equal
+     viewport (clientX/clientY) coordinates, with no scroll-offset math
+     needed in the draw loop. */
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+
+  /* Never part of hit-testing — this is what keeps every existing pointer
+     interaction (HeroHeadline's own pointermove hit-test, GalleryTile's
+     hover-to-play, ThemeToggle's click, native link/button hover) reaching
+     the real DOM underneath untouched. This component adds its own
+     pointermove listener on `window` only — it never attaches to, reads
+     from, or wraps the Hero <section> HeroHeadline listens on, so the two
+     pointer-tracking systems run fully independently. */
+  pointer-events: none;
+
+  /* One above ::view-transition-new(root)'s explicit z-index:2147483646
+     (see app/globals.css) so the cursor is never momentarily painted over
+     by a view-transition snapshot (the Home<->case-study hero morph, the
+     ThemeToggle wipe). */
+  z-index: 2147483647;
+}

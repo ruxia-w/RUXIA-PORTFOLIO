@@ -134,6 +134,29 @@
   width: fit-content;
   text-decoration: none;
   border-bottom: 1px solid currentColor;
+  /* border-bottom already reads currentColor, so the hover rule below only
+     ever needs to set `color` — same mechanism as app/page.module.css's
+     .textLink/.caseLink, copied verbatim here per this file's own existing
+     comment just above (verbatim rather than importing across modules). */
+  transition: color 250ms var(--ease-premium), border-bottom-color 250ms var(--ease-premium);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ctaTile:hover .ctaLabel {
+    color: #315fd5;
+  }
+}
+
+.ctaTile:focus-visible .ctaLabel {
+  color: #315fd5;
+}
+
+/* Same dark-mode contrast adjustment as every other cobalt-blue hover in
+   this codebase (~3.5:1 against the dark background otherwise, below WCAG
+   AA's 4.5:1 minimum for this text size). */
+:global(html[data-theme="dark"]) .ctaTile:hover .ctaLabel,
+:global(html[data-theme="dark"]) .ctaTile:focus-visible .ctaLabel {
+  color: #5c85e6;
 }
 
 /* The arrow reuses the page's own .linkArrow class (passed in via

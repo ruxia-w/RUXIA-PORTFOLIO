@@ -35,7 +35,14 @@
   font-weight: 450;
   line-height: 1.25;
   letter-spacing: -0.01em;
-  transition: color 140ms ease, border-color 140ms ease;
+  /* Reuses the site's one shared motion easing (--ease-premium, see
+     app/globals.css) rather than a second curve, and runs a touch longer
+     than the previous flat 140ms/ease so the active-chapter indicator
+     settles in smoothly as scroll-spy updates, without lagging noticeably
+     behind the actual scroll position. Layout/typography (padding, border
+     width/placement, font metrics) are unchanged — only these two
+     properties' transition timing/easing values are tuned. */
+  transition: color 220ms var(--ease-premium), border-color 220ms var(--ease-premium);
 }
 
 .link:hover {

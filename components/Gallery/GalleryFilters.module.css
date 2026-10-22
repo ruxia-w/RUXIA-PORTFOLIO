@@ -29,6 +29,10 @@
   background: transparent;
   border: 0;
   cursor: pointer;
+  /* ::after's underline already reads currentColor (see below), so this
+     color transition alone carries it along too — the existing 160ms
+     underline-reveal transition on ::after is untouched. */
+  transition: color 250ms var(--ease-premium);
 }
 
 .filter::after {
@@ -56,6 +60,37 @@
 
 .filter[aria-current="true"]::after {
   transform: scaleX(1);
+}
+
+/* Hover/focus color — explicitly covers the already-active filter too
+   (higher specificity than .filter[aria-current="true"] alone, so it
+   still wins there), but only ever as a transient :hover/:focus-visible
+   state: nothing here touches [aria-current] itself, so an inactive
+   filter never ends up looking permanently selected. */
+@media (hover: hover) and (pointer: fine) {
+  .filter:hover,
+  .filter[aria-current="true"]:hover {
+    color: #315fd5;
+  }
+}
+
+.filter:focus-visible,
+.filter[aria-current="true"]:focus-visible {
+  color: #315fd5;
+}
+
+/* Same dark-mode contrast adjustment as every other cobalt-blue hover in
+   this codebase (~3.5:1 against the dark background otherwise, below WCAG
+   AA's 4.5:1 minimum for this text size — identical font-size to
+   GlobalNavigation's .navLink). */
+:global(html[data-theme="dark"]) .filter:hover,
+:global(html[data-theme="dark"]) .filter[aria-current="true"]:hover {
+  color: #5c85e6;
+}
+
+:global(html[data-theme="dark"]) .filter:focus-visible,
+:global(html[data-theme="dark"]) .filter[aria-current="true"]:focus-visible {
+  color: #5c85e6;
 }
 
 @media (max-width: 640px) {

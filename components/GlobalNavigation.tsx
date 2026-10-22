@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
+import { LogoWave } from "./LogoWave";
 import styles from "./GlobalNavigation.module.css";
 
 export function GlobalNavigation() {
   return (
     <header className={styles.header}>
       <nav className={styles.nav} aria-label="Global">
-        <Link href="/" className={styles.brand}>RUXIA WANG</Link>
+        <LogoWave className={styles.brand} />
         <ul className={styles.navList}>
           <li><Link href="/#selected-work" className={styles.navLink}>Works</Link></li>
           <li><Link href="/gallery" className={styles.navLink}>Gallery</Link></li>

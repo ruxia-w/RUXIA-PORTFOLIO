@@ -35,12 +35,26 @@
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 5px;
+  /* currentColor: the underline already tracks .projectTitle's own color
+     automatically, so the new hover rule below only ever needs to set
+     `color` — no separate underline-color rule needed. */
   text-decoration-color: currentColor;
   cursor: pointer;
-  transition: text-decoration-thickness 160ms ease;
+  transition: text-decoration-thickness 160ms ease, color 250ms var(--ease-premium);
 }
 
 .link:hover .projectTitle,
 .link:focus-visible .projectTitle {
   text-decoration-thickness: 1.75px;
+  color: #315fd5;
+}
+
+/* #315FD5 computes to only ~3.5:1 against the dark-mode background —
+   below WCAG AA's 4.5:1 minimum for this text size (same math as
+   GlobalNavigation's .navLink). Dark mode uses the same lightened
+   variant used there instead (~5.6:1); light mode keeps the exact
+   requested hex (~5.4:1). */
+:global(html[data-theme="dark"]) .link:hover .projectTitle,
+:global(html[data-theme="dark"]) .link:focus-visible .projectTitle {
+  color: #5c85e6;
 }

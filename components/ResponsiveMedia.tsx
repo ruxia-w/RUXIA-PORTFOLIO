@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef } from "react";
 import type { MediaAsset } from "@/lib/types";
+import { CloseIcon } from "./LightboxIcons";
 import styles from "./ResponsiveMedia.module.css";
 
 type Props = {
@@ -20,7 +21,12 @@ export function ResponsiveMedia({ media, dense = false, viewerLabel }: Props) {
 
   return (
     <figure className={styles.figure}>
-      <button type="button" className={styles.trigger} onClick={() => dialogRef.current?.showModal()} aria-label={label}>
+      {/* data-cursor="zoom" is the custom cursor's one explicit exemption
+          (see app/globals.css): every other clickable element has its
+          native hand pointer suppressed in favor of the blue dot, but this
+          specific zoom-in affordance is deliberately preserved per the
+          cursor spec's "image zoom interactions" carve-out. */}
+      <button type="button" className={styles.trigger} data-cursor="zoom" onClick={() => dialogRef.current?.showModal()} aria-label={label}>
         <Image
           src={media.src}
           width={media.width}
@@ -43,7 +49,9 @@ export function ResponsiveMedia({ media, dense = false, viewerLabel }: Props) {
           if (event.target === event.currentTarget) event.currentTarget.close();
         }}
       >
-        <button type="button" className={styles.close} onClick={() => dialogRef.current?.close()} aria-label="Close image viewer">×</button>
+        <button type="button" className={styles.close} onClick={() => dialogRef.current?.close()} aria-label="Close image viewer">
+          <CloseIcon />
+        </button>
         <div className={styles.dialogImageWrap}>
           <Image src={media.src} width={media.width} height={media.height} alt={media.alt} className={styles.dialogImage} sizes="96vw" unoptimized={useOriginalImage} />
         </div>

@@ -4,6 +4,7 @@ import { ViewTransition } from "react";
 import { Footer } from "@/components/Footer";
 import { HeroHeadline } from "@/components/HeroHeadline";
 import { HomeGalleryWall, type HomeGalleryImage } from "@/components/HomeGalleryWall";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import { auricSignalProject } from "@/lib/projects/auric-signal";
 import { traceProject } from "@/lib/projects/trace";
 import { sourcefoldProject } from "@/lib/projects/sourcefold";
@@ -272,6 +273,29 @@ const explorationRows: HomeGalleryImage[][] = [
 export default function HomePage() {
   return (
     <main id="main-content" className={styles.main}>
+      {/* Scroll-reveal fallback: the hidden/pre-reveal state for every
+          ScrollReveal-wrapped element below only ever lifts because that
+          component's own client-side IntersectionObserver effect flips
+          data-revealed="true" once an element scrolls into view (see
+          components/ScrollReveal.tsx). If JavaScript never runs at all,
+          that effect never fires and data-revealed stays absent forever —
+          this <noscript> block is the one case CSS alone can't distinguish
+          from "just hasn't scrolled there yet", so it forces every reveal
+          target back to its fully visible, non-offset resting state,
+          scoped to this page only. */}
+      <noscript>
+        <style>{`
+          .${styles.sectionHeader} h2, .${styles.sectionHeaderCompact} h2, .${styles.capabilitiesHeader} h2,
+          .${styles.sectionHeadingSupporting}, .${styles.sectionHeader} > p:last-child, .${styles.sectionHeaderCompact} > p:last-child, .${styles.capabilitiesSubtitle},
+          .${styles.projectMedia}, .${styles.projectTagline} {
+            opacity: 1 !important;
+            transform: none !important;
+          }
+          .${styles.projectMedia} {
+            clip-path: none !important;
+          }
+        `}</style>
+      </noscript>
       <section className={styles.hero} aria-labelledby="home-title">
         <h1 id="home-title" className={styles.heroTitle}>
           <HeroHeadline />
@@ -296,7 +320,7 @@ export default function HomePage() {
       </section>
 
       <section className={styles.work} aria-labelledby="work-title">
-        <header id="selected-work" className={styles.sectionHeader}>
+        <ScrollReveal as="header" id="selected-work" className={styles.sectionHeader}>
           <p className={styles.sectionIndex}>Selected Work</p>
           <div className={styles.sectionHeading}>
             <h2 id="work-title">Across scales. One design practice.</h2>
@@ -305,11 +329,12 @@ export default function HomePage() {
               connected experiences, and intelligent systems.
             </p>
           </div>
-        </header>
+        </ScrollReveal>
 
         <div className={styles.projectList}>
           {projects.map((project) => (
-            <article
+            <ScrollReveal
+              as="article"
               className={project.href === "/work/sourcefold" ? `${styles.project} ${styles.projectSourcefold}` : styles.project}
               key={project.title}
             >
@@ -393,13 +418,25 @@ export default function HomePage() {
                   )}
                 </ViewTransition>
               </Link>
-            </article>
+            </ScrollReveal>
           ))}
         </div>
       </section>
 
+      <section id="selected-explorations" className={styles.gallery} aria-labelledby="gallery-title">
+        <ScrollReveal as="header" className={styles.sectionHeaderCompact}>
+          <p className={styles.sectionIndex}>Selected Explorations</p>
+          <h2 id="gallery-title">Product design, in form and detail.</h2>
+          <p>A closer look at product and interface design across physical and digital work.</p>
+        </ScrollReveal>
+        <HomeGalleryWall
+          rows={explorationRows}
+          cta={{ href: "/gallery", label: "View more", arrowClassName: styles.linkArrow }}
+        />
+      </section>
+
       <section id="capabilities" className={styles.capabilitiesSection} aria-labelledby="capabilities-title">
-        <div className={styles.capabilitiesHeader}>
+        <ScrollReveal as="div" className={styles.capabilitiesHeader}>
           <p className={styles.sectionIndex}>Capabilities</p>
           <div className={styles.capabilitiesHeading}>
             <h2 id="capabilities-title">Strategy, systems, and craft.</h2>
@@ -407,7 +444,7 @@ export default function HomePage() {
               Designing across products, experiences, and systems — from strategy and interaction to delivery.
             </p>
           </div>
-        </div>
+        </ScrollReveal>
         <div className={styles.capabilityCards}>
           {capabilities.map(({ number, title, Icon, skills }) => (
             <div className={styles.capabilityCard} key={number}>
@@ -420,18 +457,6 @@ export default function HomePage() {
             </div>
           ))}
         </div>
-      </section>
-
-      <section id="selected-explorations" className={styles.gallery} aria-labelledby="gallery-title">
-        <header className={styles.sectionHeaderCompact}>
-          <p className={styles.sectionIndex}>Selected Explorations</p>
-          <h2 id="gallery-title">Product design, in form and detail.</h2>
-          <p>A closer look at product and interface design across physical and digital work.</p>
-        </header>
-        <HomeGalleryWall
-          rows={explorationRows}
-          cta={{ href: "/gallery", label: "View more", arrowClassName: styles.linkArrow }}
-        />
       </section>
 
       <section className={styles.contact} aria-labelledby="contact-title">

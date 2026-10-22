@@ -275,3 +275,90 @@ textarea {
     animation: none !important;
   }
 }
+
+/* Custom cursor (components/CustomCursor.tsx) hides the native cursor only
+   once JS has confirmed prefers-reduced-motion is off AND the pointer is
+   fine (mouse/trackpad) — that's what the [data-custom-cursor="active"]
+   attribute (set/unset live on matchMedia change) and the redundant
+   (hover: hover) and (pointer: fine) guard below both encode, so there is
+   no code path where the native cursor disappears without the custom one
+   taking over, and no code path where any of this applies on touch or
+   with reduced motion.
+
+   Deliberately a blanket `html[data-custom-cursor="active"] * { cursor:
+   none !important }` rather than an inheritance-based html/body rule (that
+   first attempt relied on every descendant either having no cursor of its
+   own or correctly inheriting "none" — real engines don't apply that
+   consistently for every nested element/pseudo-state, which is why the
+   hand pointer kept surviving). `*` gives every single element — a link,
+   a button, an icon <span> nested inside either, a project-card <img>, any
+   future interactive element — its own explicit `cursor: none`, so there
+   is nothing left for any hover/active/focus/post-click state to fall
+   back to. The two carve-outs below are deliberately written with higher
+   selector specificity so they keep winning against this `*` rule even
+   though both sides use `!important`. */
+@media (hover: hover) and (pointer: fine) {
+  /* `html[data-custom-cursor="active"] *` below is a descendant combinator —
+     it reaches every element INSIDE <html>, but never <html> itself, so
+     <html>'s own computed cursor needs its own explicit rule or it falls
+     back to the initial `auto`. (A prior attempt at fixing this by having
+     CustomCursor.tsx briefly toggle an inline `html.style.cursor` to force a
+     repaint was removed — toggling through a real "auto" value, even for
+     one frame, is itself a visible native-cursor flash. This static rule
+     needs no runtime toggling at all, so there's nothing left to flash.) */
+  html[data-custom-cursor="active"] {
+    cursor: none !important;
+  }
+
+  html[data-custom-cursor="active"] * {
+    cursor: none !important;
+  }
+
+  /* Top-layer boxes — a native <dialog>'s ::backdrop (ResponsiveMedia's and
+     GalleryViewer's lightboxes) and the ::view-transition-* snapshot tree
+     (the Home<->case-study hero morph, ThemeToggle's circular wipe) — are
+     NOT normal descendants of <body> for inheritance/selector-matching
+     purposes, so the `*` rule above never reaches them. Covered explicitly
+     so there's no native-cursor flash during a dialog open/close or any
+     view transition. (::view-transition is already pointer-events:none
+     site-wide — see below — so this is belt-and-suspenders for the cursor
+     specifically, not a hit-testing concern.) */
+  html[data-custom-cursor="active"] dialog::backdrop,
+  html[data-custom-cursor="active"] ::view-transition,
+  html[data-custom-cursor="active"] ::view-transition-group(*),
+  html[data-custom-cursor="active"] ::view-transition-image-pair(*),
+  html[data-custom-cursor="active"] ::view-transition-old(*),
+  html[data-custom-cursor="active"] ::view-transition-new(*) {
+    cursor: none !important;
+  }
+
+  /* Two explicit, deliberate carve-outs from the `*` override above — both
+     required so the custom cursor never regresses an existing, meaningful
+     native affordance. Each also re-asserts itself on its own descendants
+     (` *`), since the blanket rule above sets cursor individually on every
+     nested element, not just the ones listed here — simply exempting the
+     container would otherwise leave its children stuck at "none".
+
+     1. The image-zoom trigger (components/ResponsiveMedia.tsx's lightbox
+        button, marked data-cursor="zoom") keeps its native zoom-in cursor.
+        Matched by a stable data attribute rather than ResponsiveMedia's own
+        (CSS-Modules-hashed, unreachable from here) class name; two
+        attribute selectors give this more specificity than the plain `*`
+        rule above, so it wins even though both are `!important`.
+     2. Text inputs / textareas / contenteditable regions (none exist in
+        this codebase today, but the cursor system is global and must not
+        silently break a future contact form or editable field) keep the
+        native text-entry (I-beam) cursor rather than falling through to
+        "none". */
+  html[data-custom-cursor="active"] [data-cursor="zoom"],
+  html[data-custom-cursor="active"] [data-cursor="zoom"] * {
+    cursor: zoom-in !important;
+  }
+
+  html[data-custom-cursor="active"] input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+  html[data-custom-cursor="active"] textarea,
+  html[data-custom-cursor="active"] [contenteditable="true"],
+  html[data-custom-cursor="active"] [contenteditable="true"] * {
+    cursor: text !important;
+  }
+}

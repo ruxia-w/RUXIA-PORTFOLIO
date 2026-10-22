@@ -96,16 +96,18 @@
   right: 1rem;
   z-index: 2;
   display: grid;
-  width: 2.5rem;
-  height: 2.5rem;
+  /* 36px clickable area holding a 14px CloseIcon (components/
+     LightboxIcons.tsx) — place-items: center keeps the icon precisely
+     centered regardless of the button's own size. No hover/focus color
+     rule: the icon stays the same currentColor in every state, by design. */
+  width: 2.25rem;
+  height: 2.25rem;
   place-items: center;
   padding: 0;
   color: #f5f5f0;
   background: rgb(20 20 20 / 76%);
   border: 1px solid rgb(255 255 255 / 20%);
   border-radius: 999px;
-  font-size: 1.5rem;
-  line-height: 1;
   cursor: pointer;
 }
 

@@ -139,6 +139,10 @@
   font-weight: 550;
   text-decoration: none;
   border-bottom: 1px solid currentColor;
+  /* border-bottom already reads currentColor, so the hover rule below only
+     ever needs to set `color` — same mechanism as the homepage's own
+     .textLink/.caseLink (app/page.module.css). */
+  transition: color 250ms var(--ease-premium), border-bottom-color 250ms var(--ease-premium);
 }
 
 /* Shared with .contactLinks a below (Get in Touch) — one consistent
@@ -160,11 +164,40 @@
   .contactLinks a:hover .linkArrow {
     transform: translate(2px, -2px);
   }
+
+  .heroLink:hover,
+  .contactLinks a:hover {
+    color: #315fd5;
+  }
+
+  /* #315FD5 computes to only ~3.5:1 against the dark-mode background —
+     below WCAG AA's 4.5:1 minimum for text this size (same math as
+     GlobalNavigation's .navLink and every other cobalt-blue hover in this
+     codebase). Light mode keeps the exact requested hex (~5.4:1); dark
+     mode uses the same lightened variant used elsewhere instead (~5.6:1).
+     Kept inside this same (hover: hover) gate — not a separate, ungated
+     rule — so a touch device in dark mode can't end up with a "stuck"
+     blue link from a sticky :hover match after a tap, the exact failure
+     mode gating everything else in this block avoids. */
+  :global(html[data-theme="dark"]) .heroLink:hover,
+  :global(html[data-theme="dark"]) .contactLinks a:hover {
+    color: #5c85e6;
+  }
 }
 
 .heroLink:focus-visible .linkArrow,
 .contactLinks a:focus-visible .linkArrow {
   transform: translate(2px, -2px);
+}
+
+.heroLink:focus-visible,
+.contactLinks a:focus-visible {
+  color: #315fd5;
+}
+
+:global(html[data-theme="dark"]) .heroLink:focus-visible,
+:global(html[data-theme="dark"]) .contactLinks a:focus-visible {
+  color: #5c85e6;
 }
 
 .background,
@@ -427,6 +460,7 @@
 .contactLinks a {
   text-decoration: none;
   border-bottom: 1px solid currentColor;
+  transition: color 250ms var(--ease-premium), border-bottom-color 250ms var(--ease-premium);
 }
 
 @media (max-width: 980px) {

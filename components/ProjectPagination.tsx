@@ -4,16 +4,20 @@ import { projectRegistry } from "@/lib/projects/registry";
 import styles from "./ProjectPagination.module.css";
 
 /**
- * Previous/Next navigation computed from the central project order.
- * Renders nothing for links that don't exist yet — no invented siblings,
- * no disabled placeholder controls.
+ * Previous/Next navigation computed from the central project order —
+ * circular: the first project's Previous wraps to the last project, and
+ * the last project's Next wraps to the first, so every project has both
+ * links on every page. Renders nothing only if the current slug itself
+ * isn't in projectOrder yet (e.g. a case study not migrated into it) or a
+ * neighbor slug has no registry entry — no invented siblings in that case.
  */
 export function ProjectPagination({ currentSlug }: { currentSlug: string }) {
   const index = projectOrder.indexOf(currentSlug as (typeof projectOrder)[number]);
   if (index === -1) return null;
 
-  const prevSlug = index > 0 ? projectOrder[index - 1] : undefined;
-  const nextSlug = index < projectOrder.length - 1 ? projectOrder[index + 1] : undefined;
+  const total = projectOrder.length;
+  const prevSlug = projectOrder[(index - 1 + total) % total];
+  const nextSlug = projectOrder[(index + 1) % total];
 
   if (!prevSlug && !nextSlug) return null;
 
