@@ -285,14 +285,15 @@ export default function HomePage() {
           scoped to this page only. */}
       <noscript>
         <style>{`
-          .${styles.sectionHeader} h2, .${styles.sectionHeaderCompact} h2, .${styles.capabilitiesHeader} h2,
+          .${styles.headingMaskInner},
           .${styles.sectionHeadingSupporting}, .${styles.sectionHeader} > p:last-child, .${styles.sectionHeaderCompact} > p:last-child, .${styles.capabilitiesSubtitle},
-          .${styles.projectMedia}, .${styles.projectTagline} {
+          .${styles.projectMedia}, .${styles.projectTagline}, .${styles.project} h3, .${styles.projectMeta}, .${styles.caseLink},
+          .${styles.contactRow} h2, .${styles.contactInfo} {
             opacity: 1 !important;
             transform: none !important;
           }
-          .${styles.projectMedia} {
-            clip-path: none !important;
+          .${styles.projectMediaLight}, .${styles.projectMediaDark} {
+            transform: none !important;
           }
         `}</style>
       </noscript>
@@ -323,7 +324,11 @@ export default function HomePage() {
         <ScrollReveal as="header" id="selected-work" className={styles.sectionHeader}>
           <p className={styles.sectionIndex}>Selected Work</p>
           <div className={styles.sectionHeading}>
-            <h2 id="work-title">Across scales. One design practice.</h2>
+            <h2 id="work-title">
+              <span className={styles.headingMask}>
+                <span className={styles.headingMaskInner}>Across scales. One design practice.</span>
+              </span>
+            </h2>
             <p className={styles.sectionHeadingSupporting}>
               Independent concepts and professional work across physical products,
               connected experiences, and intelligent systems.
@@ -426,7 +431,11 @@ export default function HomePage() {
       <section id="selected-explorations" className={styles.gallery} aria-labelledby="gallery-title">
         <ScrollReveal as="header" className={styles.sectionHeaderCompact}>
           <p className={styles.sectionIndex}>Selected Explorations</p>
-          <h2 id="gallery-title">Product design, in form and detail.</h2>
+          <h2 id="gallery-title">
+            <span className={styles.headingMask}>
+              <span className={styles.headingMaskInner}>Product design, in form and detail.</span>
+            </span>
+          </h2>
           <p>A closer look at product and interface design across physical and digital work.</p>
         </ScrollReveal>
         <HomeGalleryWall
@@ -439,7 +448,11 @@ export default function HomePage() {
         <ScrollReveal as="div" className={styles.capabilitiesHeader}>
           <p className={styles.sectionIndex}>Capabilities</p>
           <div className={styles.capabilitiesHeading}>
-            <h2 id="capabilities-title">Strategy, systems, and craft.</h2>
+            <h2 id="capabilities-title">
+              <span className={styles.headingMask}>
+                <span className={styles.headingMaskInner}>Strategy, systems, and craft.</span>
+              </span>
+            </h2>
             <p className={styles.capabilitiesSubtitle}>
               Designing across products, experiences, and systems — from strategy and interaction to delivery.
             </p>
@@ -460,8 +473,14 @@ export default function HomePage() {
       </section>
 
       <section className={styles.contact} aria-labelledby="contact-title">
-        <div className={styles.contactRow}>
-          <h2 id="contact-title">Let&apos;s create products people can understand, trust, and use.</h2>
+        <ScrollReveal as="div" className={styles.contactRow}>
+          <h2 id="contact-title">
+            <span className={styles.headingMask}>
+              <span className={styles.headingMaskInner}>
+                Let&apos;s create products people can understand, trust, and use.
+              </span>
+            </span>
+          </h2>
           <div className={styles.contactInfo}>
             <p className={styles.contactAvailability}>
               Open to product, experience, and connected systems design opportunities.
@@ -481,7 +500,7 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
         <Footer />
       </section>
     </main>

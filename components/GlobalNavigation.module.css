@@ -52,7 +52,7 @@
 .navLink {
   position: relative;
   font-weight: 500;
-  transition: color 250ms var(--ease-premium);
+  transition: color var(--duration-feedback) var(--ease-hover);
 }
 
 .navLink::after {
@@ -65,9 +65,7 @@
   background: currentColor;
   transform: scaleX(0);
   transform-origin: right;
-  /* Same mechanism as before, retimed to match the site's standardized
-     micro-interaction band (250-300ms) and shared easing. */
-  transition: transform 250ms var(--ease-premium);
+  transition: transform var(--duration-feedback) var(--ease-hover);
 }
 
 /* No hover state on touch devices. Keyboard focus stays unconditional. */
@@ -78,7 +76,8 @@
   }
 
   /* Runs alongside the underline reveal above, not instead of it — same
-     250ms/--ease-premium timing as .navLink's own transition declaration. */
+     --duration-feedback/--ease-hover timing as .navLink's own transition
+     declaration. */
   .navLink:hover {
     color: #315fd5;
   }

@@ -4,37 +4,81 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./CustomCursor.module.css";
 
-// Approved V2.6 cursor spec — one obvious knob per tunable, kept together
-// per the HeroHeadline.tsx tuning-constants convention.
-const DOT_NORMAL_DIAMETER = 11;
-const DOT_HOVER_DIAMETER = 9;
+// Clean blue dot, crisp at all times — one obvious knob per tunable, kept
+// together per the HeroHeadline.tsx tuning-constants convention.
+const DOT_NORMAL_DIAMETER = 12;
+const DOT_HOVER_DIAMETER = 16;
 const DOT_NORMAL_RADIUS = DOT_NORMAL_DIAMETER / 2;
 const DOT_HOVER_RADIUS = DOT_HOVER_DIAMETER / 2;
-const COLOR_RGB = "49, 95, 213"; // #315FD5 Cobalt Blue
+const COLOR_RGB = "49, 95, 213"; // #315FD5 Cobalt Blue — unchanged hue
 
-const TRAIL_WIDTH = 2.3;
-const TRAIL_RETENTION_MS = 390;
-const MAX_TRAIL_LENGTH_PX = 125;
-const TRAIL_BASE_ALPHA = 0.55; // restrained, not flashy — see design brief
+// Hover glow: the solid dot's own opacity never changes (its center stays
+// fully visible at all times) — instead, a separate radial gradient fades
+// in around it on hover, from the dot's own current edge out to
+// GLOW_RADIUS_PX (~24-28px overall, dot included). Not a second circle
+// drawn at a fixed size: both the dot's radius and the glow's outer edge
+// are derived from the same single `hoverT` value each frame (see
+// drawDot()/tick() below), so the whole thing grows, fades in, and fades
+// out together as one effect, never as a separately-animated ring.
+const GLOW_RADIUS_PX = 13; // ~26px overall diameter, including the dot
+const GLOW_PEAK_ALPHA = 0.45; // "subtle", strongest right at the dot's edge, 0 at GLOW_RADIUS_PX
+// Canvas has no CSS transition to reach for — this per-frame lerp factor
+// is what approximates the requested ~180ms hover transition (see its use
+// in tick() below); an exponential lerp is inherently ease-out shaped, so
+// no separate easing curve is needed.
+const HOVER_T_EASE = 0.3;
 
-// Light smoothing only — large enough that the dot still reads as
-// effectively 1:1 with the raw pointer, small enough to absorb trackpad/
-// high-polling-rate jitter rather than visibly lagging behind it.
-const DOT_POSITION_EASE = 0.45;
-const DOT_RADIUS_EASE = 0.3;
+// +40% from the previous 390ms/160px, scaled together so the extra length
+// is actually visible at comparable pointer speed rather than being
+// pruned away by an unchanged retention window — and because that scale
+// factor happens to land the fade-out squarely in the requested
+// ~500-650ms range on its own.
+const TRAIL_RETENTION_MS = 550;
+const MAX_TRAIL_LENGTH_PX = 224;
+
+// The trail is rendered as several smooth layers stacked on the *same*
+// centerline (narrowest/longest-reaching first, widest/shortest last) —
+// each one individually a single continuous quadratic path, exactly like
+// the one-layer version before. Stacking along the width this way is what
+// fakes a tapered stroke without ever introducing the per-segment seam a
+// stroked, discretely-varying lineWidth would otherwise need; there is
+// still only ever one unbroken curve per layer, never a joint mid-path.
+// `coverage` is the fraction of the *most recent* points that layer
+// reaches back to (1 = the full trail, out to the tail); `alphaScale` is
+// that layer's own peak (head-end) opacity.
+const TRAIL_LAYERS = [
+  { widthPx: 0.6, coverage: 1, alphaScale: 0.35 },
+  { widthPx: 1.15, coverage: 0.6, alphaScale: 0.55 },
+  { widthPx: 1.75, coverage: 0.28, alphaScale: 0.8 }, // ~1.5-2px "near the cursor"
+] as const;
+// Gentler than a steep fade curve — more of the trail's length stays
+// visibly blue, tapering only right at the tail, rather than only the very
+// tip being visible.
+const TRAIL_FADE_EXPONENT = 1.15;
+const TRAIL_GRADIENT_STOPS = [0, 0.15, 0.4, 0.7, 1];
+
+// Position is read and drawn directly every frame inside the rAF loop —
+// never a CSS transition, which is what keeps tracking immediate. This is
+// still a touch of smoothing (not raw 1:1) to absorb trackpad/high-
+// polling-rate jitter, closely attached to the pointer with minimal
+// perceptible lag.
+const DOT_POSITION_EASE = 0.6;
 
 // A pointer that goes quiet for longer than this (trail fully aged out plus
 // a small margin) stops the rAF loop entirely until the next pointermove —
 // this cursor never spends a frame animating while truly idle.
 const IDLE_STOP_MARGIN_MS = 120;
 
-// Heuristic for "hovering over text, links, or interactive elements" (spec
-// wording) — deliberately broad: any element whose content is normally
-// read or clicked. Native elements with their own explicit `cursor` rule
-// (e.g. ResponsiveMedia's zoom-in trigger, a <button>) are already covered
-// by `button`/`a` below, so their own affordance and this 9px shrink both
-// apply together rather than conflicting.
-const SHRINK_SELECTOR = [
+// Actionable/clickable elements only — links, buttons, form controls, and
+// anything else a keyboard user could Tab to or a pointer could click.
+// Deliberately narrower than earlier revisions: no plain-text tags (p,
+// span, h1-h6, ...), so ordinary text never triggers the enlargement.
+// "Clickable images" need no entry of their own here — every image-as-
+// control in this codebase is already wrapped in an <a> or <button> (a
+// project card Link, a gallery tile button, ResponsiveMedia's zoom
+// trigger), so target.closest() against this same list already reaches
+// them; a bare, non-interactive <img> correctly never matches.
+const HOVER_SELECTOR = [
   "a",
   "button",
   "input",
@@ -44,23 +88,6 @@ const SHRINK_SELECTOR = [
   "summary",
   "[role='button']",
   "[tabindex]:not([tabindex='-1'])",
-  "p",
-  "h1",
-  "h2",
-  "h3",
-  "h4",
-  "h5",
-  "h6",
-  "span",
-  "li",
-  "blockquote",
-  "figcaption",
-  "td",
-  "th",
-  "dt",
-  "dd",
-  "strong",
-  "em",
 ].join(",");
 
 type Point = { x: number; y: number; t: number };
@@ -150,8 +177,11 @@ export function CustomCursor() {
     let rawY = 0;
     let dotX = 0;
     let dotY = 0;
-    let targetRadius = DOT_NORMAL_RADIUS;
-    let currentRadius = DOT_NORMAL_RADIUS;
+    // 0 = resting (12px dot, no glow), 1 = fully hovering (16px dot + full
+    // glow) — radius and glow are both derived from this single value each
+    // frame (see drawDot()), so they always grow/fade in perfect sync.
+    let targetHoverT = 0;
+    let currentHoverT = 0;
     let lastMoveTime = 0;
     let lastTarget: Element | null = null;
     const points: Point[] = [];
@@ -178,8 +208,8 @@ export function CustomCursor() {
       const target = event.target as Element | null;
       if (target !== lastTarget) {
         lastTarget = target;
-        const shrink = !!target?.closest?.(SHRINK_SELECTOR);
-        targetRadius = shrink ? DOT_HOVER_RADIUS : DOT_NORMAL_RADIUS;
+        const hovering = !!target?.closest?.(HOVER_SELECTOR);
+        targetHoverT = hovering ? 1 : 0;
       }
 
       ensureLoopRunning();
@@ -197,55 +227,84 @@ export function CustomCursor() {
       return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
     }
 
-    function drawTrail(now: number) {
-      if (points.length < 2) return;
+    // One layer's stroke: a single continuous path through midpoints (the
+    // standard smooth-freehand-line technique) over the given slice of
+    // points — one moveTo + a chain of quadraticCurveTo calls, never
+    // multiple independent beginPath/stroke calls within this layer. That
+    // single-path, single-stroke construction is what guarantees each
+    // layer reads as one visually continuous curved stroke on its own:
+    // there are no segment seams for overlapping semi-transparent alpha to
+    // double up on, and therefore no bright joints.
+    function strokeTrailLayer(slice: Point[], widthPx: number, alphaScale: number, idleFade: number) {
+      if (slice.length < 2) return;
 
-      // One continuous path through midpoints (the standard smooth-
-      // freehand-line technique) — a single moveTo + a chain of
-      // quadraticCurveTo calls, never multiple independent beginPath/stroke
-      // calls. That single-path, single-stroke construction is what
-      // guarantees the result reads as one visually continuous curved
-      // stroke: there are no segment seams for overlapping semi-transparent
-      // alpha to double up on, and therefore no bright joints.
       ctx!.beginPath();
-      ctx!.moveTo(points[0].x, points[0].y);
-      for (let i = 1; i < points.length - 1; i += 1) {
-        const mid = midpoint(points[i], points[i + 1]);
-        ctx!.quadraticCurveTo(points[i].x, points[i].y, mid.x, mid.y);
+      ctx!.moveTo(slice[0].x, slice[0].y);
+      for (let i = 1; i < slice.length - 1; i += 1) {
+        const mid = midpoint(slice[i], slice[i + 1]);
+        ctx!.quadraticCurveTo(slice[i].x, slice[i].y, mid.x, mid.y);
       }
-      const last = points[points.length - 1];
+      const last = slice[slice.length - 1];
       ctx!.lineTo(last.x, last.y);
 
-      // Fade is a single linear gradient along the whole path (tail -> head)
-      // stroked once, not per-segment alpha — the only way to get a smooth
-      // continuous fade with zero overlapping draws. Eased stops (rather
-      // than two flat ones) make the fade read as "gradual toward the tail"
-      // instead of a linear ramp.
-      const tail = points[0];
-      const head = last;
-      const gradient = ctx!.createLinearGradient(tail.x, tail.y, head.x, head.y);
-      const stops = [0, 0.15, 0.4, 0.7, 1];
-      for (const stop of stops) {
-        const eased = Math.pow(stop, 1.6);
-        gradient.addColorStop(stop, `rgba(${COLOR_RGB}, ${eased * TRAIL_BASE_ALPHA})`);
+      // Fade is a single linear gradient along this layer's own tail->head
+      // span, stroked once, not per-segment alpha — the only way to get a
+      // smooth continuous fade with zero overlapping draws within a layer.
+      const tail = slice[0];
+      const gradient = ctx!.createLinearGradient(tail.x, tail.y, last.x, last.y);
+      for (const stop of TRAIL_GRADIENT_STOPS) {
+        const eased = Math.pow(stop, TRAIL_FADE_EXPONENT);
+        gradient.addColorStop(stop, `rgba(${COLOR_RGB}, ${eased * alphaScale * idleFade})`);
       }
 
       ctx!.lineCap = "round";
       ctx!.lineJoin = "round";
-      ctx!.lineWidth = TRAIL_WIDTH;
+      ctx!.lineWidth = widthPx;
       ctx!.strokeStyle = gradient;
       ctx!.stroke();
-      void now;
     }
 
-    function drawDot() {
-      const idleFade = hasPointer
-        ? 1
-        : Math.max(0, 1 - (performance.now() - lastMoveTime) / TRAIL_RETENTION_MS);
+    function drawTrail(idleFade: number) {
+      if (points.length < 2) return;
+      // Widest-coverage (reaches back to the tail) and thinnest first, so
+      // the narrower, more-opaque layers near the cursor paint on top of
+      // it — stacked along the width at the same positions, not joined
+      // end-to-end, so this still never introduces a seam.
+      for (const layer of TRAIL_LAYERS) {
+        const sliceStart = Math.max(0, points.length - Math.ceil(points.length * layer.coverage));
+        strokeTrailLayer(points.slice(sliceStart), layer.widthPx, layer.alphaScale, idleFade);
+      }
+    }
+
+    // Just the solid circle — no halo, glow, or perimeter stroke. radius
+    // and hoverOpacity are both already-eased values from tick() below, so
+    // this only ever draws, never animates anything itself.
+    function drawDot(idleFade: number, hoverT: number) {
       if (idleFade <= 0) return;
+
+      const radius = DOT_NORMAL_RADIUS + (DOT_HOVER_RADIUS - DOT_NORMAL_RADIUS) * hoverT;
+
+      // Glow first (behind the dot): a radial gradient from the dot's own
+      // current edge (radius) out to its outer extent — both ends scale
+      // with hoverT together, so the glow grows and fades in as one
+      // motion, never a separately-sized ring. Skipped below an
+      // imperceptible threshold purely so there's nothing to draw at rest.
+      if (hoverT > 0.001) {
+        const glowOuterRadius = radius + (GLOW_RADIUS_PX - DOT_HOVER_RADIUS) * hoverT;
+        const glow = ctx!.createRadialGradient(dotX, dotY, radius, dotX, dotY, glowOuterRadius);
+        glow.addColorStop(0, `rgba(${COLOR_RGB}, ${GLOW_PEAK_ALPHA * hoverT * idleFade})`);
+        glow.addColorStop(1, `rgba(${COLOR_RGB}, 0)`);
+        ctx!.beginPath();
+        ctx!.fillStyle = glow;
+        ctx!.arc(dotX, dotY, glowOuterRadius, 0, Math.PI * 2);
+        ctx!.fill();
+      }
+
+      // Solid dot on top — always full idleFade-scaled opacity, hover or
+      // not, so its center stays clearly visible at every moment.
       ctx!.beginPath();
       ctx!.fillStyle = `rgba(${COLOR_RGB}, ${idleFade})`;
-      ctx!.arc(dotX, dotY, currentRadius, 0, Math.PI * 2);
+      ctx!.arc(dotX, dotY, radius, 0, Math.PI * 2);
       ctx!.fill();
     }
 
@@ -257,18 +316,22 @@ export function CustomCursor() {
         dotY += (rawY - dotY) * DOT_POSITION_EASE;
         points.push({ x: dotX, y: dotY, t: now });
       }
-      currentRadius += (targetRadius - currentRadius) * DOT_RADIUS_EASE;
+      // Per-frame lerp toward the hover target — the canvas equivalent of
+      // a ~180ms CSS transition. Drives both the dot's radius and the
+      // glow's extent/intensity (see drawDot()), always in sync since
+      // they're both derived from this one value there.
+      currentHoverT += (targetHoverT - currentHoverT) * HOVER_T_EASE;
 
-      // Prune by age (390ms retention) — this alone is what makes the trail
+      // Prune by age (550ms retention) — this alone is what makes the trail
       // smoothly contract and vanish once the pointer stops moving: no new
       // points are pushed, so the tail simply ages out frame by frame.
       const cutoff = now - TRAIL_RETENTION_MS;
       while (points.length && points[0].t < cutoff) points.shift();
 
-      // Prune by cumulative on-screen length (~125px) from the newest end
+      // Prune by cumulative on-screen length (~224px) from the newest end
       // backward, trimming the oldest points first — covers a fast flick
       // that would otherwise paint a longer-than-intended trail within the
-      // 390ms window.
+      // 550ms window.
       let total = 0;
       for (let i = points.length - 1; i > 0; i -= 1) {
         const dx = points[i].x - points[i - 1].x;
@@ -280,11 +343,19 @@ export function CustomCursor() {
         }
       }
 
-      clear();
-      drawTrail(now);
-      drawDot();
+      // Shared by both draws so the trail and the dot fade out in lockstep
+      // once idle, on top of (not instead of) the trail's own point-aging —
+      // a point-count-pruned-away trail already shrinks from the tail; this
+      // additionally dims what's left, together with the dot.
+      const idleFade = hasPointer
+        ? 1
+        : Math.max(0, 1 - (now - lastMoveTime) / TRAIL_RETENTION_MS);
 
-      const settled = Math.abs(currentRadius - targetRadius) < 0.05;
+      clear();
+      drawTrail(idleFade);
+      drawDot(idleFade, currentHoverT);
+
+      const settled = Math.abs(currentHoverT - targetHoverT) < 0.005;
       const quiet = !hasPointer && now - lastMoveTime > TRAIL_RETENTION_MS + IDLE_STOP_MARGIN_MS;
       if (quiet && points.length === 0 && settled) {
         clear();

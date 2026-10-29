@@ -65,11 +65,64 @@
   --display-m-line-height: 1.1;
   --display-m-tracking: -0.008em;
 
-  /* Shared easing for the Home page's motion system (scroll reveal, image
-     hover, link micro-interactions, the Home->project shared image
-     transition, nav underline) — one restrained curve reused everywhere
-     instead of a different feel per interaction. */
+  /* Shared motion system, site-wide — one restrained set of tokens reused
+     across every page rather than each component choosing its own timing.
+     Two easings for two distinct jobs:
+     --ease-premium ("entrance easing"): every scroll-reveal/content-
+     entrance transition (scroll reveal, the Home->project shared image
+     transition, dialog/lightbox entrances). Kept under its original name
+     since it's already referenced throughout the codebase this way.
+     --ease-hover: every hover/focus micro-interaction (link color, nav
+     underline, image hover-scale, cursor-adjacent UI) — plain ease-out,
+     deliberately a different, snappier feel from entrances. */
   --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-hover: ease-out;
+
+  /* Duration bands — pick the one matching what's animating, don't
+     invent a new number per component:
+     --duration-feedback: small UI feedback (hover color, underline
+     reveal, directional-arrow shift, active-state indicators).
+     --duration-entrance: content entrances (scroll-revealed headings/
+     text/images, lightbox image-in).
+     --duration-transition: larger transitions (shared hero-image morph,
+     view-transition-driven effects). */
+  --duration-feedback: 200ms;
+  --duration-entrance: 480ms;
+  --duration-transition: 550ms;
+
+  /* Scroll-reveal motion system (approved spec) — one shared language reused
+     by the homepage and every case-study page rather than each page tuning
+     its own numbers. Headings reveal through an overflow-hidden clip-mask
+     (see .headingMask/.headingMaskInner in app/page.module.css and
+     components/CaseStudySection.module.css); project titles and supporting
+     text (descriptions/metadata/links) fade in while moving up, grouped as
+     whole blocks rather than staggered item-by-item; images fade+move in a
+     stationary container while the image itself separately scales down to
+     its resting size in a DIFFERENT element — so an entrance scale and any
+     later hover scale never share one transition and can't override each
+     other. Case-study body copy reuses --duration-body-reveal/
+     --offset-body-reveal for a quieter, non-clipping version of the same
+     system. --ease-reveal is the one easing curve for all of it (the
+     approved cubic-bezier(0.22, 1, 0.36, 1); --ease-premium below is an
+     alias kept for any other existing non-reveal consumer). */
+  --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-heading-reveal: 650ms;
+  --duration-title-reveal: 600ms;
+  --duration-support-reveal: 550ms;
+  --duration-image-move: 700ms;
+  --duration-image-scale: 750ms;
+  --duration-body-reveal: 480ms;
+
+  --delay-support-reveal: 50ms;
+  --delay-image-reveal: 60ms;
+
+  --offset-support-reveal: 18px;
+  --offset-support-reveal-mobile: 12px;
+  --offset-image-reveal: 12px;
+  --offset-image-reveal-mobile: 8px;
+  --offset-body-reveal: 8px;
+
+  --scale-image-reveal-from: 1.04;
 
   /* Space below the shared Footer's own content, down to the very bottom of
      the page — set on Footer itself (see components/Footer.module.css) so

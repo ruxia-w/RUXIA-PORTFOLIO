@@ -129,9 +129,10 @@
      carries the underline along with it automatically — explicitly listing
      border-bottom-color too just makes that guaranteed/explicit rather than
      relying on engines to re-resolve currentColor smoothly on their own.
-     250ms/--ease-premium matches .linkArrow's own hover transition just
-     below, so the arrow shift and the color change settle in sync. */
-  transition: color 250ms var(--ease-premium), border-bottom-color 250ms var(--ease-premium);
+     --duration-feedback/--ease-hover matches .linkArrow's own hover
+     transition just below, so the arrow shift and the color change settle
+     in sync. */
+  transition: color var(--duration-feedback) var(--ease-hover), border-bottom-color var(--duration-feedback) var(--ease-hover);
 }
 
 .textLink {
@@ -465,23 +466,13 @@
      row height (matching .projectMedia's image height via CSS Grid's
      default stretch alignment on .project below), so this pushes the CTA
      down to sit near the image's own bottom edge, leaving the large
-     intentional negative space between .projectMeta and the CTA. */
+     intentional negative space between .projectMeta and the CTA. Applies
+     uniformly to all five projects — SOURCEFOLD previously had its own
+     desktop-only override pulling its link up right after the metadata
+     instead of bottom-pinning it like the other four; removed so every
+     project's "View case study" link now sits at the same position. */
   margin-top: auto;
   padding-top: 2rem;
-}
-
-/* SOURCEFOLD card only, desktop widths only (matches the ≤900px .caseLink
-   override below, which already gives every card a normal, non-pinned gap
-   on narrower layouts — this just brings that same intent to this one card
-   on desktop). Replaces margin-top: auto (which pins the CTA to the bottom
-   of the row-stretched column) with a fixed gap comparable to the other
-   content-group gaps, so the CTA reads as connected to the metadata above
-   it rather than anchored to the card's bottom edge. */
-@media (min-width: 901px) {
-  .projectSourcefold .caseLink {
-    margin-top: clamp(1.75rem, 2.8vw, 2.5rem);
-    padding-top: 0;
-  }
 }
 
 .linkArrow {
@@ -495,7 +486,7 @@
      position). */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   display: inline-block;
-  transition: transform 250ms var(--ease-premium);
+  transition: transform var(--duration-feedback) var(--ease-hover);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -563,8 +554,7 @@
   display: block;
   width: 100%;
   height: auto;
-  /* Slow, restrained camera-push-in rather than a quick UI-button hover. */
-  transition: transform 1.2s var(--ease-premium);
+  transition: transform var(--duration-entrance) var(--ease-hover);
 }
 
 /* No hover state on touch devices — gated the same way HeroHeadline gates
@@ -874,7 +864,7 @@
   text-decoration: none;
   border-bottom: 1px solid currentColor;
   white-space: nowrap;
-  transition: color 250ms var(--ease-premium), border-bottom-color 250ms var(--ease-premium);
+  transition: color var(--duration-feedback) var(--ease-hover), border-bottom-color var(--duration-feedback) var(--ease-hover);
 }
 
 @media (max-width: 900px) {
@@ -1060,47 +1050,68 @@
 }
 
 /* --------------------------------------------------------------------
-   Scroll reveal — "Minimal, Structured, and Alive"
+   Scroll reveal — approved spec: clear upward reveals for headings, closely
+   coordinated supporting text, gentle image entrances.
 
    Every element below is driven by ScrollReveal (components/ScrollReveal.tsx),
    a thin IntersectionObserver wrapper reusing the same one-time-reveal hook
    already shared by every case-study diagram (components/useDiagramReveal.ts).
    This file only ever decides *how* the reveal looks; ScrollReveal decides
-   *when* data-revealed flips. Opacity + transform only (never height/margin/
-   display), so nothing here can shift layout — the element occupies its
-   final box from first paint, just visually offset/faded until revealed.
-   Reuses the site's one existing motion easing (--ease-premium) rather than
-   a second curve. --------------------------------------------------------- */
+   *when* data-revealed flips (once per mount, entry-marker triggered, never
+   re-hidden on scroll-up — see that hook/component for the trigger logic).
+   Opacity + transform only (never height/margin/display/clip-path), so
+   nothing here can shift layout or wipe/mask content — every element
+   occupies its final box from first paint, just visually offset/faded/
+   scaled until revealed. Uses the shared motion tokens (app/globals.css)
+   rather than one-off numbers, so this reads as the same system as every
+   other entrance on the site, case-study chapters included. */
 
-/* Section headings (Selected Work, Capabilities, Selected Explorations):
-   30px vertical offset, 750ms. */
-.sectionHeader h2,
-.sectionHeaderCompact h2,
-.capabilitiesHeader h2 {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 750ms var(--ease-premium), transform 750ms var(--ease-premium);
+/* Section headings (Selected Work, Capabilities, Selected Explorations,
+   Contact): reveal upward through an overflow-hidden mask, as one block —
+   the heading's own text/wrapping/semantics are untouched (id, aria
+   wiring, font rules all still target the real <h2>); only an inner pair
+   of wrapping spans (.headingMask/.headingMaskInner, added in app/page.tsx)
+   carries the clip + slide. .headingMask's own small padding+matching
+   negative margin (net zero added layout space) exists purely so the
+   overflow-hidden crop line sits slightly outside the text's tight line
+   box — enough room that a letter's ascender/descender is never clipped
+   at rest, on any of this file's tightly-tracked headings (line-height as
+   low as 0.96). The inner span then slides from just past fully hidden
+   (115%, not exactly 100%, so that small buffer is also covered while
+   hidden) up to its resting position — one motion, regardless of how many
+   lines the heading itself wraps to. */
+.headingMask {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.12em;
+  margin-block: -0.12em;
 }
 
-.sectionHeader[data-revealed="true"] h2,
-.sectionHeaderCompact[data-revealed="true"] h2,
-.capabilitiesHeader[data-revealed="true"] h2 {
-  opacity: 1;
-  transform: none;
+.headingMaskInner {
+  display: block;
+  transform: translateY(115%);
+  transition: transform var(--duration-heading-reveal) var(--ease-reveal);
 }
 
-/* Supporting copy directly under each of those headings: 18px offset,
-   650ms duration, and a light delay so it settles just behind the heading
-   rather than arriving in the same instant — one group (the heading) and
-   its immediate supporting line, never animated word-by-word. */
+.sectionHeader[data-revealed="true"] .headingMaskInner,
+.sectionHeaderCompact[data-revealed="true"] .headingMaskInner,
+.capabilitiesHeader[data-revealed="true"] .headingMaskInner,
+.contactRow[data-revealed="true"] .headingMaskInner {
+  transform: translateY(0);
+}
+
+/* Supporting copy directly under each of those headings — one short delay
+   (--delay-support-reveal) so it settles just behind the heading rather
+   than arriving in the same instant. One group (the heading) and its
+   immediate supporting line, never animated word-by-word. */
 .sectionHeadingSupporting,
 .sectionHeader > p:last-child,
 .sectionHeaderCompact > p:last-child,
 .capabilitiesSubtitle {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 650ms var(--ease-premium), transform 650ms var(--ease-premium);
-  transition-delay: 90ms;
+  transform: translateY(var(--offset-support-reveal));
+  transition: opacity var(--duration-support-reveal) var(--ease-reveal), transform var(--duration-support-reveal) var(--ease-reveal);
+  transition-delay: var(--delay-support-reveal);
 }
 
 .sectionHeader[data-revealed="true"] .sectionHeadingSupporting,
@@ -1111,72 +1122,139 @@
   transform: none;
 }
 
-/* Project image: scale(1.05) -> scale(1) + fade + a clip-path "frame
-   closing in" (inset(6%) -> inset(0%)), 950ms. All three live on
-   .projectMedia (the <a> wrapping the image), never on the <img> itself —
-   that's deliberately left untouched since .projectMedia:hover img already
-   owns its own, separate transform (the existing camera-push-in). Applying
-   this reveal one level up means the two effects compose instead of
-   colliding: the whole card settles into place once, independent of
-   whatever the cursor does to the image afterward on hover. clip-path (not
-   a background mask) is the lightest-weight way to add a "reveal" edge
-   here — .projectMedia already clips via overflow:hidden, so this never
-   introduces a new visible edge/border, just a second, slightly offset
-   clip that closes to match it. No `round` radius: .projectMedia has
-   square corners today, so this doesn't add one. */
+/* Project title: reveals as a simple upward fade (not the heading's clip-
+   mask — that stronger treatment is reserved for the few page/section-level
+   headings above it), starting the instant its project row's shared
+   trigger fires. */
+.project h3 {
+  opacity: 0;
+  transform: translateY(var(--offset-support-reveal));
+  transition: opacity var(--duration-title-reveal) var(--ease-reveal), transform var(--duration-title-reveal) var(--ease-reveal);
+}
+
+.project[data-revealed="true"] h3 {
+  opacity: 1;
+  transform: none;
+}
+
+/* Description + metadata + CTA: one grouped unit, not three (or five,
+   counting each metadata line and the award line separately) independently
+   staggered reveals — all three share the exact same delay/duration/offset,
+   so they read as one supporting block arriving just behind the title
+   rather than a cascade of individually-timed labels. */
+.projectTagline,
+.projectMeta,
+.caseLink {
+  opacity: 0;
+  transform: translateY(var(--offset-support-reveal));
+  transition: opacity var(--duration-support-reveal) var(--ease-reveal), transform var(--duration-support-reveal) var(--ease-reveal);
+  transition-delay: var(--delay-support-reveal);
+}
+
+.project[data-revealed="true"] .projectTagline,
+.project[data-revealed="true"] .projectMeta,
+.project[data-revealed="true"] .caseLink {
+  opacity: 1;
+  transform: none;
+}
+
+/* Project image: a stationary container (.projectMedia, the <a> itself —
+   never scaled or clipped, so the row's layout/crop never visibly shifts)
+   fades in while rising 12px; starting 60ms after the title above, close
+   enough to read as one coordinated entrance rather than a visibly later
+   second reveal. Separately, and on a DIFFERENT element (.projectMediaLight/
+   .projectMediaDark, the wrappers around each theme's own <Image> — never
+   the .projectMedia box itself, and never the <img> that
+   .projectMedia:hover already animates on its own for the hover camera-
+   push-in below), the image eases down from a slight 1.04 scale to its
+   true 1:1 size. Two different elements own the two transforms, so the
+   one-time entrance scale and the hover-triggered scale can never fight
+   over one transition. */
 .projectMedia {
   opacity: 0;
-  transform: scale(1.05);
-  clip-path: inset(6%);
-  transition:
-    opacity 950ms var(--ease-premium),
-    transform 950ms var(--ease-premium),
-    clip-path 950ms var(--ease-premium);
+  transform: translateY(var(--offset-image-reveal));
+  transition: opacity var(--duration-image-move) var(--ease-reveal), transform var(--duration-image-move) var(--ease-reveal);
+  transition-delay: var(--delay-image-reveal);
 }
 
 .project[data-revealed="true"] .projectMedia {
   opacity: 1;
+  transform: none;
+}
+
+.projectMediaLight,
+.projectMediaDark {
+  transform: scale(var(--scale-image-reveal-from));
+  transition: transform var(--duration-image-scale) var(--ease-reveal);
+  transition-delay: var(--delay-image-reveal);
+}
+
+.project[data-revealed="true"] .projectMediaLight,
+.project[data-revealed="true"] .projectMediaDark {
   transform: scale(1);
-  clip-path: inset(0%);
 }
 
-/* Project description (the one-sentence tagline under each project title):
-   same 18px/650ms profile as the section supporting copy above, with a
-   small delay so it reads as settling just behind the image. Deliberately
-   not applied to the project number, title, or metadata labels — those stay
-   immediately readable, per "avoid animations that delay reading". */
-.projectTagline {
+/* Contact: the same heading-mask + grouped-supporting-block treatment as
+   every other homepage section — availability text and all four links
+   reveal together as one block (.contactInfo), never staggered per link. */
+.contactInfo {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 650ms var(--ease-premium), transform 650ms var(--ease-premium);
-  transition-delay: 80ms;
+  transform: translateY(var(--offset-support-reveal));
+  transition: opacity var(--duration-support-reveal) var(--ease-reveal), transform var(--duration-support-reveal) var(--ease-reveal);
+  transition-delay: var(--delay-support-reveal);
 }
 
-.project[data-revealed="true"] .projectTagline {
+.contactRow[data-revealed="true"] .contactInfo {
   opacity: 1;
   transform: none;
+}
+
+/* Reduced entrance movement on narrow/mobile widths — motion stays
+   proportionally subtler on smaller screens rather than using the same
+   absolute offset everywhere. The heading mask needs no mobile override:
+   its slide distance is a percentage of the heading's own rendered size,
+   so it already scales down with the text automatically. */
+@media (max-width: 640px) {
+  .sectionHeadingSupporting,
+  .sectionHeader > p:last-child,
+  .sectionHeaderCompact > p:last-child,
+  .capabilitiesSubtitle,
+  .project h3,
+  .projectTagline,
+  .projectMeta,
+  .caseLink,
+  .contactInfo {
+    transform: translateY(var(--offset-support-reveal-mobile));
+  }
+
+  .projectMedia {
+    transform: translateY(var(--offset-image-reveal-mobile));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   /* The site-wide rule in app/globals.css already collapses every
      transition to ~0ms, but that alone would still leave each element
-     sitting at its hidden starting opacity/offset until it happens to
-     scroll into view, then "snap" to visible with no animation — motion
+     sitting at its hidden starting opacity/offset/scale until it happens
+     to scroll into view, then "snap" to visible with no animation — motion
      removed, but content still gated behind scroll position. This instead
      renders every reveal target at its final, fully visible resting state
      immediately, independent of data-revealed/scroll position entirely. */
-  .sectionHeader h2,
-  .sectionHeaderCompact h2,
-  .capabilitiesHeader h2,
+  .headingMaskInner,
   .sectionHeadingSupporting,
   .sectionHeader > p:last-child,
   .sectionHeaderCompact > p:last-child,
   .capabilitiesSubtitle,
+  .project h3,
+  .projectTagline,
+  .projectMeta,
+  .caseLink,
   .projectMedia,
-  .projectTagline {
+  .projectMediaLight,
+  .projectMediaDark,
+  .contactInfo {
     opacity: 1;
     transform: none;
-    clip-path: none;
     transition: none;
   }
 }

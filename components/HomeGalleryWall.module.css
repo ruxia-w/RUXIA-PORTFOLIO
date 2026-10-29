@@ -1,3 +1,16 @@
+/* Plain block wrapper that exists only to host the one shared
+   IntersectionObserver trigger (ScrollReveal, see HomeGalleryWall.tsx) for
+   the whole wall — every tile and the CTA reveal together off this one
+   data-revealed flag, never staggered tile-by-tile. Deliberately not
+   `display: contents`: IntersectionObserver needs a real box with
+   geometry to measure, which a contents-box doesn't have. A plain block
+   (the bare-div default) adds no visible layout of its own — .wrap below
+   still owns the actual width/ResizeObserver measurement, unaffected by
+   this wrapper sitting above it. */
+.revealWrap {
+  display: block;
+}
+
 .wrap {
   width: 100%;
 }
@@ -43,7 +56,7 @@
   height: auto;
   display: block;
   object-fit: contain;
-  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform var(--duration-entrance) var(--ease-hover);
 }
 
 .tile:hover .image {
@@ -67,7 +80,7 @@
   font-size: 0.65rem;
   opacity: 0.7;
   pointer-events: none;
-  transition: opacity 160ms ease, background-color 160ms ease;
+  transition: opacity var(--duration-feedback) var(--ease-hover), background-color var(--duration-feedback) var(--ease-hover);
 }
 
 .tile:hover .playBadge,
@@ -116,7 +129,7 @@
   font-size: clamp(0.95rem, 1.3vw, 1.15rem);
   font-weight: 550;
   letter-spacing: -0.01em;
-  transition: background-color 160ms ease;
+  transition: background-color var(--duration-feedback) var(--ease-hover);
 }
 
 .ctaTile:hover,
@@ -138,7 +151,7 @@
      ever needs to set `color` — same mechanism as app/page.module.css's
      .textLink/.caseLink, copied verbatim here per this file's own existing
      comment just above (verbatim rather than importing across modules). */
-  transition: color 250ms var(--ease-premium), border-bottom-color 250ms var(--ease-premium);
+  transition: color var(--duration-feedback) var(--ease-hover), border-bottom-color var(--duration-feedback) var(--ease-hover);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -171,6 +184,47 @@
   transform: translate(2px, -2px);
 }
 
+/* --------------------------------------------------------------------
+   Scroll reveal — the same gentle image entrance used for every other
+   image on the site (app/page.module.css's homepage project images,
+   components/CaseStudySection.module.css's case-study media): a stationary
+   container (.tile — never scaled/clipped, so the grid's own layout never
+   shifts) fades in while rising; separately, on a different element
+   (.imageScaleWrap, never .image itself, which .tile:hover already
+   animates on its own above), the image eases down from a slight 1.04
+   scale to its true size. One shared trigger for the whole wall (see
+   .revealWrap above) — every tile and the CTA reveal together, not
+   staggered one-by-one. -------------------------------------------- */
+.tile,
+.ctaTile {
+  opacity: 0;
+  transform: translateY(var(--offset-image-reveal));
+  transition: opacity var(--duration-image-move) var(--ease-reveal), transform var(--duration-image-move) var(--ease-reveal);
+}
+
+.revealWrap[data-revealed="true"] .tile,
+.revealWrap[data-revealed="true"] .ctaTile {
+  opacity: 1;
+  transform: none;
+}
+
+.imageScaleWrap {
+  display: block;
+  transform: scale(var(--scale-image-reveal-from));
+  transition: transform var(--duration-image-scale) var(--ease-reveal);
+}
+
+.revealWrap[data-revealed="true"] .imageScaleWrap {
+  transform: scale(1);
+}
+
+@media (max-width: 640px) {
+  .tile,
+  .ctaTile {
+    transform: translateY(var(--offset-image-reveal-mobile));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .image {
     transition: none;
@@ -182,6 +236,14 @@
 
   .ctaTile,
   .ctaTile span:last-child {
+    transition: none;
+  }
+
+  .tile,
+  .ctaTile,
+  .imageScaleWrap {
+    opacity: 1;
+    transform: none;
     transition: none;
   }
 }

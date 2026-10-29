@@ -966,44 +966,70 @@
 }
 
 /* --------------------------------------------------------------------
-   Scroll reveal — "Minimal, Structured, and Alive"
+   Scroll reveal — case-study pages use the same heading treatment as the
+   homepage, but a deliberately quieter version for everything after it:
+   body copy fades in as whole paragraph groups (no clip, ≤8px of
+   movement), and major images get the site's one shared gentle image
+   entrance. Sticky sidebar navigation, video controls, and lightbox
+   controls are never wrapped by any of this (see CaseStudySidebar/
+   ResponsiveMedia/GalleryViewer — none of them use ScrollReveal), so they
+   stay immediately visible and stable regardless of scroll position.
 
-   Every element below is driven by ScrollReveal (components/ScrollReveal.tsx),
-   the same thin IntersectionObserver wrapper used for the homepage reveals,
-   itself reusing useDiagramReveal.ts — the hook every AURIC/Trace/SmartPuppy
+   Driven by ScrollReveal (components/ScrollReveal.tsx), the same thin
+   IntersectionObserver wrapper used for the homepage reveals, itself
+   reusing useDiagramReveal.ts — the hook every AURIC/Trace/SmartPuppy
    diagram component already drives its OWN entrance with. Those bespoke
-   diagram components (and PhoneMediaViewer/FinalExperience's video/interactive
-   presentation) are deliberately NOT wrapped here: they already manage their
-   own reveal, and wrapping them again would be exactly the second, competing
-   animation system the brief asks to avoid. This file only covers the
-   section heading, its intro paragraph, each richText block, and each plain
-   image/placeholder block (.imageReveal — one added marker class, appended
-   alongside each block's own existing classes, rather than enumerating
-   .mediaBlock/.mediaWide/.mediaGroup/.screenGroup/.equalHeightGroup
-   separately for what is visually the same reveal everywhere).
+   diagram components (and PhoneMediaViewer/FinalExperience's video/
+   interactive presentation) are deliberately NOT wrapped here: they
+   already manage their own reveal, and wrapping them again would be
+   exactly the second, competing animation system the brief asks to avoid.
+   This file only covers the section heading, its intro paragraph, each
+   richText block, and each plain image/placeholder block (.imageReveal —
+   one added marker class, appended alongside each block's own existing
+   classes, rather than enumerating .mediaBlock/.mediaWide/.mediaGroup/
+   .screenGroup/.equalHeightGroup separately for what is visually the same
+   reveal everywhere).
 
-   Opacity + transform (+ clip-path for images) only — never height/margin/
-   display — so nothing here can shift layout. Reuses the site's one
-   existing motion easing (--ease-premium) rather than a second curve. */
+   Opacity + transform only — never height/margin/display/clip-path — so
+   nothing here can shift layout or wipe/mask content. Uses the shared
+   motion tokens (app/globals.css) rather than this file's own one-off
+   numbers. */
 
-.heading,
-.headingSecondary {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 700ms var(--ease-premium), transform 700ms var(--ease-premium);
+/* Heading: identical overflow-hidden clip-mask technique as the homepage's
+   own section headings (app/page.module.css .headingMask/.headingMaskInner)
+   — the one heading treatment this system keeps everywhere; only what
+   follows it becomes quieter below. The small padding+matching negative
+   margin on .headingMask (net zero added layout space) gives the crop line
+   a little room so a letter's ascender/descender is never clipped at rest. */
+.headingMask {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.12em;
+  margin-block: -0.12em;
 }
 
-.section[data-revealed="true"] .heading {
-  opacity: 1;
-  transform: none;
+.headingMaskInner {
+  display: block;
+  transform: translateY(115%);
+  transition: transform var(--duration-heading-reveal) var(--ease-reveal);
 }
 
-/* The section's own intro paragraph settles in just behind its heading. */
-.intro {
+.section[data-revealed="true"] .headingMaskInner {
+  transform: translateY(0);
+}
+
+/* Body copy — quieter than the homepage: fade + a short rise (≤8px), no
+   clip-path, each paragraph group (the section's own intro, each richText
+   block) revealing as one whole unit rather than word-by-word or
+   line-by-line. Each richText block still triggers independently as the
+   reader scrolls to it — no added delay: the natural scroll-driven
+   sequence through a long chapter is already the pacing, and a block
+   already on screen at mount reveals immediately rather than waiting. */
+.intro,
+.richText {
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 500ms var(--ease-premium), transform 500ms var(--ease-premium);
-  transition-delay: 90ms;
+  transform: translateY(var(--offset-body-reveal));
+  transition: opacity var(--duration-body-reveal) var(--ease-reveal), transform var(--duration-body-reveal) var(--ease-reveal);
 }
 
 .section[data-revealed="true"] .intro {
@@ -1011,36 +1037,48 @@
   transform: none;
 }
 
-/* Each richText block triggers independently as the reader scrolls to it —
-   no added transition-delay: the natural scroll-driven sequence through a
-   long chapter is already the "stagger", without an extra artificial one on
-   top, and reading is never interrupted since a block already on screen at
-   mount reveals immediately rather than waiting. */
-.richText {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 500ms var(--ease-premium), transform 500ms var(--ease-premium);
-}
-
 .richText[data-revealed="true"] {
   opacity: 1;
   transform: none;
 }
 
+/* Major images: the same gentle entrance used site-wide. .imageReveal
+   itself (the stationary container — never scaled/clipped, so layout never
+   shifts) fades in while rising 12px; separately, on a different element —
+   the actual rendered <img> inside its trigger <button> (ResponsiveMedia's
+   own zoom-in control), matched by tag rather than by class since its
+   CSS-Modules class name lives in a different, unreachable module — the
+   image eases down from a slight 1.04 scale to its true size. Scoped to
+   `button img` specifically (not just any `img`) so this never also
+   touches the *lightbox's* own full-size copy of the image, which lives
+   inside a <dialog>, not a <button>: that copy stays untouched/stable
+   regardless of scroll position, exactly like every other lightbox
+   control. Two different elements own the two transforms, so this can
+   never collide with a future hover transform on the image itself. */
 .imageReveal {
   opacity: 0;
-  transform: scale(1.025);
-  clip-path: inset(6%);
-  transition:
-    opacity 800ms var(--ease-premium),
-    transform 800ms var(--ease-premium),
-    clip-path 800ms var(--ease-premium);
+  transform: translateY(var(--offset-image-reveal));
+  transition: opacity var(--duration-image-move) var(--ease-reveal), transform var(--duration-image-move) var(--ease-reveal);
 }
 
 .imageReveal[data-revealed="true"] {
   opacity: 1;
+  transform: none;
+}
+
+.imageReveal :global(button img) {
+  transform: scale(var(--scale-image-reveal-from));
+  transition: transform var(--duration-image-scale) var(--ease-reveal);
+}
+
+.imageReveal[data-revealed="true"] :global(button img) {
   transform: scale(1);
-  clip-path: inset(0%);
+}
+
+@media (max-width: 640px) {
+  .imageReveal {
+    transform: translateY(var(--offset-image-reveal-mobile));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1051,14 +1089,17 @@
      with zero animation. This instead renders every reveal target at its
      final, fully visible resting state immediately, independent of
      data-revealed/scroll position entirely. */
-  .heading,
-  .headingSecondary,
+  .headingMaskInner,
   .intro,
   .richText,
   .imageReveal {
     opacity: 1;
     transform: none;
-    clip-path: none;
+    transition: none;
+  }
+
+  .imageReveal :global(button img) {
+    transform: none;
     transition: none;
   }
 }

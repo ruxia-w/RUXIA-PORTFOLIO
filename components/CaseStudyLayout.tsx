@@ -31,10 +31,9 @@ export function CaseStudyLayout({ project }: { project: CaseStudyProject }) {
           needing this in every chapter's own markup. */}
       <noscript>
         <style>{`
-          .${sectionStyles.heading}, .${sectionStyles.intro}, .${sectionStyles.richText}, .${sectionStyles.imageReveal} {
+          .${sectionStyles.headingMaskInner}, .${sectionStyles.intro}, .${sectionStyles.richText}, .${sectionStyles.imageReveal} {
             opacity: 1 !important;
             transform: none !important;
-            clip-path: none !important;
           }
         `}</style>
       </noscript>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { computeFixedRow, computeRowAtHeight, GALLERY_TARGET_HEIGHT_DESKTOP } from "@/lib/gallery/justifiedLayout";
+import { ScrollReveal } from "./ScrollReveal";
 import styles from "./HomeGalleryWall.module.css";
 
 export type HomeGalleryImage = {
@@ -125,11 +126,17 @@ function HomeGalleryTile({ image, width, height }: { image: HomeGalleryImage; wi
 
   return (
     <div ref={tileRef} className={styles.tile} style={{ width, height }} data-playing={playing || undefined}>
-      {/* Not `fill`: .image is normal-flow (width: 100%, height: auto) so it
-          scales with the tile's own computed width at every viewport without
-          ever cropping — `fill` requires absolute positioning, which this
+      {/* .imageScaleWrap carries the one-time entrance scale (1.04 -> 1,
+          see HomeGalleryWall.module.css) on a different element from the
+          one .tile:hover scales (.image, just below) — so the entrance and
+          hover transforms never share one transition/target. Not `fill`:
+          .image is normal-flow (width: 100%, height: auto) so it scales
+          with the tile's own computed width at every viewport without ever
+          cropping — `fill` requires absolute positioning, which this
           layout intentionally doesn't use for the image itself. */}
-      <Image src={image.src} alt={image.alt} width={width} height={height} sizes={`${width}px`} className={styles.image} />
+      <div className={styles.imageScaleWrap}>
+        <Image src={image.src} alt={image.alt} width={width} height={height} sizes={`${width}px`} className={styles.image} />
+      </div>
       {image.video ? (
         <>
           <video
@@ -278,31 +285,48 @@ export function HomeGalleryWall({ rows: rowGroups, cta }: { rows: HomeGalleryIma
   }, [rowGroups, width, gap]);
 
   return (
-    <div ref={containerRef} className={styles.wrap}>
-      <div className={styles.rows} style={{ gap }}>
-        {rows.map((row, rowIndex) => (
-          <div key={rowIndex} className={styles.row} style={{ height: row.height, gap }}>
-            {row.items.map(({ item, width, height }) => (
-              <HomeGalleryTile key={item.key} image={item.image} width={width} height={height} />
-            ))}
-            {row.hasCta ? (
-              <Link
-                href={cta.href}
-                className={styles.ctaTile}
-                style={{ flex: "1 1 0%", height: row.height }}
-                aria-label="View full gallery"
-              >
-                <span className={styles.ctaLabel}>
-                  <span>{cta.label}</span>
-                  <span aria-hidden="true" className={cta.arrowClassName}>
-                    ↗
+    <ScrollReveal as="div" className={styles.revealWrap}>
+      {/* Scroll-reveal fallback: forces every tile/CTA back to its fully
+          visible, non-offset resting state when JavaScript never runs at
+          all (see app/page.tsx's own top-level <noscript> for why this is
+          needed per-page rather than assumed globally). */}
+      <noscript>
+        <style>{`
+          .${styles.tile}, .${styles.ctaTile} {
+            opacity: 1 !important;
+            transform: none !important;
+          }
+          .${styles.imageScaleWrap} {
+            transform: none !important;
+          }
+        `}</style>
+      </noscript>
+      <div ref={containerRef} className={styles.wrap}>
+        <div className={styles.rows} style={{ gap }}>
+          {rows.map((row, rowIndex) => (
+            <div key={rowIndex} className={styles.row} style={{ height: row.height, gap }}>
+              {row.items.map(({ item, width, height }) => (
+                <HomeGalleryTile key={item.key} image={item.image} width={width} height={height} />
+              ))}
+              {row.hasCta ? (
+                <Link
+                  href={cta.href}
+                  className={styles.ctaTile}
+                  style={{ flex: "1 1 0%", height: row.height }}
+                  aria-label="View full gallery"
+                >
+                  <span className={styles.ctaLabel}>
+                    <span>{cta.label}</span>
+                    <span aria-hidden="true" className={cta.arrowClassName}>
+                      ↗
+                    </span>
                   </span>
-                </span>
-              </Link>
-            ) : null}
-          </div>
-        ))}
+                </Link>
+              ) : null}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </ScrollReveal>
   );
 }

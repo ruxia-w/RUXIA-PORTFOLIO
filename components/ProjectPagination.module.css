@@ -40,7 +40,7 @@
      `color` — no separate underline-color rule needed. */
   text-decoration-color: currentColor;
   cursor: pointer;
-  transition: text-decoration-thickness 160ms ease, color 250ms var(--ease-premium);
+  transition: text-decoration-thickness var(--duration-feedback) var(--ease-hover), color var(--duration-feedback) var(--ease-hover);
 }
 
 .link:hover .projectTitle,

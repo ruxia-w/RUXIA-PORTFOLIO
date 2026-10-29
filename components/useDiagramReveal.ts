@@ -25,9 +25,18 @@ import { useEffect, useRef, useState } from "react";
  * finishing before they do. It never delays something already prominently
  * in view at mount — the observer's first callback still fires immediately
  * for that case, margin or not.
+ *
+ * `options.threshold` defaults to 0.15 (every existing diagram call-site's
+ * original, unchanged behavior, since none of them pass it) — ScrollReveal
+ * passes 0 instead, so a tall reveal target (a whole project row, a long
+ * case-study section) triggers off its first pixel of intersection — an
+ * "entry marker" — rather than needing 15% of its own full height on
+ * screen, which a short entering edge of a very tall element could take a
+ * long scroll to satisfy.
  */
 export function useDiagramReveal<T extends HTMLElement = HTMLDivElement>(options?: {
   rootMargin?: string;
+  threshold?: number;
 }) {
   const [revealed, setRevealed] = useState(false);
   const ref = useRef<T>(null);
@@ -53,7 +62,7 @@ export function useDiagramReveal<T extends HTMLElement = HTMLDivElement>(options
           observer.disconnect();
         }
       },
-      { threshold: 0.15, rootMargin: options?.rootMargin },
+      { threshold: options?.threshold ?? 0.15, rootMargin: options?.rootMargin },
     );
     observer.observe(el);
     return () => observer.disconnect();

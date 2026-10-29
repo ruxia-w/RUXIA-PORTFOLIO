@@ -88,9 +88,39 @@
   height: min(62vh, 720px);
 }
 
+/* Lightbox entrance + crossfade between images: both .image and .video
+   are keyed by media.src (GalleryViewer.tsx), so React mounts a genuinely
+   new element every time the dialog first opens *and* every time Previous/
+   Next changes the current item — one plain, unconditional animation here
+   correctly covers both cases, since each is a fresh mount. Scoped to
+   .mediaFrame's own children only, a sibling of the prev/next buttons and
+   .close (see GalleryViewer.tsx) — never applied to .mediaWrap itself,
+   which would otherwise visually fade those controls out along with the
+   media for the animation's duration. */
+@keyframes lightboxBackdropIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes lightboxImageIn {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.dialog[open]::backdrop {
+  animation: lightboxBackdropIn var(--duration-feedback) var(--ease-premium);
+}
+
 .image {
   object-fit: contain;
   object-position: center;
+  animation: lightboxImageIn 250ms var(--ease-premium) both;
 }
 
 .video {
@@ -98,6 +128,15 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  animation: lightboxImageIn 250ms var(--ease-premium) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog[open]::backdrop,
+  .image,
+  .video {
+    animation: none;
+  }
 }
 
 .navButton {
@@ -117,7 +156,7 @@
   transform: translateY(-50%);
   /* No color change on hover/focus (deliberately no blue, per the brief) —
      only the background pill brightens very slightly, see below. */
-  transition: background-color 200ms var(--ease-premium);
+  transition: background-color var(--duration-feedback) var(--ease-hover);
 }
 
 .prevButton {

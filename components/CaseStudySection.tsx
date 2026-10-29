@@ -509,7 +509,9 @@ export function CaseStudySection({ section }: { section: CaseStudySectionData })
             : styles.heading
         }
       >
-        {section.heading}
+        <span className={styles.headingMask}>
+          <span className={styles.headingMaskInner}>{section.heading}</span>
+        </span>
       </h2>
       {section.intro ? <p className={styles.intro}>{section.intro}</p> : null}
       <div className={styles.blocks}>
