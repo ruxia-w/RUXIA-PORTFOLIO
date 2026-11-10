@@ -213,11 +213,11 @@ const explorationRows: HomeGalleryImage[][] = [
   ],
   [
     {
-      src: "/branding/ASTER CAMP CLUB CARD.png",
-      alt: "ASTER CAMP CLUB brand identity artwork.",
+      src: "/branding/ASTER.png",
+      alt: "ASTER CAMP CLUB poster with the cream ASTER logo over a motion-blurred hiking photograph, reading \"Outside, together.\"",
       width: 1254,
       height: 1254,
-      href: "/gallery?category=branding&item=branding-aster-camp-club-card",
+      href: "/gallery?category=branding&item=branding-aster-camp-club",
       linkLabel: "ASTER CAMP CLUB, Brand Identity — view in Gallery",
     },
     {
