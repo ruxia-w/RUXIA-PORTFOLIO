@@ -219,17 +219,17 @@ const explorationRows: HomeGalleryImage[][] = [
       linkLabel: "ASTER CAMP CLUB, Brand Identity — view in Gallery",
     },
     {
-      src: "/gallery/ChatGPT Image Aug 22 2026 at 10_30_07 PM (3).png",
-      alt: "Drive History screen showing an autonomous trip route, distance, and weekly driving performance.",
-      width: 1448,
-      height: 1086,
-    },
-    {
       src: "/gallery/motion/music-player-motion-playful-intro.jpg",
       video: "/gallery/motion/music-player-motion-playful-intro.mp4",
       alt: "Midnight Drift music player interface with the tagline \"Play this mood.\"",
       width: 1600,
       height: 1200,
+    },
+    {
+      src: "/gallery/ChatGPT Image Aug 22 2026 at 10_30_07 PM (3).png",
+      alt: "Drive History screen showing an autonomous trip route, distance, and weekly driving performance.",
+      width: 1448,
+      height: 1086,
     },
   ],
   [
