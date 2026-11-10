@@ -686,14 +686,15 @@
 
 .capabilitySkills {
   /* Every card's skill text shares this exact size/weight/color. Each skill
-     group is its own paragraph (.capabilitySkillLine); the small gap keeps
-     groups distinct when one wraps onto a second line. */
+     group is its own paragraph (.capabilitySkillLine) with no extra gap, so
+     the three groups read as one even block: 1.4 line-height (the same as
+     .heroIntro, .projectTagline, .projectAwards) leaves ~5.6px between
+     lines, whether a group wraps or not. */
   display: grid;
-  gap: 0.2rem;
   margin: 0;
   color: var(--color-muted);
   font-size: 0.875rem;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .capabilitySkillLine {
