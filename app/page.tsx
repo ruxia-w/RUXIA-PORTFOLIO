@@ -145,38 +145,40 @@ const capabilities = [
     number: "01",
     title: "Product Design",
     Icon: IconLayout,
-    skills: [
-      "UX/UI",
-      "Digital Products",
-      "Design Systems",
+    skillLines: [
+      "UX/UI / Design Systems",
+      "Interaction Design / Prototyping",
+      "Web & SaaS Products",
     ],
   },
   {
     number: "02",
     title: "Brand & Visual Design",
     Icon: IconNetwork,
-    skills: [
-      "Brand Identity",
-      "Typography",
-      "Visual Systems",
+    skillLines: [
+      "Brand Identity / Logo Design",
+      "Typography / Art Direction",
+      "Visual Systems / Digital Graphics",
     ],
   },
   {
     number: "03",
-    title: "AI & Prototyping",
+    title: "AI & Creative Technology",
     Icon: IconUsers,
-    skills: [
-      "AI Workflows",
-      "Interactive Prototypes",
+    skillLines: [
+      "AI Workflows / Rapid Prototyping",
+      "HTML / CSS / Creative Coding",
+      "Animation / Motion Design",
     ],
   },
   {
     number: "04",
     title: "Connected Experiences & Leadership",
     Icon: IconCode,
-    skills: [
+    skillLines: [
+      "Industrial Design / 3D Visualization",
       "Physical–Digital Experiences",
-      "Creative Direction",
+      "Creative Direction / Design Leadership",
     ],
   },
 ] as const;
@@ -449,14 +451,23 @@ export default function HomePage() {
           </div>
         </ScrollReveal>
         <div className={styles.capabilityCards}>
-          {capabilities.map(({ number, title, Icon, skills }) => (
+          {capabilities.map(({ number, title, Icon, skillLines }) => (
             <div className={styles.capabilityCard} key={number}>
               <div className={styles.capabilityCardHead}>
                 <Icon className={styles.capabilityIcon} />
                 <span className={styles.capabilityNumber}>{number}</span>
               </div>
               <h3>{title}</h3>
-              <p className={styles.capabilitySkills}>{skills.join(" / ")}</p>
+              {/* One block per skill group, so the groups never run together
+                  (in copied text, screen readers, or before CSS loads) and each
+                  can wrap on its own at narrow widths. */}
+              <div className={styles.capabilitySkills}>
+                {skillLines.map((line) => (
+                  <p key={line} className={styles.capabilitySkillLine}>
+                    {line}
+                  </p>
+                ))}
+              </div>
             </div>
           ))}
         </div>

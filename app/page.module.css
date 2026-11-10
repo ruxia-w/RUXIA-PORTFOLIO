@@ -685,13 +685,19 @@
 }
 
 .capabilitySkills {
-  /* Every card's skill text — including "Figma / Lovable / Claude Code" —
-     shares this exact size/weight/color; none of it is a separate tertiary
-     style. */
+  /* Every card's skill text shares this exact size/weight/color. Each skill
+     group is its own paragraph (.capabilitySkillLine); the small gap keeps
+     groups distinct when one wraps onto a second line. */
+  display: grid;
+  gap: 0.2rem;
   margin: 0;
   color: var(--color-muted);
   font-size: 0.875rem;
   line-height: 1.5;
+}
+
+.capabilitySkillLine {
+  margin: 0;
 }
 
 /* Hover micro-interactions — cards are informational, not links, so this is
