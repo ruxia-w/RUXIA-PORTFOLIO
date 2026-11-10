@@ -21,8 +21,8 @@ export const motionOrder: string[] = [
 /**
  * Curated, art-directed Discover order. Hand-authored (not derived from
  * projects.ts array order, not randomized) so it stays stable across
- * refreshes while interleaving Motion, Product Design, and Industrial
- * Design work — strongest/most distinctive pieces lead, disciplines are
+ * refreshes while interleaving Motion, Product Design, Branding, and
+ * Industrial Design work — strongest/most distinctive pieces lead, disciplines are
  * mixed throughout, and technical/exploded/sketch-only pieces sit near the
  * end. Reorder this list to change the Discover sequence.
  */
@@ -33,38 +33,46 @@ export const discoverOrder: string[] = [
   "motion-quote",
   "over-ear-headphones",
   "pulsecare-health-app",
+  "branding-offday",
+  "branding-forme",
   "motion-car",
   "portable-hydration-bottle",
   "reformer-training-system",
   "gateflow-airport-navigation",
+  "index-editorial-platform",
   "motion-presentation-canvas",
   "ai-vision-drone",
+  "branding-aster-camp-club",
   "skyway-airport-navigation",
   "drive-history",
   "motion-music-player-motion-playful-intro",
   "northbound",
-  "chronograph-watch-study",
+  "branding-natural-history",
   "leopard-tracker",
   "motion-medical",
-  "project-pulse",
   "modular-plant-stand-system",
   "nova-vault",
   "safebike",
+  "branding-ocean-lab",
   "motion-machine",
   "aureus-bank",
   "ai-vision-drone-detail",
   "northline-studio",
+  "branding-aster-camp-club-card",
   "portable-speaker",
   "motion-watch",
   "health-insights",
+  "branding-alter",
   "bike-plus",
   "nexa",
   "transparent-mouse",
   "motion-parking",
   "northline-bank",
+  "branding-novera",
   "flexdeck-treadmill",
   "harbor-401k",
   "mobile-robotic-platform",
+  "branding-nodal",
   "motion-bank-promotion",
   "offlow-smart-bell",
   "motionpulse-dashboard-alt",
@@ -76,7 +84,6 @@ export const discoverOrder: string[] = [
   "footwear-sketch-exploration-sheet-two",
   "free-mind-sport-bottle",
   "studio-audio-interface",
-  "ash-side-table",
 ];
 
 /**
@@ -110,6 +117,7 @@ export const productDesignOrder: string[] = [
   "pulsecare-health-app",
   "nova-vault",
   "gateflow-airport-navigation",
+  "index-editorial-platform",
   "motionpulse-dashboard-alt",
   "nexa",
   "health-insights",
@@ -118,7 +126,6 @@ export const productDesignOrder: string[] = [
   "northbound",
   "leopard-tracker",
   "harbor-401k",
-  "project-pulse",
 ];
 
 /**
@@ -142,7 +149,6 @@ export const industrialDesignOrder: string[] = [
   "ai-vision-drone",
   "transparent-mouse",
   "modular-plant-stand-system",
-  "chronograph-watch-study",
   "mechanical-keyboard",
   "mobile-robotic-platform",
   "handheld-control-device",
@@ -155,7 +161,6 @@ export const industrialDesignOrder: string[] = [
   "chronograph-watch-exploded-view",
   "portable-speaker",
   "studio-audio-interface",
-  "ash-side-table",
   "footwear-sketch-exploration",
   "footwear-sketch-exploration-sheet-two",
 ];

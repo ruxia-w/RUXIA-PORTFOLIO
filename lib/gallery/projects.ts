@@ -166,19 +166,6 @@ export const galleryItems: GalleryItem[] = [
   ]
 },
   {
-    id: "chronograph-watch-study",
-    title: "Chronograph Watch Study",
-    category: "industrial-design",
-    description:
-      "A mechanical chronograph exploration combining detailed dial architecture with an exploded study of the case, movement, and controls.",
-    thumbnail: asset("watch2.png"),
-    thumbnailWidth: 1672,
-    thumbnailHeight: 941,
-    media: [
-      { src: asset("watch2.png"), alt: "Chronograph watch dial detail with triple sub-registers and a red central seconds hand." },
-    ],
-  },
-  {
     id: "chronograph-watch-exploded-view",
     title: "Chronograph Watch Exploded View",
     category: "industrial-design",
@@ -308,22 +295,6 @@ export const galleryItems: GalleryItem[] = [
       {
         src: asset("animal tracking app.png"),
         alt: "Leopard Tracker app showing species scan, habitat map, and behavior data on a phone.",
-      },
-    ],
-  },
-  {
-    id: "project-pulse",
-    title: "Project Pulse",
-    category: "product-design",
-    description:
-      "A project-management dashboard concept connecting planning, timelines, team activity, and delivery status in one workspace.",
-    thumbnail: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (7).png"),
-    thumbnailWidth: 1448,
-    thumbnailHeight: 1086,
-    media: [
-      {
-        src: asset("ChatGPT Image Aug 22 2026 at 10_30_07 PM (7).png"),
-        alt: "Project Pulse dashboard with a project timeline, task list, and a six-stage delivery workflow.",
       },
     ],
   },
@@ -500,6 +471,16 @@ export const galleryItems: GalleryItem[] = [
         alt: "Nexa dark-mode investing app showing portfolio value, watchlist, and account screens.",
       },
     ],
+  },
+  {
+    id: "index-editorial-platform",
+    title: "INDEX",
+    category: "product-design",
+    description: "Digital Editorial Platform",
+    thumbnail: asset("INDEX.png"),
+    thumbnailWidth: 1086,
+    thumbnailHeight: 1448,
+    media: [{ src: asset("INDEX.png"), alt: "INDEX digital editorial platform design." }],
   },
   {
     id: "over-ear-headphones",
@@ -692,16 +673,6 @@ export const galleryItems: GalleryItem[] = [
     ],
   },
   {
-    id: "ash-side-table",
-    title: "Ash Side Table",
-    category: "industrial-design",
-    description: "A minimalist wood side table concept exploring joinery, proportion, and natural material texture.",
-    thumbnail: asset("table.png"),
-    thumbnailWidth: 434,
-    thumbnailHeight: 574,
-    media: [{ src: asset("table.png"), alt: "A wooden side table with a ceramic vase and an open book resting on top." }],
-  },
-  {
     id: "airport-operations-dashboard",
     title: "SKYWAY Airport Operations Dashboard",
     category: "product-design",
@@ -772,4 +743,5 @@ export const galleryCategoryLabels: Record<"discover" | GalleryItem["category"],
   "product-design": "Product Design",
   "industrial-design": "Industrial Design",
   animation: "Motion",
+  branding: "Branding",
 };

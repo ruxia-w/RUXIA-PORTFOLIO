@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { GalleryPageClient } from "@/components/Gallery/GalleryPageClient";
 import { galleryItems } from "@/lib/gallery/projects";
+import { brandingItems } from "@/lib/gallery/branding";
 
 const galleryTitle = "Gallery — Ruxia Wang";
 const galleryDescription = "Selected design work, explorations, and visual experiments.";
@@ -27,5 +28,5 @@ export const metadata: Metadata = {
 };
 
 export default function GalleryPage() {
-  return <GalleryPageClient items={galleryItems} />;
+  return <GalleryPageClient items={[...galleryItems, ...brandingItems]} />;
 }

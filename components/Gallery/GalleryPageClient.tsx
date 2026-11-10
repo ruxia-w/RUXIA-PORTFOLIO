@@ -29,7 +29,7 @@ export function GalleryPageClient({ items }: GalleryPageClientProps) {
     // Fixed canonical order so the filter list doesn't reshuffle whenever the
     // Discover art-direction order changes — only presence/absence (e.g.
     // Animation) is data-driven.
-    const canonicalOrder: GalleryItem["category"][] = ["product-design", "industrial-design", "animation"];
+    const canonicalOrder: GalleryItem["category"][] = ["product-design", "branding", "industrial-design", "animation"];
     const present = new Set(items.map((item) => item.category));
     return canonicalOrder.filter((category) => present.has(category));
   }, [items]);
@@ -43,6 +43,7 @@ export function GalleryPageClient({ items }: GalleryPageClientProps) {
     if (filter === "animation") return orderItemsByIds(filtered, motionOrder);
     if (filter === "product-design") return orderItemsByIds(filtered, productDesignOrder);
     if (filter === "industrial-design") return orderItemsByIds(filtered, industrialDesignOrder);
+    // Branding has no separate order list: lib/gallery/branding.ts's array order is its display order.
     return filtered;
   }, [items, filter]);
 

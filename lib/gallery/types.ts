@@ -1,4 +1,4 @@
-export type GalleryCategory = "product-design" | "industrial-design" | "animation";
+export type GalleryCategory = "product-design" | "industrial-design" | "animation" | "branding";
 
 export type GalleryMedia = {
   src: string;
