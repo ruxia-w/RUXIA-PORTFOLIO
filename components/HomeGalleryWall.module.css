@@ -247,3 +247,16 @@
     transition: none;
   }
 }
+
+/* Optional whole-tile link (HomeGalleryImage.href). Sits above the image
+   and video so the entire tile is clickable; the focus ring is drawn inside
+   the tile because .tile clips overflow. */
+.tileLink {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.tileLink:focus-visible {
+  outline-offset: -3px;
+}

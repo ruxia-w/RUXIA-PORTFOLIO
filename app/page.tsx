@@ -225,10 +225,12 @@ const explorationRows: HomeGalleryImage[][] = [
   ],
   [
     {
-      src: "/gallery/Bike.png",
-      alt: "Runway road bike frame and seatpost detail showing an integrated LED taillight.",
-      width: 1086,
-      height: 1448,
+      src: "/branding/ASTER CAMP CLUB CARD.png",
+      alt: "ASTER CAMP CLUB brand identity artwork.",
+      width: 1254,
+      height: 1254,
+      href: "/gallery?category=branding&item=branding-aster-camp-club-card",
+      linkLabel: "ASTER CAMP CLUB, Brand Identity — view in Gallery",
     },
     {
       src: "/gallery/ChatGPT Image Aug 22 2026 at 10_30_07 PM (3).png",
@@ -246,10 +248,12 @@ const explorationRows: HomeGalleryImage[][] = [
   ],
   [
     {
-      src: "/gallery/fitness dashboard.png",
-      alt: "MotionPulse dashboard showing muscle load, performance readiness, and recovery balance on a tablet.",
-      width: 3312,
-      height: 2480,
+      src: "/branding/Ocean Club.png",
+      alt: "OCEAN LAB brand identity artwork.",
+      width: 1448,
+      height: 1086,
+      href: "/gallery?category=branding&item=branding-ocean-lab",
+      linkLabel: "OCEAN LAB, Brand Identity — view in Gallery",
       widthGroup: "row3-left",
       matchGroupWidthTo: ["/gallery/headphone.png", "/gallery/ChatGPT Image Aug 22 2026 at 10_30_07 PM (3).png"],
     },

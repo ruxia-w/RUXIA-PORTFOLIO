@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Footer } from "@/components/Footer";
 import { GalleryFilters } from "./GalleryFilters";
 import type { GalleryFilterValue } from "./GalleryFilters";
@@ -21,6 +21,20 @@ type GalleryPageClientProps = {
   items: GalleryItem[];
 };
 
+/** The items a given filter tab shows, in display order. */
+function itemsForFilter(items: GalleryItem[], filter: GalleryFilterValue): GalleryItem[] {
+  if (filter === "discover") {
+    const eligible = items.filter((item) => !discoverExcluded.includes(item.id));
+    return orderItemsByIds(eligible, discoverOrder);
+  }
+  const filtered = items.filter((item) => item.category === filter);
+  if (filter === "animation") return orderItemsByIds(filtered, motionOrder);
+  if (filter === "product-design") return orderItemsByIds(filtered, productDesignOrder);
+  if (filter === "industrial-design") return orderItemsByIds(filtered, industrialDesignOrder);
+  // Branding has no separate order list: lib/gallery/branding.ts's array order is its display order.
+  return filtered;
+}
+
 export function GalleryPageClient({ items }: GalleryPageClientProps) {
   const [filter, setFilter] = useState<GalleryFilterValue>("discover");
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -34,18 +48,26 @@ export function GalleryPageClient({ items }: GalleryPageClientProps) {
     return canonicalOrder.filter((category) => present.has(category));
   }, [items]);
 
-  const visibleItems = useMemo(() => {
-    if (filter === "discover") {
-      const eligible = items.filter((item) => !discoverExcluded.includes(item.id));
-      return orderItemsByIds(eligible, discoverOrder);
-    }
-    const filtered = items.filter((item) => item.category === filter);
-    if (filter === "animation") return orderItemsByIds(filtered, motionOrder);
-    if (filter === "product-design") return orderItemsByIds(filtered, productDesignOrder);
-    if (filter === "industrial-design") return orderItemsByIds(filtered, industrialDesignOrder);
-    // Branding has no separate order list: lib/gallery/branding.ts's array order is its display order.
-    return filtered;
-  }, [items, filter]);
+  const visibleItems = useMemo(() => itemsForFilter(items, filter), [items, filter]);
+
+  // Deep links such as /gallery?category=branding&item=branding-ocean-lab
+  // (used by homepage tiles): select that tab and open that artwork in the
+  // viewer. Read once on mount, from window.location rather than
+  // useSearchParams, so the page stays fully prerendered. Unknown values
+  // are ignored and the default Discover view shows.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get("category");
+    if (!category || !(["discover", ...availableCategories] as string[]).includes(category)) return;
+    const nextFilter = category as GalleryFilterValue;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFilter(nextFilter);
+    const itemId = params.get("item");
+    if (!itemId) return;
+    const index = itemsForFilter(items, nextFilter).findIndex((item) => item.id === itemId);
+    if (index >= 0) setActiveIndex(index);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const activeItem = activeIndex !== null ? visibleItems[activeIndex] ?? null : null;
 

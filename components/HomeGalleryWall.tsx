@@ -30,6 +30,10 @@ export type HomeGalleryImage = {
    * wrapper grows to fit it, and unrelated tiles/rows are untouched.
    */
   matchGroupWidthTo?: string[];
+  /** Optional link for the whole tile (e.g. into a Gallery artwork). Tiles without it stay non-interactive. */
+  href?: string;
+  /** Accessible name for the link, required alongside `href`. */
+  linkLabel?: string;
 };
 
 type HomeGalleryCta = {
@@ -157,6 +161,9 @@ function HomeGalleryTile({ image, width, height }: { image: HomeGalleryImage; wi
           </span>
         </>
       ) : null}
+      {/* Transparent overlay link: covers the tile without changing its
+          box, so size, hover scale, and entrance animation stay the same. */}
+      {image.href ? <Link href={image.href} className={styles.tileLink} aria-label={image.linkLabel} /> : null}
     </div>
   );
 }
