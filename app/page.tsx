@@ -234,7 +234,7 @@ const explorationRows: HomeGalleryImage[][] = [
   ],
   [
     {
-      src: "/branding/Ocean Club.png",
+      src: "/branding/Ocean Club v2.png",
       alt: "OCEAN LAB brand identity artwork.",
       width: 1448,
       height: 1086,

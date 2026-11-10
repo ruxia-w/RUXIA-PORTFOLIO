@@ -29,7 +29,7 @@ export const brandingItems: GalleryItem[] = [
   brandingItem("forme", "FORME", "Forme.png", 1254, 1254),
   brandingItem("aster-camp-club", "ASTER CAMP CLUB", "ASTER.png", 1254, 1254),
   brandingItem("natural-history", "NATURAL HISTORY", "Natural History.png", 1122, 1402),
-  brandingItem("ocean-lab", "OCEAN LAB", "Ocean Club.png", 1448, 1086),
+  brandingItem("ocean-lab", "OCEAN LAB", "Ocean Club v2.png", 1448, 1086),
   brandingItem("aster-camp-club-card", "ASTER CAMP CLUB", "ASTER CAMP CLUB CARD.png", 1254, 1254),
   brandingItem("alter", "ALTER", "ALTER.png", 1122, 1402),
   brandingItem("novera", "NOVERA", "novera.png", 1448, 1086),
